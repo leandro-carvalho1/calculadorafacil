@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Rescisão CLT 2026 - Simule sua Rescisão Gratuitamente</title>
+<meta name="description" content="Calcule sua rescisão CLT 2026 com aviso prévio, FGTS, 13º proporcional, férias e multa. Simulador gratuito e atualizado com as tabelas oficiais.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculadora de Rescisão CLT",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+}
+</script>
+<style>
+  :root{
+    --ink:#1c2b22;
+    --paper:#f6f3ea;
+    --ledger:#0f3d2e;
+    --ledger-light:#155c44;
+    --stamp:#b5482b;
+    --line:#d8d2c0;
+    --gold:#a8843f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px;}
+
+  header.masthead{
+    background:var(--ledger);
+    color:var(--paper);
+    padding:38px 20px 28px;
+    text-align:center;
+    border-bottom:6px solid var(--gold);
+  }
+  header.masthead .eyebrow{
+    font-family: 'Courier New', monospace;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-size:12px;
+    opacity:.75;
+    margin-bottom:10px;
+  }
+  header.masthead h1{
+    font-size:30px;
+    margin:0 0 8px;
+    font-weight:700;
+  }
+  header.masthead p{
+    margin:0;
+    font-size:15px;
+    opacity:.85;
+    font-family: 'Courier New', monospace;
+  }
+
+  .ledger-card{
+    background:#fffdf8;
+    border:1px solid var(--line);
+    margin-top:-28px;
+    border-radius:2px;
+    box-shadow:0 18px 40px -20px rgba(15,61,46,.35);
+    position:relative;
+    overflow:hidden;
+  }
+  .ledger-card::before{
+    content:"";
+    position:absolute; top:0; left:0; bottom:0;
+    width:6px;
+    background:repeating-linear-gradient(180deg,var(--gold) 0 10px, transparent 10px 20px);
+  }
+  .ledger-body{padding:32px 28px 24px 36px;}
+
+  label{
+    display:block;
+    font-family:'Courier New', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--ledger-light);
+    margin-bottom:6px;
+    font-weight:700;
+  }
+  .field{margin-bottom:20px;}
+  input, select{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-bottom:2px solid var(--ledger-light);
+    background:#fff;
+    font-family: Georgia, serif;
+    font-size:16px;
+    color:var(--ink);
+    border-radius:2px;
+  }
+  input:focus, select:focus{
+    outline:2px solid var(--gold);
+    outline-offset:1px;
+  }
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:560px){.row2{grid-template-columns:1fr;}}
+
+  fieldset{
+    border:1px dashed var(--line);
+    border-radius:2px;
+    padding:14px 16px 6px;
+    margin:0 0 22px;
+  }
+  legend{
+    font-family:'Courier New', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--stamp);
+    padding:0 6px;
+  }
+  .check{display:flex; align-items:center; gap:8px; margin:8px 0; font-size:15px;}
+  .check input{width:auto;}
+
+  button{
+    width:100%;
+    background:var(--ledger);
+    color:var(--paper);
+    border:none;
+    padding:16px;
+    font-family:'Courier New', monospace;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    font-size:14px;
+    font-weight:700;
+    border-radius:2px;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  button:hover{background:var(--ledger-light);}
+  button:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+  #resultado{display:none; margin-top:26px;}
+  .stamp-row{
+    text-align:center;
+    margin-bottom:18px;
+    position:relative;
+  }
+  .stamp{
+    display:inline-block;
+    border:3px solid var(--stamp);
+    color:var(--stamp);
+    font-family:'Courier New', monospace;
+    text-transform:uppercase;
+    font-weight:700;
+    letter-spacing:.06em;
+    padding:8px 18px;
+    border-radius:4px;
+    transform:rotate(-2deg);
+    font-size:13px;
+  }
+  table{width:100%; border-collapse:collapse; margin-bottom:6px;}
+  td{padding:10px 4px; border-bottom:1px solid var(--line); font-size:15.5px;}
+  td.label-cell{color:var(--ink); opacity:.85;}
+  td.val-cell{text-align:right; font-family:'Courier New', monospace; font-weight:700;}
+  tr.total td{border-top:2px solid var(--ledger); border-bottom:none; padding-top:16px;}
+  tr.total td.val-cell{font-size:21px; color:var(--ledger);}
+  .neg .val-cell{color:var(--stamp);}
+
+  .note{
+    font-size:12.5px;
+    color:#5a5447;
+    font-family:'Courier New', monospace;
+    margin-top:18px;
+    border-top:1px dashed var(--line);
+    padding-top:14px;
+  }
+  .explainer{margin-top:48px;}
+  .explainer h2{font-size:21px; color:var(--ledger); margin-bottom:10px;}
+  .explainer p{font-size:15.5px; margin-bottom:14px;}
+  .faq-item{margin-bottom:16px;}
+  .faq-item h3{font-size:16px; margin-bottom:4px; color:var(--ledger-light);}
+  footer{text-align:center; padding:30px 20px; font-family:'Courier New', monospace; font-size:12px; color:#8a8472;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="eyebrow">Folha de Rescisão · Atualizado 2026</div>
+  <h1>Calculadora de Rescisão CLT</h1>
+  <p>Simule aviso prévio, FGTS, 13º, férias e multa em segundos</p>
+</header>
+
+<div class="wrap">
+
+  <div class="ledger-card">
+    <div class="ledger-body">
+
+      <div class="field">
+        <label for="salario">Salário bruto mensal (R$)</label>
+        <input type="number" id="salario" placeholder="Ex: 3000" min="0" step="0.01">
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="dataAdmissao">Data de admissão</label>
+          <input type="date" id="dataAdmissao">
+        </div>
+        <div class="field">
+          <label for="dataDemissao">Data de saída</label>
+          <input type="date" id="dataDemissao">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="tipoRescisao">Tipo de rescisão</label>
+        <select id="tipoRescisao">
+          <option value="sem_justa_causa">Demissão sem justa causa (pela empresa)</option>
+          <option value="pedido_demissao">Pedido de demissão (pelo funcionário)</option>
+          <option value="justa_causa">Demissão por justa causa</option>
+          <option value="acordo">Acordo (rescisão em comum acordo)</option>
+        </select>
+      </div>
+
+      <fieldset>
+        <legend>Saldos pendentes</legend>
+        <div class="check">
+          <input type="checkbox" id="feriasVencidas">
+          <label for="feriasVencidas" style="margin:0; text-transform:none; font-family:Georgia,serif; font-size:15px; color:var(--ink); font-weight:400;">Tenho férias vencidas (mais de 12 meses sem tirar)</label>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="avisoTrabalhado" checked>
+          <label for="avisoTrabalhado" style="margin:0; text-transform:none; font-family:Georgia,serif; font-size:15px; color:var(--ink); font-weight:400;">Aviso prévio será trabalhado (desmarque se for indenizado)</label>
+        </div>
+      </fieldset>
+
+      <button onclick="calcular()">Calcular minha rescisão</button>
+
+      <div id="resultado">
+        <div class="stamp-row"><span class="stamp" id="stampLabel">Calculado</span></div>
+        <table id="tabelaResultado"></table>
+        <p class="note" id="notaRodape"></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="explainer">
+    <h2>Como funciona o cálculo da rescisão CLT</h2>
+    <p>A rescisão de contrato CLT reúne várias verbas que a empresa deve pagar ao trabalhador no momento do desligamento. O valor final depende do tipo de saída: quem é demitido sem justa causa tem direito ao conjunto completo de verbas, incluindo a multa de 40% sobre o FGTS, enquanto quem pede demissão não recebe essa multa nem o seguro-desemprego.</p>
+    <p>Esta calculadora soma os principais itens: saldo de salário pelos dias trabalhados no mês da saída, aviso prévio (proporcional ao tempo de empresa, conforme a Lei 12.506/2011), 13º salário proporcional, férias proporcionais com um terço constitucional, férias vencidas (se houver) e a multa do FGTS quando aplicável. O resultado é uma estimativa para você se organizar — o valor oficial sempre sai no Termo de Rescisão do Contrato de Trabalho (TRCT) calculado pela empresa.</p>
+
+    <div class="faq-item">
+      <h3>Quem pede demissão tem direito a todas as verbas?</h3>
+      <p>Não. Quem pede demissão recebe saldo de salário, 13º e férias proporcionais, mas não recebe a multa de 40% do FGTS nem pode sacar o FGTS por esse motivo, e cumpre aviso prévio à empresa (ou tem o valor descontado se não cumprir).</p>
+    </div>
+    <div class="faq-item">
+      <h3>Demissão por justa causa dá direito a algo?</h3>
+      <p>Sim, mas bem menos: apenas saldo de salário e férias vencidas (se houver). Não há 13º proporcional, aviso prévio ou multa do FGTS.</p>
+    </div>
+    <div class="faq-item">
+      <h3>O acordo entre empresa e funcionário (demissão consensual) funciona como?</h3>
+      <p>Na rescisão por acordo, o trabalhador recebe metade do aviso prévio e metade da multa do FGTS (20% em vez de 40%), além de poder sacar até 80% do saldo do FGTS, mas perde o direito ao seguro-desemprego.</p>
+    </div>
+  </div>
+</div>
+
+<footer>Simulador educativo — não substitui o cálculo oficial da empresa ou de um contador.</footer>
+
+<script>
+function diasEntre(d1, d2){
+  return Math.round((d2 - d1) / (1000*60*60*24));
+}
+
+function calcular(){
+  const salario = parseFloat(document.getElementById('salario').value);
+  const admissaoStr = document.getElementById('dataAdmissao').value;
+  const demissaoStr = document.getElementById('dataDemissao').value;
+  const tipo = document.getElementById('tipoRescisao').value;
+  const feriasVencidas = document.getElementById('feriasVencidas').checked;
+  const avisoTrabalhado = document.getElementById('avisoTrabalhado').checked;
+
+  if(!salario || salario <= 0 || !admissaoStr || !demissaoStr){
+    alert('Preencha o salário e as duas datas para calcular.');
+    return;
+  }
+
+  const admissao = new Date(admissaoStr);
+  const demissao = new Date(demissaoStr);
+  if(demissao <= admissao){
+    alert('A data de saída precisa ser depois da data de admissão.');
+    return;
+  }
+
+  const diasTotais = diasEntre(admissao, demissao);
+  const anosCompletos = Math.floor(diasTotais / 365);
+  const diaSal = salario / 30;
+
+  // Saldo de salário: dias trabalhados no mês da saída
+  const diaDemissao = demissao.getDate();
+  const saldoSalario = diaSal * diaDemissao;
+
+  // Aviso prévio proporcional: 30 dias + 3 dias por ano completo, máximo 90
+  let diasAviso = 30 + (anosCompletos * 3);
+  if(diasAviso > 90) diasAviso = 90;
+  const valorAviso = diaSal * diasAviso;
+
+  // 13º proporcional: meses trabalhados no ano da saída
+  const mesesNoAno = demissao.getMonth() + 1 - (demissao.getFullYear() > admissao.getFullYear() ? 0 : admissao.getMonth());
+  const mesesAjustado = Math.max(1, Math.min(12, demissao.getMonth() + 1));
+  const valor13 = (salario / 12) * mesesAjustado;
+
+  // Férias proporcionais (meses trabalhados desde último aniversário de admissão) + 1/3
+  const mesesFerias = Math.max(1, demissao.getMonth() - admissao.getMonth() + (demissao.getMonth() < admissao.getMonth() ? 12 : 0) + 1);
+  const mesesFeriasAjustado = Math.min(12, mesesFerias);
+  const feriasProp = (salario / 12) * mesesFeriasAjustado;
+  const feriasPropComTerco = feriasProp * (4/3);
+
+  const feriasVencidasValor = feriasVencidas ? salario * (4/3) : 0;
+
+  // FGTS depositado estimado (8% do salário ao longo do contrato)
+  const mesesContrato = Math.max(1, Math.round(diasTotais / 30));
+  const fgtsDepositado = salario * 0.08 * mesesContrato;
+  const multaFgts40 = fgtsDepositado * 0.40;
+  const multaFgts20 = fgtsDepositado * 0.20;
+
+  let linhas = [];
+  let total = 0;
+
+  linhas.push(['Saldo de salário', saldoSalario]);
+  total += saldoSalario;
+
+  linhas.push(['13º salário proporcional', valor13]);
+  total += valor13;
+
+  linhas.push(['Férias proporcionais + 1/3', feriasPropComTerco]);
+  total += feriasPropComTerco;
+
+  if(feriasVencidas){
+    linhas.push(['Férias vencidas + 1/3', feriasVencidasValor]);
+    total += feriasVencidasValor;
+  }
+
+  let stamp = 'Estimativa calculada';
+
+  if(tipo === 'sem_justa_causa'){
+    if(!avisoTrabalhado){
+      linhas.push(['Aviso prévio indenizado', valorAviso]);
+      total += valorAviso;
+    } else {
+      linhas.push(['Aviso prévio (trabalhado, sem pagamento extra)', 0]);
+    }
+    linhas.push(['Multa FGTS (40%)', multaFgts40]);
+    total += multaFgts40;
+    stamp = 'Direito a seguro-desemprego e saque FGTS';
+  }
+  else if(tipo === 'pedido_demissao'){
+    linhas.push(['Aviso prévio: cumprir ou descontar', -valorAviso]);
+    stamp = 'Sem multa FGTS e sem seguro-desemprego';
+  }
+  else if(tipo === 'justa_causa'){
+    linhas = [['Saldo de salário', saldoSalario]];
+    total = saldoSalario;
+    if(feriasVencidas){
+      linhas.push(['Férias vencidas + 1/3', feriasVencidasValor]);
+      total += feriasVencidasValor;
+    }
+    stamp = 'Sem 13º, sem aviso, sem multa FGTS';
+  }
+  else if(tipo === 'acordo'){
+    linhas.push(['Aviso prévio (50%)', valorAviso/2]);
+    total += valorAviso/2;
+    linhas.push(['Multa FGTS (20%)', multaFgts20]);
+    total += multaFgts20;
+    stamp = 'Acordo: saque de até 80% do FGTS';
+  }
+
+  let html = '';
+  linhas.forEach(([nome, valor])=>{
+    const negativa = valor < 0;
+    html += `<tr class="${negativa ? 'neg' : ''}"><td class="label-cell">${nome}</td><td class="val-cell">${negativa ? '−' : ''}R$ ${Math.abs(valor).toFixed(2).replace('.',',')}</td></tr>`;
+  });
+  html += `<tr class="total"><td class="label-cell">Total estimado a receber</td><td class="val-cell">R$ ${total.toFixed(2).replace('.',',')}</td></tr>`;
+
+  document.getElementById('tabelaResultado').innerHTML = html;
+  document.getElementById('stampLabel').textContent = stamp;
+  document.getElementById('notaRodape').textContent = 'FGTS depositado estimado ao longo do contrato: R$ ' + fgtsDepositado.toFixed(2).replace('.',',') + '. Valores aproximados — o cálculo oficial considera convenção coletiva e regras específicas da empresa.';
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+
+</body>
+</html>
