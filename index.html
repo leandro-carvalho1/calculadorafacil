@@ -357,7 +357,7 @@ footer strong{color:#fff;}
 
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Ferramentas disponíveis</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Ferramentas disponíveis</div></div>
     <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Gratuito</div></div>
     <div class="stat"><div class="stat-num">2026</div><div class="stat-label">Tabelas atualizadas</div></div>
     <div class="stat"><div class="stat-num">0</div><div class="stat-label">Cadastros necessários</div></div>
@@ -424,11 +424,11 @@ footer strong{color:#fff;}
       </div>
     </a>
 
-    <!-- EM BREVE: SALÁRIO LÍQUIDO -->
-    <div class="tool-card coming" data-cat="trabalho" data-name="salário líquido inss irrf desconto">
+    <!-- SALÁRIO LÍQUIDO -->
+    <a href="/calculadora-salario-liquido.html" class="tool-card" data-cat="trabalho" data-name="salário líquido inss irrf desconto tabela 2026">
       <div class="tool-card-top">
-        <div class="tool-icon" style="background:#f3f4f6;">💵</div>
-        <span class="tool-badge badge-soon">Em breve</span>
+        <div class="tool-icon" style="background:#f0fdf4;">💵</div>
+        <span class="tool-badge badge-novo">🆕 Novo</span>
       </div>
       <div>
         <div class="tool-name">Calculadora de Salário Líquido</div>
@@ -440,9 +440,9 @@ footer strong{color:#fff;}
           <span class="tool-tag">INSS</span>
           <span class="tool-tag">IRRF</span>
         </div>
-        <span class="tool-cta" style="color:var(--muted);">Em breve</span>
+        <span class="tool-cta">Calcular →</span>
       </div>
-    </div>
+    </a>
 
     <!-- EM BREVE: QR CODE PIX -->
     <div class="tool-card coming" data-cat="financas" data-name="qr code pix gerador cobrar">
@@ -541,7 +541,7 @@ function renderizar(){
     card.style.display = mostrar ? '' : 'none';
     if(mostrar && !card.classList.contains('coming')) visiveis++;
   });
-  const total = catAtiva==='todas' && busca==='' ? 2 : visiveis;
+  const total = catAtiva==='todas' && busca==='' ? 3 : visiveis;
   document.getElementById('countLabel').textContent = total + ' ferramenta' + (total!==1?'s':'');
 }
 </script>
