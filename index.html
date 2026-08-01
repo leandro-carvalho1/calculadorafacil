@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeuCalculoCerto — Calculadoras e Simuladores Gratuitos</title>
+<meta name="description" content="Calculadoras gratuitas e atualizadas: rescisão CLT, churrasco, salário líquido e muito mais. Simples, rápido e sem cadastro.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MeuCalculoCerto",
+  "url": "https://meucalculocerto.com.br",
+  "description": "Calculadoras e simuladores gratuitos para o dia a dia do brasileiro"
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#f7f8fa;
+  --surface:#ffffff;
+  --border:#e8eaed;
+  --text:#1a1a2e;
+  --muted:#6b7280;
+  --accent:#1a56db;
+  --accent-light:#eff6ff;
+  --green:#059669;
+  --green-light:#ecfdf5;
+  --orange:#ea580c;
+  --orange-light:#fff7ed;
+  --purple:#7c3aed;
+  --purple-light:#f5f3ff;
+  --red:#dc2626;
+  --red-light:#fef2f2;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* HEADER */
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.header-inner{
+  max-width:1100px;
+  margin:0 auto;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo{
+  font-size:18px;
+  font-weight:800;
+  color:var(--text);
+  text-decoration:none;
+  letter-spacing:-.02em;
+}
+.logo span{color:var(--accent);}
+.header-tag{
+  font-size:12px;
+  background:var(--accent-light);
+  color:var(--accent);
+  padding:4px 10px;
+  border-radius:20px;
+  font-weight:600;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#1a56db 0%,#1e40af 50%,#1d4ed8 100%);
+  padding:64px 24px 56px;
+  text-align:center;
+  color:#fff;
+}
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;
+  padding:5px 14px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:clamp(28px,5vw,52px);
+  font-weight:800;
+  letter-spacing:-.03em;
+  line-height:1.1;
+  margin-bottom:16px;
+}
+.hero h1 em{
+  font-style:normal;
+  opacity:.8;
+  display:block;
+  font-size:.65em;
+  font-weight:500;
+  letter-spacing:-.01em;
+  margin-top:6px;
+}
+.hero-sub{
+  font-size:16px;
+  opacity:.8;
+  max-width:480px;
+  margin:0 auto;
+  line-height:1.6;
+}
+
+/* FERRAMENTAS */
+.tools-section{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px 24px 80px;
+}
+.section-header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  margin-bottom:28px;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.section-title{
+  font-size:22px;
+  font-weight:700;
+  color:var(--text);
+  letter-spacing:-.02em;
+}
+.section-count{
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* SEARCH */
+.search-wrap{
+  position:relative;
+  margin-bottom:32px;
+}
+.search-icon{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:16px;
+  color:var(--muted);
+}
+#searchInput{
+  width:100%;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  padding:12px 16px 12px 42px;
+  font-size:15px;
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  background:var(--surface);
+  transition:border-color .15s;
+  outline:none;
+}
+#searchInput:focus{border-color:var(--accent);}
+
+/* CATEGORY FILTER */
+.cat-filter{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:28px;
+}
+.cat-pill{
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:20px;
+  padding:6px 14px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted);
+  cursor:pointer;
+  transition:all .15s;
+}
+.cat-pill.active,
+.cat-pill:hover{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+}
+
+/* GRID */
+.tools-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:18px;
+}
+
+/* TOOL CARD */
+.tool-card{
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:24px;
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  transition:all .18s ease;
+  position:relative;
+  overflow:hidden;
+}
+.tool-card:hover{
+  border-color:var(--accent);
+  box-shadow:0 8px 30px rgba(26,86,219,.1);
+  transform:translateY(-2px);
+}
+.tool-card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.tool-icon{
+  width:52px;height:52px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  flex-shrink:0;
+}
+.tool-badge{
+  font-size:11px;
+  font-weight:600;
+  padding:3px 10px;
+  border-radius:20px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.badge-novo{background:#dcfce7;color:#15803d;}
+.badge-popular{background:#fef9c3;color:#a16207;}
+.badge-util{background:var(--accent-light);color:var(--accent);}
+
+.tool-name{
+  font-size:17px;
+  font-weight:700;
+  color:var(--text);
+  letter-spacing:-.02em;
+  line-height:1.2;
+}
+.tool-desc{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.55;
+}
+.tool-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.tool-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tool-tag{
+  font-size:11px;
+  background:var(--bg);
+  color:var(--muted);
+  padding:3px 8px;
+  border-radius:4px;
+  font-weight:500;
+}
+.tool-cta{
+  font-size:13px;
+  font-weight:600;
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+}
+
+/* COMING SOON CARD */
+.tool-card.coming{
+  opacity:.55;
+  cursor:default;
+  pointer-events:none;
+}
+.badge-soon{background:#f3f4f6;color:#6b7280;}
+
+/* STATS BAR */
+.stats-bar{
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:20px 24px;
+}
+.stats-inner{
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:48px;
+  flex-wrap:wrap;
+}
+.stat{text-align:center;}
+.stat-num{
+  font-size:26px;
+  font-weight:800;
+  color:var(--accent);
+  letter-spacing:-.03em;
+}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px;}
+
+footer{
+  background:var(--text);
+  color:rgba(255,255,255,.5);
+  text-align:center;
+  padding:28px 24px;
+  font-size:13px;
+  line-height:1.7;
+}
+footer a{color:rgba(255,255,255,.7);text-decoration:none;}
+footer strong{color:#fff;}
+
+@media(max-width:600px){
+  .stats-inner{gap:24px;}
+  .tools-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">MeuCalculo<span>Certo</span></a>
+    <span class="header-tag">✓ Gratuito e sem cadastro</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">🎯 Calculadoras para o dia a dia</div>
+  <h1>Calcule tudo em segundos<em>sem complicação, sem cadastro</em></h1>
+  <p class="hero-sub">Ferramentas simples e atualizadas para resolver as contas do seu dia a dia — rápido, grátis e confiável.</p>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Ferramentas disponíveis</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Gratuito</div></div>
+    <div class="stat"><div class="stat-num">2026</div><div class="stat-label">Tabelas atualizadas</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-label">Cadastros necessários</div></div>
+  </div>
+</div>
+
+<section class="tools-section">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Buscar calculadora... ex: churrasco, rescisão, salário">
+  </div>
+
+  <div class="cat-filter">
+    <button class="cat-pill active" onclick="filtrar(this,'todas')">Todas</button>
+    <button class="cat-pill" onclick="filtrar(this,'trabalho')">💼 Trabalho</button>
+    <button class="cat-pill" onclick="filtrar(this,'eventos')">🎉 Eventos</button>
+    <button class="cat-pill" onclick="filtrar(this,'financas')">💰 Finanças</button>
+  </div>
+
+  <div class="section-header">
+    <span class="section-title">Ferramentas disponíveis</span>
+    <span class="section-count" id="countLabel">2 ferramentas</span>
+  </div>
+
+  <div class="tools-grid" id="toolsGrid">
+
+    <!-- RESCISÃO CLT -->
+    <a href="/calculadora-rescisao-clt.html" class="tool-card" data-cat="trabalho" data-name="calculadora rescisão clt demissão fgts aviso prévio férias 13">
+      <div class="tool-card-top">
+        <div class="tool-icon" style="background:#eff6ff;">📋</div>
+        <span class="tool-badge badge-popular">⭐ Popular</span>
+      </div>
+      <div>
+        <div class="tool-name">Calculadora de Rescisão CLT</div>
+        <div class="tool-desc">Simule aviso prévio, FGTS, 13º salário, férias proporcionais e multa de 40% — para demissão, pedido ou acordo.</div>
+      </div>
+      <div class="tool-footer">
+        <div class="tool-tags">
+          <span class="tool-tag">💼 Trabalho</span>
+          <span class="tool-tag">CLT</span>
+          <span class="tool-tag">FGTS</span>
+        </div>
+        <span class="tool-cta">Calcular →</span>
+      </div>
+    </a>
+
+    <!-- CHURRASCO -->
+    <a href="/calculadora-churrasco.html" class="tool-card" data-cat="eventos" data-name="calculadora churrasco carne bebida cerveja carvão gelo picanha linguiça">
+      <div class="tool-card-top">
+        <div class="tool-icon" style="background:#fff7ed;">🔥</div>
+        <span class="tool-badge badge-novo">🆕 Novo</span>
+      </div>
+      <div>
+        <div class="tool-name">Calculadora de Churrasco</div>
+        <div class="tool-desc">Descubra quanto comprar de carne, bebida e carvão para não faltar nada. Funciona para qualquer tamanho de turma.</div>
+      </div>
+      <div class="tool-footer">
+        <div class="tool-tags">
+          <span class="tool-tag">🎉 Eventos</span>
+          <span class="tool-tag">Carnes</span>
+          <span class="tool-tag">Bebidas</span>
+        </div>
+        <span class="tool-cta">Calcular →</span>
+      </div>
+    </a>
+
+    <!-- EM BREVE: SALÁRIO LÍQUIDO -->
+    <div class="tool-card coming" data-cat="trabalho" data-name="salário líquido inss irrf desconto">
+      <div class="tool-card-top">
+        <div class="tool-icon" style="background:#f3f4f6;">💵</div>
+        <span class="tool-badge badge-soon">Em breve</span>
+      </div>
+      <div>
+        <div class="tool-name">Calculadora de Salário Líquido</div>
+        <div class="tool-desc">Descubra quanto você recebe no bolso após descontos de INSS e IRRF. Tabelas 2026 atualizadas.</div>
+      </div>
+      <div class="tool-footer">
+        <div class="tool-tags">
+          <span class="tool-tag">💼 Trabalho</span>
+          <span class="tool-tag">INSS</span>
+          <span class="tool-tag">IRRF</span>
+        </div>
+        <span class="tool-cta" style="color:var(--muted);">Em breve</span>
+      </div>
+    </div>
+
+    <!-- EM BREVE: QR CODE PIX -->
+    <div class="tool-card coming" data-cat="financas" data-name="qr code pix gerador cobrar">
+      <div class="tool-card-top">
+        <div class="tool-icon" style="background:#f3f4f6;">📱</div>
+        <span class="tool-badge badge-soon">Em breve</span>
+      </div>
+      <div>
+        <div class="tool-name">Gerador de QR Code PIX</div>
+        <div class="tool-desc">Crie QR codes para cobranças via PIX na hora. Funciona para pessoa física e jurídica.</div>
+      </div>
+      <div class="tool-footer">
+        <div class="tool-tags">
+          <span class="tool-tag">💰 Finanças</span>
+          <span class="tool-tag">PIX</span>
+          <span class="tool-tag">QR Code</span>
+        </div>
+        <span class="tool-cta" style="color:var(--muted);">Em breve</span>
+      </div>
+    </div>
+
+    <!-- EM BREVE: HORAS EXTRAS -->
+    <div class="tool-card coming" data-cat="trabalho" data-name="horas extras clt calcular valor">
+      <div class="tool-card-top">
+        <div class="tool-icon" style="background:#f3f4f6;">⏰</div>
+        <span class="tool-badge badge-soon">Em breve</span>
+      </div>
+      <div>
+        <div class="tool-name">Calculadora de Horas Extras</div>
+        <div class="tool-desc">Calcule o valor das suas horas extras com os percentuais corretos da CLT (50% dias úteis, 100% domingos).</div>
+      </div>
+      <div class="tool-footer">
+        <div class="tool-tags">
+          <span class="tool-tag">💼 Trabalho</span>
+          <span class="tool-tag">CLT</span>
+        </div>
+        <span class="tool-cta" style="color:var(--muted);">Em breve</span>
+      </div>
+    </div>
+
+    <!-- EM BREVE: FINANCIAMENTO -->
+    <div class="tool-card coming" data-cat="financas" data-name="financiamento imóvel carro simulador parcela juros">
+      <div class="tool-card-top">
+        <div class="tool-icon" style="background:#f3f4f6;">🏠</div>
+        <span class="tool-badge badge-soon">Em breve</span>
+      </div>
+      <div>
+        <div class="tool-name">Simulador de Financiamento</div>
+        <div class="tool-desc">Simule parcelas de financiamento imobiliário ou de veículos com diferentes taxas de juros e prazos.</div>
+      </div>
+      <div class="tool-footer">
+        <div class="tool-tags">
+          <span class="tool-tag">💰 Finanças</span>
+          <span class="tool-tag">Imóvel</span>
+          <span class="tool-tag">Carro</span>
+        </div>
+        <span class="tool-cta" style="color:var(--muted);">Em breve</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <strong>MeuCalculoCerto.com.br</strong><br>
+  Calculadoras e simuladores gratuitos para o dia a dia do brasileiro.<br>
+  As ferramentas são apenas estimativas educativas e não substituem orientação profissional.<br><br>
+  <span style="font-size:12px;">© 2026 MeuCalculoCerto — Todos os direitos reservados</span>
+</footer>
+
+<script>
+let catAtiva = 'todas';
+let busca = '';
+
+document.getElementById('searchInput').addEventListener('input', function(){
+  busca = this.value.toLowerCase().trim();
+  renderizar();
+});
+
+function filtrar(btn, cat){
+  catAtiva = cat;
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  renderizar();
+}
+
+function renderizar(){
+  const cards = document.querySelectorAll('.tool-card');
+  let visiveis = 0;
+  cards.forEach(card=>{
+    const cat = card.dataset.cat || '';
+    const nome = (card.dataset.name || '').toLowerCase();
+    const matchCat = catAtiva==='todas' || cat===catAtiva;
+    const matchBusca = busca==='' || nome.includes(busca);
+    const mostrar = matchCat && matchBusca;
+    card.style.display = mostrar ? '' : 'none';
+    if(mostrar && !card.classList.contains('coming')) visiveis++;
+  });
+  const total = catAtiva==='todas' && busca==='' ? 2 : visiveis;
+  document.getElementById('countLabel').textContent = total + ' ferramenta' + (total!==1?'s':'');
+}
+</script>
+
+</body>
+</html>
