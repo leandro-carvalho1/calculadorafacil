@@ -428,6 +428,52 @@ footer{
 </head>
 <body>
 
+<style>
+.site-nav{
+  background:rgba(20,20,20,.95);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  padding:0 20px;
+  position:sticky;
+  top:0;
+  z-index:200;
+  backdrop-filter:blur(8px);
+}
+.site-nav-inner{
+  max-width:900px;
+  margin:0 auto;
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.nav-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  font-weight:600;
+  color:#f0a500;
+  text-decoration:none;
+  font-family:'Source Sans 3',sans-serif;
+}
+.nav-back:hover{opacity:.75;}
+.nav-logo{
+  font-size:14px;
+  font-weight:700;
+  color:#f5f0e8;
+  text-decoration:none;
+  font-family:'Source Sans 3',sans-serif;
+}
+.nav-logo span{color:#f0a500;}
+</style>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="nav-back">← Todas as calculadoras</a>
+    <a href="/" class="nav-logo">MeuCalculo<span>Certo</span></a>
+  </div>
+</nav>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
