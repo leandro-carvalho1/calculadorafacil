@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Salário Líquido 2026 — Desconto INSS e IRRF</title>
+<meta name="description" content="Calcule seu salário líquido 2026 com descontos de INSS e IRRF atualizados. Simule também salário família, vale transporte e plano de saúde.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculadora de Salário Líquido 2026",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Como é calculado o INSS em 2026?",
+      "acceptedAnswer": { "@type": "Answer", "text": "O INSS em 2026 é calculado de forma progressiva por faixas: 7,5% até R$ 1.518,00; 9% de R$ 1.518,01 a R$ 2.793,88; 12% de R$ 2.793,89 a R$ 4.190,83; e 14% de R$ 4.190,84 a R$ 8.157,41." }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual o limite de isenção do IRRF em 2026?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Em 2026, são isentos de IRRF salários até R$ 2.824,00 após as deduções permitidas." }
+    }
+  ]
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:#f0f4ff;
+  --surface:#ffffff;
+  --border:#dde3f0;
+  --text:#0f172a;
+  --muted:#64748b;
+  --accent:#2563eb;
+  --accent-dark:#1d4ed8;
+  --accent-light:#eff6ff;
+  --green:#16a34a;
+  --green-bg:#f0fdf4;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --yellow:#d97706;
+  --yellow-bg:#fffbeb;
+  --card-shadow:0 1px 3px rgba(0,0,0,.08), 0 8px 24px rgba(37,99,235,.06);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* NAV */
+.site-nav{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+  position:sticky;
+  top:0;
+  z-index:200;
+}
+.site-nav-inner{
+  max-width:900px;
+  margin:0 auto;
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.nav-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--accent);
+  text-decoration:none;
+}
+.nav-back:hover{opacity:.75;}
+.nav-logo{
+  font-size:14px;
+  font-weight:700;
+  color:var(--text);
+  text-decoration:none;
+}
+.nav-logo span{color:var(--accent);}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);
+  padding:52px 20px 48px;
+  text-align:center;
+  color:#fff;
+}
+.hero-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;
+  padding:5px 14px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+.hero h1{
+  font-size:clamp(26px,5vw,44px);
+  font-weight:800;
+  letter-spacing:-.03em;
+  margin-bottom:12px;
+  line-height:1.1;
+}
+.hero-sub{
+  font-size:16px;
+  opacity:.8;
+  max-width:460px;
+  margin:0 auto;
+  line-height:1.6;
+}
+
+/* WRAP */
+.main-wrap{
+  max-width:900px;
+  margin:0 auto;
+  padding:40px 20px 80px;
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:24px;
+  align-items:start;
+}
+@media(max-width:720px){
+  .main-wrap{grid-template-columns:1fr;}
+}
+
+/* CARD */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  box-shadow:var(--card-shadow);
+}
+.card-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.card-title span{
+  background:var(--accent-light);
+  color:var(--accent);
+  width:28px; height:28px;
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px;
+  flex-shrink:0;
+}
+
+/* FIELD */
+.field{margin-bottom:18px;}
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin-bottom:6px;
+}
+.field input, .field select{
+  width:100%;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  padding:11px 14px;
+  font-size:15px;
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  background:#fff;
+  outline:none;
+  transition:border-color .15s;
+}
+.field input:focus, .field select:focus{border-color:var(--accent);}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media(max-width:500px){.field-row{grid-template-columns:1fr;}}
+
+/* TOGGLE ROW */
+.toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-label{font-size:14px; color:var(--text);}
+.toggle-sub{font-size:12px; color:var(--muted); margin-top:2px;}
+.toggle{
+  position:relative;
+  width:42px; height:24px;
+  flex-shrink:0;
+}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{
+  position:absolute;
+  inset:0;
+  background:#d1d5db;
+  border-radius:12px;
+  cursor:pointer;
+  transition:background .2s;
+}
+.toggle-slider:before{
+  content:'';
+  position:absolute;
+  width:18px; height:18px;
+  left:3px; top:3px;
+  background:#fff;
+  border-radius:50%;
+  transition:transform .2s;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.toggle input:checked + .toggle-slider{background:var(--accent);}
+.toggle input:checked + .toggle-slider:before{transform:translateX(18px);}
+
+/* BTN */
+.calc-btn{
+  width:100%;
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:15px;
+  font-size:15px;
+  font-weight:700;
+  font-family:'Inter',sans-serif;
+  cursor:pointer;
+  transition:background .15s;
+  margin-top:8px;
+  letter-spacing:-.01em;
+}
+.calc-btn:hover{background:var(--accent-dark);}
+
+/* RESULTADO */
+#resultado{display:none;}
+
+.salario-destaque{
+  text-align:center;
+  padding:28px 20px;
+  background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+  border:1.5px solid #86efac;
+  border-radius:14px;
+  margin-bottom:20px;
+}
+.salario-label{font-size:13px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;}
+.salario-valor{
+  font-size:48px;
+  font-weight:800;
+  color:var(--green);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:-.03em;
+  line-height:1;
+  margin-bottom:8px;
+}
+.salario-sub{font-size:13px; color:#15803d; opacity:.8;}
+
+/* BREAKDOWN */
+.breakdown-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+.breakdown-item:last-child{border-bottom:none;}
+.breakdown-name{color:var(--text); display:flex; align-items:center; gap:8px;}
+.breakdown-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.breakdown-val{
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;
+  font-weight:600;
+}
+.val-green{color:var(--green);}
+.val-red{color:var(--red);}
+.val-neutral{color:var(--muted);}
+.breakdown-total{
+  background:var(--accent-light);
+  border-radius:8px;
+  padding:12px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:700;
+  font-size:14px;
+  margin-top:8px;
+}
+.breakdown-total .val{
+  font-family:'JetBrains Mono',monospace;
+  font-size:16px;
+  color:var(--accent);
+}
+
+/* BARRA VISUAL */
+.barra-wrap{margin:20px 0;}
+.barra-title{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.barra{height:14px;border-radius:7px;background:var(--border);overflow:hidden;display:flex;}
+.barra-seg{height:100%;transition:width .5s ease;}
+.barra-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+/* ALIQUOTA CARD */
+.aliquota-card{
+  background:var(--yellow-bg);
+  border:1px solid #fde68a;
+  border-radius:10px;
+  padding:14px;
+  font-size:13px;
+  color:#92400e;
+  margin-top:16px;
+}
+.aliquota-card strong{color:#78350f;}
+
+/* TABELA LATERAL */
+.tabela-card{margin-top:20px;}
+.tabela-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.tabela-row:last-child{border-bottom:none;}
+.tabela-faixa{color:var(--muted);}
+.tabela-aliq{font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace;}
+.tabela-row.active-row{background:var(--accent-light);border-radius:6px;padding:8px 10px;margin:2px -10px;}
+.tabela-row.active-row .tabela-faixa{color:var(--accent-dark);font-weight:600;}
+
+/* FAQ */
+.faq-section{
+  background:#fff;
+  border-top:1px solid var(--border);
+  padding:60px 20px 80px;
+}
+.faq-wrap{max-width:760px;margin:0 auto;}
+.faq-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:28px;}
+.faq-item{margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:18px;}
+.faq-item:last-child{border-bottom:none;}
+.faq-item h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.faq-item p{font-size:14px;color:var(--muted);line-height:1.7;}
+
+footer{
+  background:var(--text);
+  color:rgba(255,255,255,.5);
+  text-align:center;
+  padding:28px 24px;
+  font-size:13px;
+  line-height:1.7;
+}
+footer strong{color:#fff;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="nav-back">← Todas as calculadoras</a>
+    <a href="/" class="nav-logo">MeuCalculo<span>Certo</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-chip">💵 Tabelas atualizadas 2026</div>
+  <h1>Calculadora de Salário Líquido</h1>
+  <p class="hero-sub">Descubra quanto você recebe no bolso após descontos de INSS e IRRF — com as tabelas oficiais 2026.</p>
+</div>
+
+<div class="main-wrap">
+
+  <!-- COLUNA ESQUERDA: FORMULÁRIO -->
+  <div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title"><span>1</span> Seus dados salariais</div>
+
+      <div class="field">
+        <label>Salário bruto mensal (R$)</label>
+        <input type="number" id="salarioBruto" placeholder="Ex: 5000" min="0" step="0.01">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Número de dependentes</label>
+          <input type="number" id="dependentes" value="0" min="0" max="20">
+        </div>
+        <div class="field">
+          <label>Pensão alimentícia (R$)</label>
+          <input type="number" id="pensao" value="0" min="0" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title"><span>2</span> Descontos opcionais</div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Vale Transporte</div>
+          <div class="toggle-sub">Desconto de 6% sobre o salário bruto</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="vt"><span class="toggle-slider"></span></label>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Plano de Saúde</div>
+          <div class="toggle-sub">Informe o valor do desconto</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="toggleSaude" onchange="toggleCampo('campoSaude')"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="campoSaude" style="display:none;padding:10px 0 4px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>Valor do plano (R$)</label>
+          <input type="number" id="valorSaude" placeholder="Ex: 250" min="0" step="0.01">
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Plano Odontológico</div>
+          <div class="toggle-sub">Informe o valor do desconto</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="toggleDental" onchange="toggleCampo('campoDental')"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="campoDental" style="display:none;padding:10px 0 4px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>Valor do plano (R$)</label>
+          <input type="number" id="valorDental" placeholder="Ex: 50" min="0" step="0.01">
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Outros descontos</div>
+          <div class="toggle-sub">Sindicato, seguro de vida, etc.</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="toggleOutros" onchange="toggleCampo('campoOutros')"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="campoOutros" style="display:none;padding:10px 0 4px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>Valor total (R$)</label>
+          <input type="number" id="valorOutros" placeholder="Ex: 80" min="0" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcular()">Calcular salário líquido →</button>
+
+    <!-- RESULTADO -->
+    <div id="resultado" style="margin-top:28px;">
+      <div class="salario-destaque">
+        <div class="salario-label">💰 Seu salário líquido</div>
+        <div class="salario-valor" id="valorLiquido">R$ 0,00</div>
+        <div class="salario-sub" id="salarioSubtitle"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>📊</span> Detalhamento dos descontos</div>
+
+        <div class="barra-wrap">
+          <div class="barra-title">Composição do salário</div>
+          <div class="barra">
+            <div class="barra-seg" id="barraLiquido" style="background:#16a34a;"></div>
+            <div class="barra-seg" id="barraInss" style="background:#2563eb;"></div>
+            <div class="barra-seg" id="barraIrrf" style="background:#dc2626;"></div>
+            <div class="barra-seg" id="barraOutros" style="background:#d97706;"></div>
+          </div>
+          <div class="barra-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#16a34a;"></div>Líquido</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div>INSS</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#dc2626;"></div>IRRF</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#d97706;"></div>Outros</div>
+          </div>
+        </div>
+
+        <div id="breakdownList"></div>
+
+        <div class="breakdown-total">
+          <span>Total de descontos</span>
+          <span class="val" id="totalDescontos"></span>
+        </div>
+
+        <div class="aliquota-card" id="aliquotaInfo"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA DIREITA: TABELAS -->
+  <div>
+    <div class="card">
+      <div class="card-title"><span>📋</span> Tabela INSS 2026</div>
+      <div class="tabela-row" id="inss1">
+        <span class="tabela-faixa">Até R$ 1.518,00</span>
+        <span class="tabela-aliq">7,5%</span>
+      </div>
+      <div class="tabela-row" id="inss2">
+        <span class="tabela-faixa">R$ 1.518,01 – R$ 2.793,88</span>
+        <span class="tabela-aliq">9%</span>
+      </div>
+      <div class="tabela-row" id="inss3">
+        <span class="tabela-faixa">R$ 2.793,89 – R$ 4.190,83</span>
+        <span class="tabela-aliq">12%</span>
+      </div>
+      <div class="tabela-row" id="inss4">
+        <span class="tabela-faixa">R$ 4.190,84 – R$ 8.157,41</span>
+        <span class="tabela-aliq">14%</span>
+      </div>
+      <div class="tabela-row" style="padding-top:12px;">
+        <span class="tabela-faixa" style="color:var(--red);font-size:12px;">Teto INSS</span>
+        <span class="tabela-aliq" style="color:var(--red);">R$ 951,62</span>
+      </div>
+    </div>
+
+    <div class="card tabela-card">
+      <div class="card-title"><span>📋</span> Tabela IRRF 2026</div>
+      <div class="tabela-row" id="irrf1">
+        <span class="tabela-faixa">Até R$ 2.824,00</span>
+        <span class="tabela-aliq" style="color:var(--green);">Isento</span>
+      </div>
+      <div class="tabela-row" id="irrf2">
+        <span class="tabela-faixa">R$ 2.824,01 – R$ 3.751,05</span>
+        <span class="tabela-aliq">7,5%</span>
+      </div>
+      <div class="tabela-row" id="irrf3">
+        <span class="tabela-faixa">R$ 3.751,06 – R$ 4.664,68</span>
+        <span class="tabela-aliq">15%</span>
+      </div>
+      <div class="tabela-row" id="irrf4">
+        <span class="tabela-faixa">R$ 4.664,69 – R$ 6.101,06</span>
+        <span class="tabela-aliq">22,5%</span>
+      </div>
+      <div class="tabela-row" id="irrf5">
+        <span class="tabela-faixa">Acima de R$ 6.101,06</span>
+        <span class="tabela-aliq">27,5%</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+        Dedução por dependente: <strong>R$ 189,59/mês</strong>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-wrap">
+    <div class="faq-title">Perguntas frequentes</div>
+
+    <div class="faq-item">
+      <h3>Como é calculado o INSS em 2026?</h3>
+      <p>O INSS é calculado de forma progressiva por faixas — igual ao Imposto de Renda. Cada faixa tem sua alíquota aplicada apenas sobre o valor que se enquadra nela, não sobre o salário inteiro. O desconto máximo (teto) é de R$ 951,62 para salários acima de R$ 8.157,41.</p>
+    </div>
+    <div class="faq-item">
+      <h3>O que é a base de cálculo do IRRF?</h3>
+      <p>A base do IRRF é o salário bruto menos o INSS, menos as deduções por dependentes (R$ 189,59 cada) e pensão alimentícia judicial. Sobre essa base são aplicadas as alíquotas progressivas do Imposto de Renda.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Vale transporte desconta quanto?</h3>
+      <p>O vale transporte desconta até 6% do salário bruto. Se o custo real do transporte for menor que 6%, a empresa desconta apenas o valor real. O restante é custeado pelo empregador sem custo para o funcionário.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Quem tem direito à isenção de IRRF?</h3>
+      <p>Trabalhadores com base de cálculo (após INSS e deduções) até R$ 2.824,00 são isentos de IRRF. Além disso, portadores de doenças graves listadas na legislação têm isenção independente do salário.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Esse cálculo vale para autônomos e MEI?</h3>
+      <p>Não. Esta calculadora é específica para empregados CLT. Autônomos e MEI têm regras diferentes de contribuição ao INSS e apuração de IR — procure um contador para esses casos.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>MeuCalculoCerto.com.br</strong><br>
+  Calculadora de Salário Líquido 2026 — tabelas INSS e IRRF atualizadas.<br>
+  Valores estimados para fins educativos. Para cálculo oficial consulte seu departamento pessoal.<br>
+  <span style="font-size:12px;opacity:.6;">© 2026 MeuCalculoCerto</span>
+</footer>
+
+<script>
+// TABELAS 2026
+const INSS_FAIXAS = [
+  { limite: 1518.00,   aliq: 0.075 },
+  { limite: 2793.88,   aliq: 0.09  },
+  { limite: 4190.83,   aliq: 0.12  },
+  { limite: 8157.41,   aliq: 0.14  },
+];
+const INSS_TETO = 951.62;
+const DEDUCAO_DEPENDENTE = 189.59;
+
+const IRRF_FAIXAS = [
+  { limite: 2824.00,  aliq: 0,     deducao: 0      },
+  { limite: 3751.05,  aliq: 0.075, deducao: 169.44 },
+  { limite: 4664.68,  aliq: 0.15,  deducao: 451.24 },
+  { limite: 6101.06,  aliq: 0.225, deducao: 800.40 },
+  { limite: Infinity, aliq: 0.275, deducao: 1105.26},
+];
+
+function calcularINSS(bruto){
+  let inss = 0;
+  let anterior = 0;
+  for(const f of INSS_FAIXAS){
+    if(bruto <= 0) break;
+    const base = Math.min(bruto, f.limite) - anterior;
+    if(base <= 0) break;
+    inss += base * f.aliq;
+    anterior = f.limite;
+    if(bruto <= f.limite) break;
+  }
+  return Math.min(inss, INSS_TETO);
+}
+
+function calcularIRRF(bruto, inss, dependentes, pensao){
+  const baseCalculo = bruto - inss - (dependentes * DEDUCAO_DEPENDENTE) - pensao;
+  if(baseCalculo <= 0) return 0;
+  for(const f of IRRF_FAIXAS){
+    if(baseCalculo <= f.limite){
+      return Math.max(0, baseCalculo * f.aliq - f.deducao);
+    }
+  }
+  return 0;
+}
+
+function fmt(v){
+  return 'R$ ' + v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function pct(v, total){
+  return total > 0 ? ((v/total)*100).toFixed(1)+'%' : '0%';
+}
+
+function toggleCampo(id){
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function highlightFaixa(faixaId, todas){
+  todas.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('active-row');
+  });
+  const el = document.getElementById(faixaId);
+  if(el) el.classList.add('active-row');
+}
+
+function calcular(){
+  const bruto = parseFloat(document.getElementById('salarioBruto').value) || 0;
+  if(bruto <= 0){ alert('Digite seu salário bruto para calcular.'); return; }
+
+  const dependentes = parseInt(document.getElementById('dependentes').value) || 0;
+  const pensao = parseFloat(document.getElementById('pensao').value) || 0;
+  const temVT = document.getElementById('vt').checked;
+  const temSaude = document.getElementById('toggleSaude').checked;
+  const temDental = document.getElementById('toggleDental').checked;
+  const temOutros = document.getElementById('toggleOutros').checked;
+
+  const vt = temVT ? bruto * 0.06 : 0;
+  const saude = temSaude ? (parseFloat(document.getElementById('valorSaude').value)||0) : 0;
+  const dental = temDental ? (parseFloat(document.getElementById('valorDental').value)||0) : 0;
+  const outros = temOutros ? (parseFloat(document.getElementById('valorOutros').value)||0) : 0;
+
+  const inss = calcularINSS(bruto);
+  const irrf = calcularIRRF(bruto, inss, dependentes, pensao);
+  const outrosTotal = vt + saude + dental + outros;
+  const totalDesc = inss + irrf + outrosTotal;
+  const liquido = bruto - totalDesc;
+
+  // Resultado principal
+  document.getElementById('valorLiquido').textContent = fmt(liquido);
+  document.getElementById('salarioSubtitle').textContent =
+    `${pct(liquido,bruto)} do salário bruto de ${fmt(bruto)}`;
+
+  // Barra visual
+  document.getElementById('barraLiquido').style.width = pct(liquido,bruto);
+  document.getElementById('barraInss').style.width = pct(inss,bruto);
+  document.getElementById('barraIrrf').style.width = pct(irrf,bruto);
+  document.getElementById('barraOutros').style.width = pct(outrosTotal,bruto);
+
+  // Breakdown
+  let html = '';
+  html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#16a34a;"></span>Salário bruto</span><span class="breakdown-val val-green">${fmt(bruto)}</span></div>`;
+  html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#2563eb;"></span>INSS (${pct(inss,bruto)})</span><span class="breakdown-val val-red">− ${fmt(inss)}</span></div>`;
+  html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#dc2626;"></span>IRRF${irrf===0?' (isento)':' ('+pct(irrf,bruto)+')'}</span><span class="breakdown-val ${irrf===0?'val-neutral':'val-red'}">${irrf===0?'Isento':'− '+fmt(irrf)}</span></div>`;
+  if(vt>0) html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#d97706;"></span>Vale transporte (6%)</span><span class="breakdown-val val-red">− ${fmt(vt)}</span></div>`;
+  if(saude>0) html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#d97706;"></span>Plano de saúde</span><span class="breakdown-val val-red">− ${fmt(saude)}</span></div>`;
+  if(dental>0) html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#d97706;"></span>Plano odontológico</span><span class="breakdown-val val-red">− ${fmt(dental)}</span></div>`;
+  if(outros>0) html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#d97706;"></span>Outros descontos</span><span class="breakdown-val val-red">− ${fmt(outros)}</span></div>`;
+  document.getElementById('breakdownList').innerHTML = html;
+  document.getElementById('totalDescontos').textContent = '− '+fmt(totalDesc);
+
+  // Alíquota efetiva
+  const aliqEfetiva = bruto > 0 ? ((totalDesc/bruto)*100).toFixed(1) : 0;
+  document.getElementById('aliquotaInfo').innerHTML =
+    `<strong>Alíquota efetiva total: ${aliqEfetiva}%</strong><br>
+    INSS: ${pct(inss,bruto)} · IRRF: ${irrf===0?'Isento':pct(irrf,bruto)}`;
+
+  // Highlight faixas INSS
+  const faixasInss = ['inss1','inss2','inss3','inss4'];
+  if(bruto <= 1518) highlightFaixa('inss1', faixasInss);
+  else if(bruto <= 2793.88) highlightFaixa('inss2', faixasInss);
+  else if(bruto <= 4190.83) highlightFaixa('inss3', faixasInss);
+  else highlightFaixa('inss4', faixasInss);
+
+  // Highlight faixas IRRF
+  const baseIRRF = bruto - inss - (dependentes*DEDUCAO_DEPENDENTE) - pensao;
+  const faixasIrrf = ['irrf1','irrf2','irrf3','irrf4','irrf5'];
+  if(baseIRRF <= 2824) highlightFaixa('irrf1', faixasIrrf);
+  else if(baseIRRF <= 3751.05) highlightFaixa('irrf2', faixasIrrf);
+  else if(baseIRRF <= 4664.68) highlightFaixa('irrf3', faixasIrrf);
+  else if(baseIRRF <= 6101.06) highlightFaixa('irrf4', faixasIrrf);
+  else highlightFaixa('irrf5', faixasIrrf);
+
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>
