@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Horas Extras 2026 — Calcule o Valor das Suas Horas Extras CLT</title>
+<meta name="description" content="Calcule o valor das suas horas extras CLT 2026. Simule horas extras de 50%, 100% (domingos e feriados) e noturnas. Gratuito e atualizado.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculadora de Horas Extras CLT 2026",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Qual o percentual de hora extra em dias úteis?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Em dias úteis, o adicional mínimo de hora extra é de 50% sobre o valor da hora normal, conforme o artigo 59 da CLT. Convenções coletivas podem prever percentuais maiores." }
+    },
+    {
+      "@type": "Question",
+      "name": "Hora extra em domingo ou feriado vale quanto?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Horas extras trabalhadas em domingos e feriados têm adicional de 100% sobre o valor da hora normal, dobrando o valor recebido." }
+    }
+  ]
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:#fafafa;
+  --surface:#fff;
+  --border:#e5e7eb;
+  --text:#111827;
+  --muted:#6b7280;
+  --accent:#7c3aed;
+  --accent-dark:#6d28d9;
+  --accent-light:#f5f3ff;
+  --green:#059669;
+  --green-bg:#ecfdf5;
+  --orange:#ea580c;
+  --orange-bg:#fff7ed;
+  --red:#dc2626;
+  --blue:#2563eb;
+  --blue-bg:#eff6ff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* NAV */
+.site-nav{ background:#fff; border-bottom:1px solid var(--border); padding:0 20px; position:sticky; top:0; z-index:200; }
+.site-nav-inner{ max-width:960px; margin:0 auto; height:50px; display:flex; align-items:center; justify-content:space-between; }
+.nav-back{ display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; }
+.nav-back:hover{ opacity:.75; }
+.nav-logo{ font-size:14px; font-weight:700; color:var(--text); text-decoration:none; }
+.nav-logo span{ color:var(--accent); }
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#4c1d95 0%,#7c3aed 100%);
+  padding:52px 20px 48px;
+  text-align:center;
+  color:#fff;
+}
+.hero-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2);
+  border-radius:20px; padding:5px 14px;
+  font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+  margin-bottom:18px;
+}
+.hero h1{ font-size:clamp(26px,5vw,44px); font-weight:800; letter-spacing:-.03em; margin-bottom:12px; line-height:1.1; }
+.hero-sub{ font-size:16px; opacity:.8; max-width:480px; margin:0 auto; line-height:1.6; }
+
+/* LAYOUT */
+.main-wrap{ max-width:960px; margin:0 auto; padding:40px 20px 80px; display:grid; grid-template-columns:1fr 320px; gap:24px; align-items:start; }
+@media(max-width:720px){ .main-wrap{ grid-template-columns:1fr; } }
+
+/* CARD */
+.card{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.card:last-child{ margin-bottom:0; }
+.card-title{ font-size:15px; font-weight:700; color:var(--text); margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+.card-title .num{ background:var(--accent-light); color:var(--accent); width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; font-weight:700; }
+
+/* FIELD */
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px; }
+.field input, .field select{ width:100%; border:1.5px solid var(--border); border-radius:9px; padding:11px 13px; font-size:15px; font-family:'Inter',sans-serif; color:var(--text); background:#fff; outline:none; transition:border-color .15s; }
+.field input:focus, .field select:focus{ border-color:var(--accent); }
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:480px){ .field-row{ grid-template-columns:1fr; } }
+.field-hint{ font-size:11px; color:var(--muted); margin-top:4px; }
+
+/* HORAS EXTRAS TABLE */
+.extras-table{ width:100%; border-collapse:collapse; margin-bottom:6px; }
+.extras-table th{ text-align:left; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; padding:8px 10px; border-bottom:2px solid var(--border); }
+.extras-table td{ padding:10px 10px; border-bottom:1px solid var(--border); font-size:14px; vertical-align:middle; }
+.extras-table tr:last-child td{ border-bottom:none; }
+.extras-table input{ border:1.5px solid var(--border); border-radius:7px; padding:8px 10px; font-size:14px; font-family:'Inter',sans-serif; color:var(--text); width:80px; text-align:center; outline:none; }
+.extras-table input:focus{ border-color:var(--accent); }
+.tipo-badge{ display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:5px; font-size:12px; font-weight:600; }
+.badge-50{ background:#fef9c3; color:#a16207; }
+.badge-100{ background:#fce7f3; color:#9d174d; }
+.badge-noturno{ background:#ede9fe; color:#6d28d9; }
+.badge-acordo{ background:#d1fae5; color:#065f46; }
+.pct-label{ font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; color:var(--accent); }
+
+/* BTN */
+.calc-btn{ width:100%; background:var(--accent); color:#fff; border:none; border-radius:10px; padding:15px; font-size:15px; font-weight:700; font-family:'Inter',sans-serif; cursor:pointer; transition:background .15s; letter-spacing:-.01em; }
+.calc-btn:hover{ background:var(--accent-dark); }
+
+/* RESULTADO */
+#resultado{ display:none; margin-top:24px; }
+
+.total-destaque{ text-align:center; padding:24px; background:linear-gradient(135deg,#f5f3ff,#ede9fe); border:1.5px solid #c4b5fd; border-radius:14px; margin-bottom:20px; }
+.total-label{ font-size:12px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px; }
+.total-valor{ font-size:44px; font-weight:800; color:var(--accent-dark); font-family:'JetBrains Mono',monospace; letter-spacing:-.03em; line-height:1; margin-bottom:6px; }
+.total-sub{ font-size:13px; color:#6d28d9; opacity:.8; }
+
+.result-row{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:14px; gap:10px; }
+.result-row:last-child{ border-bottom:none; }
+.result-name{ color:var(--text); display:flex; align-items:center; gap:8px; flex:1; }
+.result-horas{ font-size:13px; color:var(--muted); white-space:nowrap; }
+.result-val{ font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:700; color:var(--accent-dark); white-space:nowrap; }
+
+.aviso-fiscal{ background:var(--orange-bg); border:1px solid #fed7aa; border-radius:10px; padding:14px; font-size:13px; color:#9a3412; margin-top:16px; line-height:1.6; }
+.aviso-fiscal strong{ color:#7c2d12; }
+
+/* LATERAL: INFO BOXES */
+.info-box{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:16px; }
+.info-box-title{ font-size:13px; font-weight:700; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+.info-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:13px; }
+.info-item:last-child{ border-bottom:none; }
+.info-dot{ width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.info-label{ font-weight:600; color:var(--text); margin-bottom:2px; }
+.info-sub{ color:var(--muted); font-size:12px; }
+
+.banco-horas-box{ background:var(--blue-bg); border:1px solid #bfdbfe; border-radius:12px; padding:16px; font-size:13px; color:#1e40af; line-height:1.6; }
+.banco-horas-box strong{ color:#1e3a8a; }
+
+/* FAQ */
+.faq-section{ background:#fff; border-top:1px solid var(--border); padding:56px 20px 72px; }
+.faq-wrap{ max-width:760px; margin:0 auto; }
+.faq-title{ font-size:22px; font-weight:700; letter-spacing:-.02em; margin-bottom:28px; color:var(--text); }
+.faq-item{ margin-bottom:18px; border-bottom:1px solid var(--border); padding-bottom:18px; }
+.faq-item:last-child{ border-bottom:none; }
+.faq-item h3{ font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px; }
+.faq-item p{ font-size:14px; color:var(--muted); line-height:1.7; }
+
+footer{ background:var(--text); color:rgba(255,255,255,.5); text-align:center; padding:28px 24px; font-size:13px; line-height:1.7; }
+footer strong{ color:#fff; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="nav-back">← Todas as calculadoras</a>
+    <a href="/" class="nav-logo">MeuCalculo<span>Certo</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-chip">⏰ CLT atualizada 2026</div>
+  <h1>Calculadora de Horas Extras</h1>
+  <p class="hero-sub">Calcule o valor exato das suas horas extras — dias úteis, domingos, feriados e adicional noturno.</p>
+</div>
+
+<div class="main-wrap">
+
+  <!-- COLUNA ESQUERDA -->
+  <div>
+    <div class="card">
+      <div class="card-title"><span class="num">1</span> Seu salário e jornada</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Salário bruto mensal (R$)</label>
+          <input type="number" id="salario" placeholder="Ex: 3500" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label>Carga horária mensal (h)</label>
+          <select id="cargaHoraria">
+            <option value="220">220h — 44h/semana</option>
+            <option value="200">200h — 40h/semana</option>
+            <option value="180">180h — 36h/semana</option>
+            <option value="160">160h — 32h/semana</option>
+            <option value="120">120h — 24h/semana</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>Convenção coletiva prevê percentual maior?</label>
+        <select id="convencao">
+          <option value="0">Não — usar mínimo legal (50% e 100%)</option>
+          <option value="1">Sim — informar percentual abaixo</option>
+        </select>
+      </div>
+      <div id="campoConvencao" style="display:none; margin-top:12px;">
+        <div class="field-row">
+          <div class="field" style="margin-bottom:0;">
+            <label>% hora extra (dias úteis)</label>
+            <input type="number" id="pctUtil" value="50" min="50" max="200">
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>% hora extra (domingo/feriado)</label>
+            <input type="number" id="pctDom" value="100" min="100" max="200">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="num">2</span> Horas extras do mês</div>
+      <table class="extras-table">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Adicional</th>
+            <th style="text-align:center;">Horas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tipo-badge badge-50">📅 Dias úteis</span></td>
+            <td><span class="pct-label">50%</span></td>
+            <td style="text-align:center;"><input type="number" id="h50" value="0" min="0" step="0.5"></td>
+          </tr>
+          <tr>
+            <td><span class="tipo-badge badge-100">☀️ Domingo/Feriado</span></td>
+            <td><span class="pct-label">100%</span></td>
+            <td style="text-align:center;"><input type="number" id="h100" value="0" min="0" step="0.5"></td>
+          </tr>
+          <tr>
+            <td><span class="tipo-badge badge-noturno">🌙 Noturno (22h–5h)</span></td>
+            <td><span class="pct-label">50%+20%</span></td>
+            <td style="text-align:center;"><input type="number" id="hNoturno" value="0" min="0" step="0.5"></td>
+          </tr>
+          <tr>
+            <td><span class="tipo-badge badge-acordo">🤝 Banco de horas</span></td>
+            <td><span class="pct-label">—</span></td>
+            <td style="text-align:center;"><input type="number" id="hBanco" value="0" min="0" step="0.5"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="field-hint" style="margin-top:8px;">💡 Adicional noturno: hora extra trabalhada entre 22h e 5h tem adicional de 50% + 20% noturno = 70% sobre a hora normal.</div>
+    </div>
+
+    <button class="calc-btn" onclick="calcular()">Calcular horas extras →</button>
+
+    <!-- RESULTADO -->
+    <div id="resultado">
+      <div class="total-destaque">
+        <div class="total-label">⏰ Total a receber</div>
+        <div class="total-valor" id="totalValor">R$ 0,00</div>
+        <div class="total-sub" id="totalSub"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="num">📊</span> Detalhamento por tipo</div>
+        <div id="resultRows"></div>
+        <div style="padding:14px; background:var(--accent-light); border-radius:8px; margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:14px; font-weight:700;">Valor hora normal</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--accent);" id="valorHoraNormal"></span>
+        </div>
+        <div class="aviso-fiscal">
+          <strong>⚠️ Imposto de Renda:</strong> as horas extras integram o salário bruto e sofrem desconto de INSS e IRRF normalmente. O valor calculado é o <strong>bruto das extras</strong> — o líquido será um pouco menor após os descontos.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA DIREITA -->
+  <div>
+    <div class="info-box">
+      <div class="info-box-title">⚖️ Regras CLT 2026</div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#fef9c3;">📅</div>
+        <div><div class="info-label">Dias úteis</div><div class="info-sub">Mínimo 50% sobre hora normal. Convenção pode prever mais.</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#fce7f3;">☀️</div>
+        <div><div class="info-label">Domingos e feriados</div><div class="info-sub">Mínimo 100% — dobra o valor da hora normal.</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#ede9fe;">🌙</div>
+        <div><div class="info-label">Adicional noturno</div><div class="info-sub">+20% sobre hora diurna. Se for hora extra noturna: 50% + 20% = 70%.</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#d1fae5;">⏱️</div>
+        <div><div class="info-label">Limite diário</div><div class="info-sub">Máximo de 2 horas extras por dia, salvo acordo coletivo.</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#fee2e2;">🔴</div>
+        <div><div class="info-label">Habitual = incorpora</div><div class="info-sub">Horas extras habituais integram o salário para férias, 13º e FGTS.</div></div>
+      </div>
+    </div>
+
+    <div class="banco-horas-box">
+      <strong>🏦 Banco de horas</strong><br><br>
+      No regime de banco de horas, as horas extras não são pagas imediatamente — são compensadas com folgas. O prazo máximo para compensação é <strong>6 meses</strong> (acordo individual) ou <strong>1 ano</strong> (acordo coletivo). Se não compensadas no prazo, devem ser pagas com adicional de 50%.
+    </div>
+  </div>
+
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-wrap">
+    <div class="faq-title">Perguntas frequentes</div>
+    <div class="faq-item">
+      <h3>Qual o percentual mínimo de hora extra em dias úteis?</h3>
+      <p>A CLT garante no mínimo 50% sobre o valor da hora normal. Mas convenções coletivas da categoria podem prever percentuais maiores — como 60%, 70% ou até 100%. Verifique o acordo coletivo da sua categoria.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Como calcular o valor da hora normal?</h3>
+      <p>Divida o salário bruto mensal pela carga horária mensal. Para quem trabalha 44h semanais, a carga mensal é de 220 horas. Exemplo: R$ 3.300 ÷ 220h = R$ 15,00 por hora normal.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Hora extra em domingo vale 100% sempre?</h3>
+      <p>Sim, desde que o domingo não seja o dia de folga semanal do trabalhador. Se o funcionário tem folga às quartas e trabalha no domingo normalmente, esse domingo é um dia útil para ele — valem as regras de dias úteis (50%).</p>
+    </div>
+    <div class="faq-item">
+      <h3>Horas extras habituais entram no 13º e férias?</h3>
+      <p>Sim. Se as horas extras são prestadas com habitualidade, elas integram a remuneração do trabalhador para todos os efeitos — férias, 13º salário, FGTS e até aposentadoria. O empregador não pode simplesmente parar de pagar sem consequências.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Posso recusar fazer hora extra?</h3>
+      <p>Em regra sim — a hora extra é voluntária e precisa de acordo entre empregado e empregador. Exceção: em caso de necessidade imperiosa, como evitar prejuízo ou acidente, o empregado pode ser obrigado a fazer até 4 horas extras por dia, conforme o artigo 61 da CLT.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>MeuCalculoCerto.com.br</strong><br>
+  Calculadora de Horas Extras CLT 2026 — valores estimados para fins educativos.<br>
+  Consulte o RH ou um advogado trabalhista para cálculos oficiais.<br>
+  <span style="font-size:12px;opacity:.6;">© 2026 MeuCalculoCerto</span>
+</footer>
+
+<script>
+document.getElementById('convencao').addEventListener('change', function(){
+  document.getElementById('campoConvencao').style.display = this.value==='1' ? 'block' : 'none';
+});
+
+function fmt(v){
+  return 'R$ ' + v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+}
+
+function calcular(){
+  const salario = parseFloat(document.getElementById('salario').value) || 0;
+  if(salario <= 0){ alert('Digite seu salário bruto para calcular.'); return; }
+
+  const carga = parseInt(document.getElementById('cargaHoraria').value) || 220;
+  const convencao = document.getElementById('convencao').value === '1';
+  const pct50 = convencao ? (parseFloat(document.getElementById('pctUtil').value)||50)/100 : 0.50;
+  const pct100 = convencao ? (parseFloat(document.getElementById('pctDom').value)||100)/100 : 1.00;
+
+  const h50 = parseFloat(document.getElementById('h50').value) || 0;
+  const h100 = parseFloat(document.getElementById('h100').value) || 0;
+  const hNoturno = parseFloat(document.getElementById('hNoturno').value) || 0;
+  const hBanco = parseFloat(document.getElementById('hBanco').value) || 0;
+
+  const valorHora = salario / carga;
+  const val50 = h50 * valorHora * (1 + pct50);
+  const val100 = h100 * valorHora * (1 + pct100);
+  const valNoturno = hNoturno * valorHora * (1 + 0.50 + 0.20); // 50% extra + 20% noturno
+  const total = val50 + val100 + valNoturno;
+  const totalHoras = h50 + h100 + hNoturno + hBanco;
+
+  document.getElementById('totalValor').textContent = fmt(total);
+  document.getElementById('totalSub').textContent =
+    `${totalHoras.toFixed(1).replace('.',',')}h extras · hora normal = ${fmt(valorHora)}`;
+  document.getElementById('valorHoraNormal').textContent = fmt(valorHora);
+
+  let html = '';
+
+  if(h50 > 0){
+    html += `<div class="result-row">
+      <span class="result-name"><span style="background:#fef9c3;color:#a16207;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;">📅 Dias úteis (${Math.round(pct50*100)}%)</span></span>
+      <span class="result-horas">${h50.toFixed(1).replace('.',',')}h</span>
+      <span class="result-val">${fmt(val50)}</span>
+    </div>`;
+  }
+  if(h100 > 0){
+    html += `<div class="result-row">
+      <span class="result-name"><span style="background:#fce7f3;color:#9d174d;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;">☀️ Dom/Feriado (${Math.round(pct100*100)}%)</span></span>
+      <span class="result-horas">${h100.toFixed(1).replace('.',',')}h</span>
+      <span class="result-val">${fmt(val100)}</span>
+    </div>`;
+  }
+  if(hNoturno > 0){
+    html += `<div class="result-row">
+      <span class="result-name"><span style="background:#ede9fe;color:#6d28d9;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;">🌙 Noturno (70%)</span></span>
+      <span class="result-horas">${hNoturno.toFixed(1).replace('.',',')}h</span>
+      <span class="result-val">${fmt(valNoturno)}</span>
+    </div>`;
+  }
+  if(hBanco > 0){
+    html += `<div class="result-row">
+      <span class="result-name"><span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;">🤝 Banco de horas</span></span>
+      <span class="result-horas">${hBanco.toFixed(1).replace('.',',')}h</span>
+      <span class="result-val" style="color:var(--muted);">Compensar</span>
+    </div>`;
+  }
+  if(html === ''){
+    html = '<div style="text-align:center;color:var(--muted);padding:20px;font-size:14px;">Nenhuma hora extra informada.</div>';
+  }
+
+  document.getElementById('resultRows').innerHTML = html;
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>

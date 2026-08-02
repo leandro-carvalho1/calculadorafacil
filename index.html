@@ -357,7 +357,7 @@ footer strong{color:#fff;}
 
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Ferramentas disponíveis</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Ferramentas disponíveis</div></div>
     <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Gratuito</div></div>
     <div class="stat"><div class="stat-num">2026</div><div class="stat-label">Tabelas atualizadas</div></div>
     <div class="stat"><div class="stat-num">0</div><div class="stat-label">Cadastros necessários</div></div>
@@ -379,7 +379,7 @@ footer strong{color:#fff;}
 
   <div class="section-header">
     <span class="section-title">Ferramentas disponíveis</span>
-    <span class="section-count" id="countLabel">3 ferramentas</span>
+    <span class="section-count" id="countLabel">5 ferramentas</span>
   </div>
 
   <div class="tools-grid" id="toolsGrid">
@@ -444,15 +444,15 @@ footer strong{color:#fff;}
       </div>
     </a>
 
-    <!-- EM BREVE: QR CODE PIX -->
-    <div class="tool-card coming" data-cat="financas" data-name="qr code pix gerador cobrar">
+    <!-- QR CODE PIX -->
+    <a href="/gerador-qrcode-pix.html" class="tool-card" data-cat="financas" data-name="qr code pix gerador cobrar chave cpf cnpj email telefone">
       <div class="tool-card-top">
-        <div class="tool-icon" style="background:#f3f4f6;">📱</div>
-        <span class="tool-badge badge-soon">Em breve</span>
+        <div class="tool-icon" style="background:#ecfdf5;">📱</div>
+        <span class="tool-badge badge-novo">🆕 Novo</span>
       </div>
       <div>
         <div class="tool-name">Gerador de QR Code PIX</div>
-        <div class="tool-desc">Crie QR codes para cobranças via PIX na hora. Funciona para pessoa física e jurídica.</div>
+        <div class="tool-desc">Crie QR codes para cobranças via PIX na hora. Funciona para CPF, CNPJ, e-mail e telefone. Sem cadastro.</div>
       </div>
       <div class="tool-footer">
         <div class="tool-tags">
@@ -460,28 +460,29 @@ footer strong{color:#fff;}
           <span class="tool-tag">PIX</span>
           <span class="tool-tag">QR Code</span>
         </div>
-        <span class="tool-cta" style="color:var(--muted);">Em breve</span>
+        <span class="tool-cta">Gerar →</span>
       </div>
-    </div>
+    </a>
 
-    <!-- EM BREVE: HORAS EXTRAS -->
-    <div class="tool-card coming" data-cat="trabalho" data-name="horas extras clt calcular valor">
+    <!-- HORAS EXTRAS -->
+    <a href="/calculadora-horas-extras.html" class="tool-card" data-cat="trabalho" data-name="horas extras clt calcular valor domingo feriado noturno banco de horas">
       <div class="tool-card-top">
-        <div class="tool-icon" style="background:#f3f4f6;">⏰</div>
-        <span class="tool-badge badge-soon">Em breve</span>
+        <div class="tool-icon" style="background:#f5f3ff;">⏰</div>
+        <span class="tool-badge badge-novo">🆕 Novo</span>
       </div>
       <div>
         <div class="tool-name">Calculadora de Horas Extras</div>
-        <div class="tool-desc">Calcule o valor das suas horas extras com os percentuais corretos da CLT (50% dias úteis, 100% domingos).</div>
+        <div class="tool-desc">Calcule o valor das suas horas extras com os percentuais corretos da CLT (50% dias úteis, 100% domingos e feriados).</div>
       </div>
       <div class="tool-footer">
         <div class="tool-tags">
           <span class="tool-tag">💼 Trabalho</span>
           <span class="tool-tag">CLT</span>
+          <span class="tool-tag">Noturno</span>
         </div>
-        <span class="tool-cta" style="color:var(--muted);">Em breve</span>
+        <span class="tool-cta">Calcular →</span>
       </div>
-    </div>
+    </a>
 
     <!-- EM BREVE: FINANCIAMENTO -->
     <div class="tool-card coming" data-cat="financas" data-name="financiamento imóvel carro simulador parcela juros">
@@ -541,7 +542,7 @@ function renderizar(){
     card.style.display = mostrar ? '' : 'none';
     if(mostrar && !card.classList.contains('coming')) visiveis++;
   });
-  const total = catAtiva==='todas' && busca==='' ? 3 : visiveis;
+  const total = catAtiva==='todas' && busca==='' ? 5 : visiveis;
   document.getElementById('countLabel').textContent = total + ' ferramenta' + (total!==1?'s':'');
 }
 </script>

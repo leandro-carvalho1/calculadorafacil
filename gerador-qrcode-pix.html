@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de QR Code PIX Grátis 2026 — Crie seu QR Code PIX em Segundos</title>
+<meta name="description" content="Gere QR Code PIX grátis para cobranças. Funciona para CPF, CNPJ, e-mail e telefone. Sem cadastro, sem aplicativo — direto no navegador.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Gerador de QR Code PIX",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:#f0fdf4;
+  --surface:#fff;
+  --border:#d1fae5;
+  --border-gray:#e5e7eb;
+  --text:#111827;
+  --muted:#6b7280;
+  --accent:#059669;
+  --accent-dark:#047857;
+  --accent-light:#ecfdf5;
+  --accent-2:#10b981;
+  --blue:#2563eb;
+  --yellow:#d97706;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+.site-nav{ background:#fff; border-bottom:1px solid var(--border-gray); padding:0 20px; position:sticky; top:0; z-index:200; }
+.site-nav-inner{ max-width:960px; margin:0 auto; height:50px; display:flex; align-items:center; justify-content:space-between; }
+.nav-back{ display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; }
+.nav-back:hover{ opacity:.75; }
+.nav-logo{ font-size:14px; font-weight:700; color:var(--text); text-decoration:none; }
+.nav-logo span{ color:var(--accent); }
+
+.hero{
+  background:linear-gradient(135deg,#064e3b 0%,#059669 100%);
+  padding:52px 20px 48px;
+  text-align:center;
+  color:#fff;
+}
+.hero-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2);
+  border-radius:20px; padding:5px 14px;
+  font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+  margin-bottom:18px;
+}
+.hero h1{ font-size:clamp(26px,5vw,44px); font-weight:800; letter-spacing:-.03em; margin-bottom:12px; line-height:1.1; }
+.hero-sub{ font-size:16px; opacity:.8; max-width:460px; margin:0 auto; line-height:1.6; }
+
+.main-wrap{ max-width:960px; margin:0 auto; padding:40px 20px 80px; display:grid; grid-template-columns:1fr 340px; gap:24px; align-items:start; }
+@media(max-width:720px){ .main-wrap{ grid-template-columns:1fr; } }
+
+.card{ background:var(--surface); border:1px solid var(--border-gray); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.card:last-child{ margin-bottom:0; }
+.card-title{ font-size:15px; font-weight:700; color:var(--text); margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+.card-title .num{ background:var(--accent-light); color:var(--accent); width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; font-weight:700; }
+
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px; }
+.field input, .field select{ width:100%; border:1.5px solid var(--border-gray); border-radius:9px; padding:11px 13px; font-size:15px; font-family:'Inter',sans-serif; color:var(--text); background:#fff; outline:none; transition:border-color .15s; }
+.field input:focus, .field select:focus{ border-color:var(--accent); }
+.field-hint{ font-size:11px; color:var(--muted); margin-top:4px; }
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:480px){ .field-row{ grid-template-columns:1fr; } }
+
+/* TIPO KEY */
+.tipo-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:4px; }
+@media(max-width:480px){ .tipo-grid{ grid-template-columns:repeat(2,1fr); } }
+.tipo-btn{ border:1.5px solid var(--border-gray); border-radius:9px; padding:10px 8px; text-align:center; cursor:pointer; transition:all .15s; background:#fff; font-family:'Inter',sans-serif; }
+.tipo-btn:hover{ border-color:var(--accent); }
+.tipo-btn.active{ border-color:var(--accent); background:var(--accent-light); }
+.tipo-btn .tipo-icon{ font-size:20px; display:block; margin-bottom:4px; }
+.tipo-btn .tipo-label{ font-size:11px; font-weight:600; color:var(--muted); }
+.tipo-btn.active .tipo-label{ color:var(--accent); }
+
+.gerar-btn{ width:100%; background:var(--accent); color:#fff; border:none; border-radius:10px; padding:15px; font-size:15px; font-weight:700; font-family:'Inter',sans-serif; cursor:pointer; transition:background .15s; letter-spacing:-.01em; }
+.gerar-btn:hover{ background:var(--accent-dark); }
+
+/* QR RESULT */
+#qrResult{ display:none; }
+.qr-card{ background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:28px; text-align:center; box-shadow:0 4px 20px rgba(5,150,105,.1); }
+.qr-title{ font-size:16px; font-weight:700; color:var(--accent); margin-bottom:6px; }
+.qr-sub{ font-size:13px; color:var(--muted); margin-bottom:20px; }
+#qrCanvas{ border-radius:12px; border:3px solid var(--accent-light); }
+.qr-valor{ font-size:24px; font-weight:800; color:var(--accent); font-family:'JetBrains Mono',monospace; margin:14px 0 6px; }
+.qr-nome{ font-size:14px; color:var(--muted); margin-bottom:16px; }
+
+.btn-group{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.btn-download{ background:var(--accent); color:#fff; border:none; border-radius:8px; padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; gap:6px; transition:background .15s; }
+.btn-download:hover{ background:var(--accent-dark); }
+.btn-copy{ background:#fff; color:var(--accent); border:1.5px solid var(--accent); border-radius:8px; padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; gap:6px; transition:all .15s; }
+.btn-copy:hover{ background:var(--accent-light); }
+
+.pix-copia-cola{ margin-top:16px; background:var(--accent-light); border:1px solid var(--border); border-radius:9px; padding:12px 14px; }
+.pix-cc-label{ font-size:11px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+.pix-cc-code{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text); word-break:break-all; line-height:1.6; }
+
+/* LATERAL */
+.info-box{ background:var(--surface); border:1px solid var(--border-gray); border-radius:12px; padding:18px; margin-bottom:16px; }
+.info-box-title{ font-size:13px; font-weight:700; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+.info-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border-gray); font-size:13px; }
+.info-item:last-child{ border-bottom:none; }
+.info-dot{ width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.info-label{ font-weight:600; color:var(--text); margin-bottom:2px; font-size:13px; }
+.info-sub{ color:var(--muted); font-size:12px; line-height:1.5; }
+
+.seguranca-box{ background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:16px; font-size:13px; color:#92400e; line-height:1.6; }
+.seguranca-box strong{ color:#78350f; }
+
+.faq-section{ background:#fff; border-top:1px solid var(--border-gray); padding:56px 20px 72px; }
+.faq-wrap{ max-width:760px; margin:0 auto; }
+.faq-title{ font-size:22px; font-weight:700; letter-spacing:-.02em; margin-bottom:28px; }
+.faq-item{ margin-bottom:18px; border-bottom:1px solid var(--border-gray); padding-bottom:18px; }
+.faq-item:last-child{ border-bottom:none; }
+.faq-item h3{ font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px; }
+.faq-item p{ font-size:14px; color:var(--muted); line-height:1.7; }
+
+footer{ background:var(--text); color:rgba(255,255,255,.5); text-align:center; padding:28px 24px; font-size:13px; line-height:1.7; }
+footer strong{ color:#fff; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="nav-back">← Todas as calculadoras</a>
+    <a href="/" class="nav-logo">MeuCalculo<span>Certo</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-chip">💚 100% gratuito e sem cadastro</div>
+  <h1>Gerador de QR Code PIX</h1>
+  <p class="hero-sub">Crie seu QR Code PIX em segundos para cobranças e transferências. Funciona direto no navegador — sem app, sem cadastro.</p>
+</div>
+
+<div class="main-wrap">
+  <div>
+    <div class="card">
+      <div class="card-title"><span class="num">1</span> Tipo de chave PIX</div>
+      <div class="tipo-grid">
+        <button class="tipo-btn active" onclick="setTipo(this,'cpf')">
+          <span class="tipo-icon">🪪</span>
+          <span class="tipo-label">CPF</span>
+        </button>
+        <button class="tipo-btn" onclick="setTipo(this,'cnpj')">
+          <span class="tipo-icon">🏢</span>
+          <span class="tipo-label">CNPJ</span>
+        </button>
+        <button class="tipo-btn" onclick="setTipo(this,'email')">
+          <span class="tipo-icon">📧</span>
+          <span class="tipo-label">E-mail</span>
+        </button>
+        <button class="tipo-btn" onclick="setTipo(this,'telefone')">
+          <span class="tipo-icon">📱</span>
+          <span class="tipo-label">Telefone</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="num">2</span> Dados da cobrança</div>
+
+      <div class="field">
+        <label id="labelChave">Chave PIX (CPF)</label>
+        <input type="text" id="chave" placeholder="Ex: 123.456.789-00" maxlength="50">
+        <div class="field-hint" id="hintChave">Digite somente números (sem pontos ou traços)</div>
+      </div>
+
+      <div class="field">
+        <label>Nome do recebedor</label>
+        <input type="text" id="nome" placeholder="Ex: João Silva" maxlength="25">
+        <div class="field-hint">Até 25 caracteres, sem acentos</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="cidade" placeholder="Ex: Sao Paulo" maxlength="15">
+          <div class="field-hint">Sem acentos</div>
+        </div>
+        <div class="field">
+          <label>Valor (R$) — opcional</label>
+          <input type="number" id="valor" placeholder="Deixe vazio p/ valor livre" min="0" step="0.01">
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:0;">
+        <label>Descrição — opcional</label>
+        <input type="text" id="descricao" placeholder="Ex: Pagamento servico" maxlength="30">
+        <div class="field-hint">Sem acentos, até 30 caracteres</div>
+      </div>
+    </div>
+
+    <button class="gerar-btn" onclick="gerarQR()">🔲 Gerar QR Code PIX</button>
+
+    <div id="qrResult" style="margin-top:24px;">
+      <div class="qr-card">
+        <div class="qr-title">✅ QR Code PIX gerado!</div>
+        <div class="qr-sub" id="qrSubtitle">Pronto para compartilhar ou imprimir</div>
+        <canvas id="qrCanvas" width="220" height="220"></canvas>
+        <div class="qr-valor" id="qrValorShow"></div>
+        <div class="qr-nome" id="qrNomeShow"></div>
+        <div class="btn-group">
+          <button class="btn-download" onclick="baixarQR()">⬇️ Baixar PNG</button>
+          <button class="btn-copy" onclick="copiarCodigo()">📋 Copiar código</button>
+        </div>
+        <div class="pix-copia-cola">
+          <div class="pix-cc-label">📋 PIX Copia e Cola</div>
+          <div class="pix-cc-code" id="pixCopiaCola"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LATERAL -->
+  <div>
+    <div class="info-box">
+      <div class="info-box-title">💡 Tipos de chave PIX</div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#ecfdf5;">🪪</div>
+        <div><div class="info-label">CPF / CNPJ</div><div class="info-sub">Mais comum. Use apenas números, sem pontuação.</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#eff6ff;">📧</div>
+        <div><div class="info-label">E-mail</div><div class="info-sub">Digite o e-mail completo cadastrado no PIX.</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#fdf4ff;">📱</div>
+        <div><div class="info-label">Telefone</div><div class="info-sub">Com DDD, sem espaços. Ex: 11999998888</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#fff7ed;">🔑</div>
+        <div><div class="info-label">Chave aleatória</div><div class="info-sub">Cole a chave gerada pelo seu banco no campo CPF.</div></div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-title">✅ Como usar o QR Code</div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#ecfdf5;">1️⃣</div>
+        <div><div class="info-label">Gere o QR Code</div><div class="info-sub">Preencha os dados e clique em "Gerar QR Code PIX".</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#ecfdf5;">2️⃣</div>
+        <div><div class="info-label">Baixe ou compartilhe</div><div class="info-sub">Salve o PNG ou copie o código Copia e Cola.</div></div>
+      </div>
+      <div class="info-item">
+        <div class="info-dot" style="background:#ecfdf5;">3️⃣</div>
+        <div><div class="info-label">Receba o pagamento</div><div class="info-sub">O pagador escaneia com o app do banco e confirma.</div></div>
+      </div>
+    </div>
+
+    <div class="seguranca-box">
+      <strong>🔒 Seus dados ficam no seu dispositivo</strong><br><br>
+      O QR Code é gerado 100% no seu navegador. Nenhum dado é enviado para nossos servidores. Não armazenamos sua chave PIX, CPF ou qualquer informação pessoal.
+    </div>
+  </div>
+</div>
+
+<section class="faq-section">
+  <div class="faq-wrap">
+    <div class="faq-title">Perguntas frequentes</div>
+    <div class="faq-item">
+      <h3>O QR Code PIX gerado aqui é seguro?</h3>
+      <p>Sim. O QR Code é gerado inteiramente no seu navegador usando o padrão oficial do Banco Central (BR Code). Nenhum dado é enviado para servidores externos. Você pode verificar isso observando que o QR Code aparece mesmo sem conexão com a internet após carregado.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Qual a diferença entre QR Code com e sem valor?</h3>
+      <p>QR Code sem valor definido permite que o pagador digite o valor que quiser — ideal para cobranças variáveis. QR Code com valor fixo já vem preenchido com o montante, facilitando pagamentos de valor específico como produtos ou serviços com preço definido.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Posso usar esse QR Code para cobrar clientes?</h3>
+      <p>Sim, desde que a chave PIX seja válida e esteja cadastrada no seu banco. O QR Code segue o padrão EMV do Banco Central e é aceito por todos os bancos e fintechs que operam o PIX no Brasil.</p>
+    </div>
+    <div class="faq-item">
+      <h3>O QR Code tem prazo de validade?</h3>
+      <p>QR Codes estáticos (gerados aqui) não têm prazo de validade — funcionam indefinidamente enquanto a chave PIX estiver ativa. QR Codes dinâmicos (gerados pelos bancos com data de vencimento) são diferentes e precisam ser gerados pelo sistema bancário.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Como faço para colocar o QR Code no meu site ou cartão?</h3>
+      <p>Clique em "Baixar PNG" para salvar a imagem. Você pode inserir essa imagem em qualquer material — site, cardápio, cartão de visita, banner ou nota fiscal. Basta usar o arquivo PNG como uma imagem comum.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>MeuCalculoCerto.com.br</strong><br>
+  Gerador de QR Code PIX gratuito — padrão BR Code do Banco Central.<br>
+  Dados processados localmente. Nenhuma informação é armazenada.<br>
+  <span style="font-size:12px;opacity:.6;">© 2026 MeuCalculoCerto</span>
+</footer>
+
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+let tipoAtual = 'cpf';
+let pixPayload = '';
+
+function setTipo(btn, tipo){
+  tipoAtual = tipo;
+  document.querySelectorAll('.tipo-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = { cpf:'Chave PIX (CPF)', cnpj:'Chave PIX (CNPJ)', email:'Chave PIX (E-mail)', telefone:'Chave PIX (Telefone)' };
+  const hints = { cpf:'Somente números, sem pontos ou traços', cnpj:'Somente números, 14 dígitos', email:'Digite o e-mail completo cadastrado no PIX', telefone:'Com DDD, somente números. Ex: 11999998888' };
+  const placeholders = { cpf:'Ex: 12345678900', cnpj:'Ex: 12345678000195', email:'Ex: seuemail@gmail.com', telefone:'Ex: 11999998888' };
+  document.getElementById('labelChave').textContent = labels[tipo];
+  document.getElementById('hintChave').textContent = hints[tipo];
+  document.getElementById('chave').placeholder = placeholders[tipo];
+  document.getElementById('chave').value = '';
+}
+
+function limparTexto(str){
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9 ]/g,'').substring(0,25);
+}
+
+function calcCRC16(str){
+  let crc = 0xFFFF;
+  for(let i=0;i<str.length;i++){
+    crc ^= str.charCodeAt(i) << 8;
+    for(let j=0;j<8;j++){
+      if(crc & 0x8000) crc = (crc << 1) ^ 0x1021;
+      else crc <<= 1;
+      crc &= 0xFFFF;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4,'0');
+}
+
+function buildTLV(id, value){
+  return id + value.length.toString().padStart(2,'0') + value;
+}
+
+function buildPixPayload(chave, nome, cidade, valor, descricao){
+  const nomeClean = limparTexto(nome).substring(0,25) || 'RECEBEDOR';
+  const cidadeClean = limparTexto(cidade).substring(0,15) || 'BRASIL';
+  const descClean = descricao ? limparTexto(descricao).substring(0,30) : '';
+
+  const pixKey = buildTLV('01', chave);
+  const addInfo = descClean ? buildTLV('02', descClean) : '';
+  const merchantAccount = buildTLV('00','BR.GOV.BCB.PIX') + pixKey + (addInfo ? buildTLV('05', addInfo) : '');
+
+  let payload = '';
+  payload += buildTLV('00','01');
+  payload += buildTLV('26', merchantAccount);
+  payload += buildTLV('52','0000');
+  payload += buildTLV('53','986');
+  if(valor && parseFloat(valor) > 0){
+    payload += buildTLV('54', parseFloat(valor).toFixed(2));
+  }
+  payload += buildTLV('58','BR');
+  payload += buildTLV('59', nomeClean);
+  payload += buildTLV('60', cidadeClean);
+  payload += buildTLV('62', buildTLV('05', '***'));
+  payload += '6304';
+  payload += calcCRC16(payload);
+  return payload;
+}
+
+function gerarQR(){
+  const chave = document.getElementById('chave').value.trim();
+  const nome = document.getElementById('nome').value.trim();
+  const cidade = document.getElementById('cidade').value.trim();
+  const valor = document.getElementById('valor').value;
+  const descricao = document.getElementById('descricao').value.trim();
+
+  if(!chave){ alert('Digite a chave PIX para gerar o QR Code.'); return; }
+  if(!nome){ alert('Digite o nome do recebedor.'); return; }
+  if(!cidade){ alert('Digite a cidade.'); return; }
+
+  pixPayload = buildPixPayload(chave, nome, cidade, valor, descricao);
+
+  // Renderiza QR no canvas
+  const canvas = document.getElementById('qrCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,220,220);
+
+  // Usa QRCode.js para gerar
+  const tempDiv = document.createElement('div');
+  new QRCode(tempDiv, {
+    text: pixPayload,
+    width: 220,
+    height: 220,
+    colorDark:'#064e3b',
+    colorLight:'#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  setTimeout(()=>{
+    const img = tempDiv.querySelector('img') || tempDiv.querySelector('canvas');
+    if(img && img.tagName === 'CANVAS'){
+      ctx.drawImage(img, 0, 0, 220, 220);
+    } else if(img){
+      const i = new Image();
+      i.onload = ()=>{ ctx.drawImage(i,0,0,220,220); };
+      i.src = img.src;
+    }
+  }, 100);
+
+  // Info
+  document.getElementById('qrValorShow').textContent = valor && parseFloat(valor)>0
+    ? 'R$ ' + parseFloat(valor).toFixed(2).replace('.',',')
+    : 'Valor livre';
+  document.getElementById('qrNomeShow').textContent = nome + ' · ' + cidade;
+  document.getElementById('qrSubtitle').textContent = 'Chave ' + tipoAtual.toUpperCase() + ': ' + chave;
+  document.getElementById('pixCopiaCola').textContent = pixPayload;
+  document.getElementById('qrResult').style.display = 'block';
+  document.getElementById('qrResult').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function baixarQR(){
+  const canvas = document.getElementById('qrCanvas');
+  const link = document.createElement('a');
+  link.download = 'qrcode-pix.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function copiarCodigo(){
+  const code = document.getElementById('pixCopiaCola').textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    const btn = document.querySelector('.btn-copy');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ Copiado!';
+    btn.style.background = '#ecfdf5';
+    setTimeout(()=>{ btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
