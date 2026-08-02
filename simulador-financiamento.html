@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Financiamento 2026 — Imóvel e Veículo com Tabela Price e SAC</title>
+<meta name="description" content="Simule financiamento de imóvel ou veículo 2026. Calcule parcelas pela Tabela Price ou SAC, com juros, entrada e prazo personalizados. Gratuito.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Simulador de Financiamento 2026",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Qual a diferença entre Tabela Price e SAC?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Na Tabela Price as parcelas são fixas durante todo o financiamento. No SAC (Sistema de Amortização Constante) as parcelas começam maiores e vão diminuindo, pois a amortização é constante e os juros caem a cada mês." }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual sistema de amortização é melhor, Price ou SAC?",
+      "acceptedAnswer": { "@type": "Answer", "text": "O SAC é mais vantajoso no longo prazo pois você paga menos juros totais. A Tabela Price tem parcelas menores no início, facilitando o orçamento. Para financiamentos longos como imóveis, o SAC costuma ser mais econômico." }
+    }
+  ]
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:#f8fafc;
+  --surface:#fff;
+  --border:#e2e8f0;
+  --text:#0f172a;
+  --muted:#64748b;
+  --accent:#0369a1;
+  --accent-dark:#075985;
+  --accent-light:#f0f9ff;
+  --green:#059669;
+  --green-bg:#ecfdf5;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --orange:#ea580c;
+  --orange-bg:#fff7ed;
+  --shadow:0 1px 3px rgba(0,0,0,.07), 0 8px 24px rgba(3,105,161,.06);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+.site-nav{ background:#fff; border-bottom:1px solid var(--border); padding:0 20px; position:sticky; top:0; z-index:200; }
+.site-nav-inner{ max-width:1000px; margin:0 auto; height:50px; display:flex; align-items:center; justify-content:space-between; }
+.nav-back{ display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; }
+.nav-back:hover{ opacity:.75; }
+.nav-logo{ font-size:14px; font-weight:700; color:var(--text); text-decoration:none; }
+.nav-logo span{ color:var(--accent); }
+
+.hero{ background:linear-gradient(135deg,#0c4a6e 0%,#0369a1 100%); padding:52px 20px 48px; text-align:center; color:#fff; }
+.hero-chip{ display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2); border-radius:20px; padding:5px 14px; font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; margin-bottom:18px; }
+.hero h1{ font-size:clamp(26px,5vw,44px); font-weight:800; letter-spacing:-.03em; margin-bottom:12px; line-height:1.1; }
+.hero-sub{ font-size:16px; opacity:.8; max-width:480px; margin:0 auto; line-height:1.6; }
+
+.main-wrap{ max-width:1000px; margin:0 auto; padding:40px 20px 80px; }
+
+/* TIPO SELECTOR */
+.tipo-selector{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.tipo-card{ border:2px solid var(--border); border-radius:12px; padding:18px; cursor:pointer; transition:all .15s; background:var(--surface); display:flex; align-items:center; gap:14px; }
+.tipo-card:hover{ border-color:var(--accent); }
+.tipo-card.active{ border-color:var(--accent); background:var(--accent-light); }
+.tipo-icon{ font-size:32px; flex-shrink:0; }
+.tipo-name{ font-size:16px; font-weight:700; color:var(--text); }
+.tipo-sub{ font-size:12px; color:var(--muted); margin-top:2px; }
+
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+@media(max-width:700px){ .grid-2{ grid-template-columns:1fr; } }
+
+.card{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:var(--shadow); }
+.card-title{ font-size:15px; font-weight:700; color:var(--text); margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+.card-title .num{ background:var(--accent-light); color:var(--accent); width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; font-weight:700; }
+
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px; }
+.field input, .field select{ width:100%; border:1.5px solid var(--border); border-radius:9px; padding:11px 13px; font-size:15px; font-family:'Inter',sans-serif; color:var(--text); background:#fff; outline:none; transition:border-color .15s; }
+.field input:focus, .field select:focus{ border-color:var(--accent); }
+.field-hint{ font-size:11px; color:var(--muted); margin-top:4px; }
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:480px){ .field-row{ grid-template-columns:1fr; } }
+
+/* SISTEMA TABS */
+.sistema-tabs{ display:flex; gap:8px; margin-bottom:4px; }
+.sistema-tab{ flex:1; border:1.5px solid var(--border); border-radius:9px; padding:12px; text-align:center; cursor:pointer; transition:all .15s; background:#fff; font-family:'Inter',sans-serif; }
+.sistema-tab.active{ border-color:var(--accent); background:var(--accent-light); }
+.sistema-tab .tab-name{ font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+.sistema-tab.active .tab-name{ color:var(--accent); }
+.sistema-tab .tab-sub{ font-size:11px; color:var(--muted); }
+
+.calc-btn{ width:100%; background:var(--accent); color:#fff; border:none; border-radius:10px; padding:16px; font-size:15px; font-weight:700; font-family:'Inter',sans-serif; cursor:pointer; transition:background .15s; margin-top:4px; }
+.calc-btn:hover{ background:var(--accent-dark); }
+
+/* RESULTADO */
+#resultado{ display:none; margin-top:28px; }
+
+.resumo-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; margin-bottom:24px; }
+.resumo-card{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; text-align:center; }
+.resumo-card.destaque{ background:var(--accent-light); border-color:#bae6fd; }
+.resumo-icon{ font-size:24px; margin-bottom:6px; }
+.resumo-label{ font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px; }
+.resumo-val{ font-size:22px; font-weight:800; color:var(--text); font-family:'JetBrains Mono',monospace; letter-spacing:-.02em; }
+.resumo-card.destaque .resumo-val{ color:var(--accent); }
+.resumo-sub{ font-size:11px; color:var(--muted); margin-top:3px; }
+
+/* TABELA AMORTIZAÇÃO */
+.tabela-wrap{ overflow-x:auto; margin-top:8px; }
+.tabela-amort{ width:100%; border-collapse:collapse; font-size:13px; }
+.tabela-amort th{ text-align:right; padding:8px 10px; background:var(--accent-light); color:var(--accent); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.05em; border-bottom:2px solid #bae6fd; }
+.tabela-amort th:first-child{ text-align:center; }
+.tabela-amort td{ padding:8px 10px; text-align:right; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:12px; }
+.tabela-amort td:first-child{ text-align:center; font-family:'Inter',sans-serif; font-weight:600; color:var(--muted); }
+.tabela-amort tr:hover td{ background:#f8fafc; }
+.tabela-amort tr.total-row td{ background:var(--accent-light); font-weight:700; color:var(--accent); border-top:2px solid #bae6fd; }
+.td-parcela{ color:var(--accent-dark); font-weight:600; }
+.td-juros{ color:var(--red); }
+.td-amort{ color:var(--green); }
+.td-saldo{ color:var(--muted); }
+
+.ver-mais-btn{ width:100%; background:transparent; border:1.5px solid var(--border); border-radius:8px; padding:10px; font-size:13px; font-weight:600; color:var(--muted); cursor:pointer; margin-top:10px; transition:all .15s; font-family:'Inter',sans-serif; }
+.ver-mais-btn:hover{ border-color:var(--accent); color:var(--accent); }
+
+.comparativo{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px; }
+@media(max-width:500px){ .comparativo{ grid-template-columns:1fr; } }
+.comp-card{ border:1.5px solid var(--border); border-radius:12px; padding:18px; }
+.comp-card.melhor{ border-color:#86efac; background:var(--green-bg); }
+.comp-titulo{ font-size:14px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+.comp-item{ display:flex; justify-content:space-between; font-size:13px; padding:5px 0; border-bottom:1px solid rgba(0,0,0,.05); }
+.comp-item:last-child{ border-bottom:none; }
+.comp-item .cv{ font-family:'JetBrains Mono',monospace; font-weight:600; }
+
+.faq-section{ background:#fff; border-top:1px solid var(--border); padding:56px 20px 72px; }
+.faq-wrap{ max-width:760px; margin:0 auto; }
+.faq-title{ font-size:22px; font-weight:700; letter-spacing:-.02em; margin-bottom:28px; }
+.faq-item{ margin-bottom:18px; border-bottom:1px solid var(--border); padding-bottom:18px; }
+.faq-item:last-child{ border-bottom:none; }
+.faq-item h3{ font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px; }
+.faq-item p{ font-size:14px; color:var(--muted); line-height:1.7; }
+
+footer{ background:var(--text); color:rgba(255,255,255,.5); text-align:center; padding:28px 24px; font-size:13px; line-height:1.7; }
+footer strong{ color:#fff; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="nav-back">← Todas as calculadoras</a>
+    <a href="/" class="nav-logo">MeuCalculo<span>Certo</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-chip">🏦 Price e SAC — 2026</div>
+  <h1>Simulador de Financiamento</h1>
+  <p class="hero-sub">Simule parcelas de financiamento de imóvel ou veículo com Tabela Price ou SAC. Compare os dois sistemas e escolha o melhor.</p>
+</div>
+
+<div class="main-wrap">
+
+  <!-- TIPO -->
+  <div class="tipo-selector">
+    <div class="tipo-card active" onclick="setTipo(this,'imovel')">
+      <span class="tipo-icon">🏠</span>
+      <div><div class="tipo-name">Imóvel</div><div class="tipo-sub">Casa, apartamento, terreno</div></div>
+    </div>
+    <div class="tipo-card" onclick="setTipo(this,'veiculo')">
+      <span class="tipo-icon">🚗</span>
+      <div><div class="tipo-name">Veículo</div><div class="tipo-sub">Carro, moto, caminhão</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- ESQUERDA: FORMULÁRIO -->
+    <div>
+      <div class="card">
+        <div class="card-title"><span class="num">1</span> Valores do financiamento</div>
+
+        <div class="field">
+          <label id="labelBem">Valor do imóvel (R$)</label>
+          <input type="number" id="valorBem" placeholder="Ex: 350000" min="0" step="1000">
+        </div>
+
+        <div class="field">
+          <label>Valor da entrada (R$)</label>
+          <input type="number" id="entrada" placeholder="Ex: 70000" min="0" step="1000">
+          <div class="field-hint" id="hintEntrada">Mínimo recomendado: 20% para imóveis, 30% para veículos</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Prazo (meses)</label>
+            <input type="number" id="prazo" placeholder="Ex: 360" min="1" max="420">
+            <div class="field-hint" id="hintPrazo">Imóveis: até 420 meses · Veículos: até 60 meses</div>
+          </div>
+          <div class="field">
+            <label>Taxa de juros (% ao mês)</label>
+            <input type="number" id="taxa" placeholder="Ex: 0.99" min="0" step="0.01">
+            <div class="field-hint">Ex: 0.99% a.m. = ~12,5% a.a.</div>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:0;">
+          <label>Seguros e tarifas mensais (R$) — opcional</label>
+          <input type="number" id="seguros" placeholder="Ex: 120" min="0" step="1">
+          <div class="field-hint">MIP, DFI e outras tarifas bancárias cobradas mensalmente</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="num">2</span> Sistema de amortização</div>
+        <div class="sistema-tabs">
+          <div class="sistema-tab active" id="tabPrice" onclick="setSistema('price')">
+            <div class="tab-name">Tabela Price</div>
+            <div class="tab-sub">Parcelas fixas</div>
+          </div>
+          <div class="sistema-tab" id="tabSac" onclick="setSistema('sac')">
+            <div class="tab-name">SAC</div>
+            <div class="tab-sub">Parcelas decrescentes</div>
+          </div>
+          <div class="sistema-tab" id="tabAmbos" onclick="setSistema('ambos')">
+            <div class="tab-name">Comparar</div>
+            <div class="tab-sub">Price vs SAC</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcular()">Simular financiamento →</button>
+    </div>
+
+    <!-- DIREITA: INFO -->
+    <div>
+      <div class="card">
+        <div class="card-title"><span class="num">💡</span> Taxas de referência 2026</div>
+        <div style="font-size:13px;">
+          <div style="padding:10px 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
+            <span style="color:var(--muted);">🏠 CEF — Casa Verde Amarela</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--accent);">0,65%/mês</span>
+          </div>
+          <div style="padding:10px 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
+            <span style="color:var(--muted);">🏠 CEF — SBPE (mercado)</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--accent);">0,90%/mês</span>
+          </div>
+          <div style="padding:10px 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
+            <span style="color:var(--muted);">🏠 Bradesco / Itaú</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--accent);">0,95%/mês</span>
+          </div>
+          <div style="padding:10px 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
+            <span style="color:var(--muted);">🚗 Banco do Brasil (veículo)</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--accent);">1,49%/mês</span>
+          </div>
+          <div style="padding:10px 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
+            <span style="color:var(--muted);">🚗 Financeiras (veículo)</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--accent);">1,79%/mês</span>
+          </div>
+          <div style="padding:10px 0; display:flex; justify-content:space-between;">
+            <span style="color:var(--muted);">🚗 Consórcio (veículo)</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--green);">0% + taxa adm</span>
+          </div>
+        </div>
+        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px; margin-top:14px; font-size:12px; color:#92400e; line-height:1.6;">
+          ⚠️ Taxas aproximadas para referência. Consulte seu banco para a taxa exata com base no seu perfil.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="num">📊</span> Price vs SAC</div>
+        <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+          <p style="margin-bottom:10px;"><strong style="color:var(--text);">Tabela Price:</strong> parcelas iguais do início ao fim. Mais fácil de planejar o orçamento. Paga mais juros no total.</p>
+          <p><strong style="color:var(--text);">SAC:</strong> amortização constante, parcelas decrescentes. Primeira parcela maior, mas paga menos juros no total. Mais indicado para quem tem renda crescente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="resultado">
+
+    <div id="comparativoWrap" style="display:none; margin-bottom:28px;">
+      <h2 style="font-size:18px; font-weight:700; margin-bottom:16px; color:var(--text);">⚖️ Comparativo Price vs SAC</h2>
+      <div class="comparativo" id="comparativoCards"></div>
+    </div>
+
+    <div id="resumoWrap">
+      <div class="resumo-grid" id="resumoCards"></div>
+    </div>
+
+    <div class="card" style="margin-top:8px;">
+      <div class="card-title"><span class="num">📋</span> Tabela de amortização <span id="sistemaNome" style="font-size:12px;font-weight:400;color:var(--muted);margin-left:4px;"></span></div>
+      <div class="tabela-wrap">
+        <table class="tabela-amort">
+          <thead>
+            <tr>
+              <th style="text-align:center;">Mês</th>
+              <th>Parcela</th>
+              <th>Juros</th>
+              <th>Amortização</th>
+              <th>Saldo devedor</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaBody"></tbody>
+        </table>
+      </div>
+      <button class="ver-mais-btn" id="verMaisBtn" onclick="verMais()" style="display:none;">Ver todas as parcelas ▾</button>
+    </div>
+  </div>
+</div>
+
+<section class="faq-section">
+  <div class="faq-wrap">
+    <div class="faq-title">Perguntas frequentes</div>
+    <div class="faq-item">
+      <h3>Qual a diferença entre Tabela Price e SAC?</h3>
+      <p>Na Tabela Price as parcelas são fixas durante todo o financiamento — você paga o mesmo valor do primeiro ao último mês. No SAC (Sistema de Amortização Constante) a amortização é constante, mas os juros vão caindo, então as parcelas diminuem com o tempo. O SAC costuma ser mais barato no total.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Qual o percentual mínimo de entrada para financiamento?</h3>
+      <p>Para imóveis, a maioria dos bancos exige entrada mínima de 20% do valor (financiam até 80%). Para veículos, o comum é 30% de entrada. Quanto maior a entrada, menor a parcela e menos juros você paga ao longo do financiamento.</p>
+    </div>
+    <div class="faq-item">
+      <h3>O que são seguros MIP e DFI no financiamento imobiliário?</h3>
+      <p>MIP (Morte e Invalidez Permanente) e DFI (Danos Físicos ao Imóvel) são seguros obrigatórios nos financiamentos imobiliários. Eles são cobrados mensalmente junto com a parcela e variam conforme a idade do mutuário e o valor do imóvel — normalmente entre R$ 50 e R$ 200 por mês.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Posso amortizar o financiamento antecipadamente?</h3>
+      <p>Sim. Pela lei, você pode amortizar ou quitar o financiamento antecipadamente a qualquer momento. Nos financiamentos imobiliários pelo SFH, não há multa por quitação antecipada. Nos financiamentos de veículos, verifique o contrato, pois algumas financeiras cobram taxa de liquidação antecipada.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Como saber qual taxa de juros negociar?</h3>
+      <p>Pesquise em pelo menos 3 bancos diferentes antes de fechar. Use o simulador com a taxa de cada um e compare o custo total. Além da taxa nominal, observe o CET (Custo Efetivo Total), que inclui todos os encargos e é o número real que você vai pagar.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>MeuCalculoCerto.com.br</strong><br>
+  Simulador de Financiamento 2026 — Tabela Price e SAC.<br>
+  Valores estimados para fins educativos. Consulte seu banco para simulação oficial.<br>
+  <span style="font-size:12px;opacity:.6;">© 2026 MeuCalculoCerto</span>
+</footer>
+
+<script>
+let tipoAtual = 'imovel';
+let sistemaAtual = 'price';
+let todasParcelas = [];
+let mostrandoTodas = false;
+
+function setTipo(card, tipo){
+  tipoAtual = tipo;
+  document.querySelectorAll('.tipo-card').forEach(c=>c.classList.remove('active'));
+  card.classList.add('active');
+  if(tipo==='imovel'){
+    document.getElementById('labelBem').textContent = 'Valor do imóvel (R$)';
+    document.getElementById('hintEntrada').textContent = 'Mínimo recomendado: 20% do valor do imóvel';
+    document.getElementById('hintPrazo').textContent = 'Financiamentos imobiliários: até 420 meses (35 anos)';
+    document.getElementById('prazo').placeholder = 'Ex: 360';
+    document.getElementById('taxa').placeholder = 'Ex: 0.90';
+  } else {
+    document.getElementById('labelBem').textContent = 'Valor do veículo (R$)';
+    document.getElementById('hintEntrada').textContent = 'Mínimo recomendado: 30% do valor do veículo';
+    document.getElementById('hintPrazo').textContent = 'Financiamentos de veículos: até 60 meses';
+    document.getElementById('prazo').placeholder = 'Ex: 48';
+    document.getElementById('taxa').placeholder = 'Ex: 1.49';
+  }
+}
+
+function setSistema(s){
+  sistemaAtual = s;
+  document.querySelectorAll('.sistema-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab'+s.charAt(0).toUpperCase()+s.slice(1)).classList.add('active');
+}
+
+function fmt(v){
+  return 'R$ ' + v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+}
+
+function calcPrice(pv, taxa, n){
+  if(taxa === 0) return pv/n;
+  return pv * (taxa * Math.pow(1+taxa, n)) / (Math.pow(1+taxa, n) - 1);
+}
+
+function gerarTabelaPrice(pv, taxa, n, seguros){
+  const parcela = calcPrice(pv, taxa, n);
+  let saldo = pv;
+  const rows = [];
+  let totalJuros = 0, totalAmort = 0, totalPago = 0;
+  for(let i=1;i<=n;i++){
+    const juros = saldo * taxa;
+    const amort = parcela - juros;
+    saldo -= amort;
+    if(saldo < 0.01) saldo = 0;
+    totalJuros += juros;
+    totalAmort += amort;
+    totalPago += parcela + seguros;
+    rows.push({ mes:i, parcela:parcela+seguros, juros, amort, saldo: Math.max(0,saldo) });
+  }
+  return { rows, parcela1: parcela+seguros, parcelaN: parcela+seguros, totalJuros, totalAmort, totalPago, totalPagoSemSeguros: totalPago - seguros*n };
+}
+
+function gerarTabelaSAC(pv, taxa, n, seguros){
+  const amortConst = pv / n;
+  let saldo = pv;
+  const rows = [];
+  let totalJuros = 0, totalPago = 0;
+  for(let i=1;i<=n;i++){
+    const juros = saldo * taxa;
+    const parcela = amortConst + juros;
+    saldo -= amortConst;
+    if(saldo < 0.01) saldo = 0;
+    totalJuros += juros;
+    totalPago += parcela + seguros;
+    rows.push({ mes:i, parcela:parcela+seguros, juros, amort:amortConst, saldo:Math.max(0,saldo) });
+  }
+  return { rows, parcela1:rows[0].parcela, parcelaN:rows[n-1].parcela, totalJuros, totalAmort:pv, totalPago, totalPagoSemSeguros:totalPago-seguros*n };
+}
+
+function renderTabela(rows, limite){
+  const exibir = rows.slice(0, limite);
+  return exibir.map(r=>`
+    <tr>
+      <td>${r.mes}</td>
+      <td class="td-parcela">${fmt(r.parcela)}</td>
+      <td class="td-juros">${fmt(r.juros)}</td>
+      <td class="td-amort">${fmt(r.amort)}</td>
+      <td class="td-saldo">${fmt(r.saldo)}</td>
+    </tr>
+  `).join('');
+}
+
+function calcular(){
+  const valorBem = parseFloat(document.getElementById('valorBem').value) || 0;
+  const entrada = parseFloat(document.getElementById('entrada').value) || 0;
+  const prazo = parseInt(document.getElementById('prazo').value) || 0;
+  const taxaMes = parseFloat(document.getElementById('taxa').value) || 0;
+  const seguros = parseFloat(document.getElementById('seguros').value) || 0;
+
+  if(valorBem <= 0){ alert('Digite o valor do bem.'); return; }
+  if(entrada >= valorBem){ alert('A entrada não pode ser maior ou igual ao valor do bem.'); return; }
+  if(prazo <= 0){ alert('Digite o prazo em meses.'); return; }
+  if(taxaMes <= 0){ alert('Digite a taxa de juros mensal.'); return; }
+
+  const pv = valorBem - entrada;
+  const taxa = taxaMes / 100;
+
+  if(sistemaAtual === 'ambos'){
+    const price = gerarTabelaPrice(pv, taxa, prazo, seguros);
+    const sac = gerarTabelaSAC(pv, taxa, prazo, seguros);
+    const economia = price.totalPago - sac.totalPago;
+
+    document.getElementById('comparativoWrap').style.display = 'block';
+    document.getElementById('comparativoCards').innerHTML = `
+      <div class="comp-card">
+        <div class="comp-titulo">📊 Tabela Price</div>
+        <div class="comp-item"><span>1ª parcela</span><span class="cv">${fmt(price.parcela1)}</span></div>
+        <div class="comp-item"><span>Última parcela</span><span class="cv">${fmt(price.parcelaN)}</span></div>
+        <div class="comp-item"><span>Total de juros</span><span class="cv" style="color:var(--red);">${fmt(price.totalJuros)}</span></div>
+        <div class="comp-item"><span>Total pago</span><span class="cv">${fmt(price.totalPago)}</span></div>
+      </div>
+      <div class="comp-card melhor">
+        <div class="comp-titulo">✅ SAC <span style="font-size:11px;background:#86efac;color:#14532d;padding:2px 7px;border-radius:4px;margin-left:4px;">Mais econômico</span></div>
+        <div class="comp-item"><span>1ª parcela</span><span class="cv">${fmt(sac.parcela1)}</span></div>
+        <div class="comp-item"><span>Última parcela</span><span class="cv">${fmt(sac.parcelaN)}</span></div>
+        <div class="comp-item"><span>Total de juros</span><span class="cv" style="color:var(--green);">${fmt(sac.totalJuros)}</span></div>
+        <div class="comp-item"><span>Total pago</span><span class="cv">${fmt(sac.totalPago)}</span></div>
+      </div>
+    `;
+
+    document.getElementById('resumoWrap').innerHTML = `
+      <div style="background:var(--green-bg);border:1px solid #86efac;border-radius:12px;padding:16px 20px;margin-bottom:20px;font-size:14px;color:#14532d;">
+        <strong>💰 Economia com SAC:</strong> ${fmt(economia)} a menos no total — ${fmt(economia/prazo)} por mês em média.
+      </div>`;
+
+    todasParcelas = price.rows;
+    document.getElementById('sistemaNome').textContent = '— Tabela Price';
+    renderResultado(price, pv, prazo);
+
+  } else {
+    document.getElementById('comparativoWrap').style.display = 'none';
+    const res = sistemaAtual === 'price'
+      ? gerarTabelaPrice(pv, taxa, prazo, seguros)
+      : gerarTabelaSAC(pv, taxa, prazo, seguros);
+
+    todasParcelas = res.rows;
+    document.getElementById('sistemaNome').textContent = `— ${sistemaAtual==='price'?'Tabela Price':'SAC'}`;
+    document.getElementById('resumoWrap').innerHTML = '';
+
+    document.getElementById('resumoCards').innerHTML = `
+      <div class="resumo-card destaque">
+        <div class="resumo-icon">💳</div>
+        <div class="resumo-label">1ª Parcela</div>
+        <div class="resumo-val">${fmt(res.parcela1)}</div>
+        <div class="resumo-sub">${sistemaAtual==='sac'?'Parcela mais alta':'Parcela fixa'}</div>
+      </div>
+      <div class="resumo-card ${sistemaAtual==='sac'?'destaque':''}">
+        <div class="resumo-icon">📉</div>
+        <div class="resumo-label">Última Parcela</div>
+        <div class="resumo-val">${fmt(res.parcelaN)}</div>
+        <div class="resumo-sub">${sistemaAtual==='sac'?'Parcela mais baixa':'Igual à primeira'}</div>
+      </div>
+      <div class="resumo-card">
+        <div class="resumo-icon">💰</div>
+        <div class="resumo-label">Valor financiado</div>
+        <div class="resumo-val">${fmt(pv)}</div>
+        <div class="resumo-sub">Bem − entrada</div>
+      </div>
+      <div class="resumo-card">
+        <div class="resumo-icon">📊</div>
+        <div class="resumo-label">Total de juros</div>
+        <div class="resumo-val" style="font-size:18px;color:var(--red);">${fmt(res.totalJuros)}</div>
+        <div class="resumo-sub">${((res.totalJuros/pv)*100).toFixed(0)}% do valor financiado</div>
+      </div>
+      <div class="resumo-card">
+        <div class="resumo-icon">🏦</div>
+        <div class="resumo-label">Total pago</div>
+        <div class="resumo-val" style="font-size:18px;">${fmt(res.totalPago)}</div>
+        <div class="resumo-sub">Incluindo seguros</div>
+      </div>
+    `;
+    const resumoEl = document.getElementById('resumoCards');
+    if(document.getElementById('resumoWrap').innerHTML === '') {
+      document.getElementById('resumoWrap').appendChild(resumoEl);
+    }
+
+    renderResultado(res, pv, prazo);
+  }
+}
+
+function renderResultado(res, pv, prazo){
+  mostrandoTodas = false;
+  const limite = Math.min(12, prazo);
+  document.getElementById('tabelaBody').innerHTML = renderTabela(res.rows, limite);
+  const verMaisBtn = document.getElementById('verMaisBtn');
+  if(prazo > 12){
+    verMaisBtn.style.display = 'block';
+    verMaisBtn.textContent = `Ver todas as ${prazo} parcelas ▾`;
+  } else {
+    verMaisBtn.style.display = 'none';
+  }
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function verMais(){
+  if(!mostrandoTodas){
+    document.getElementById('tabelaBody').innerHTML = renderTabela(todasParcelas, todasParcelas.length);
+    document.getElementById('verMaisBtn').textContent = 'Mostrar menos ▴';
+    mostrandoTodas = true;
+  } else {
+    document.getElementById('tabelaBody').innerHTML = renderTabela(todasParcelas, 12);
+    document.getElementById('verMaisBtn').textContent = `Ver todas as ${todasParcelas.length} parcelas ▾`;
+    mostrandoTodas = false;
+  }
+}
+</script>
+</body>
+</html>
