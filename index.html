@@ -357,7 +357,7 @@ footer strong{color:#fff;}
 
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Ferramentas disponíveis</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Ferramentas disponíveis</div></div>
     <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Gratuito</div></div>
     <div class="stat"><div class="stat-num">2026</div><div class="stat-label">Tabelas atualizadas</div></div>
     <div class="stat"><div class="stat-num">0</div><div class="stat-label">Cadastros necessários</div></div>
@@ -379,7 +379,7 @@ footer strong{color:#fff;}
 
   <div class="section-header">
     <span class="section-title">Ferramentas disponíveis</span>
-    <span class="section-count" id="countLabel">6 ferramentas</span>
+    <span class="section-count" id="countLabel">7 ferramentas</span>
   </div>
 
   <div class="tools-grid" id="toolsGrid">
@@ -484,6 +484,26 @@ footer strong{color:#fff;}
       </div>
     </a>
 
+    <!-- CONVERSOR DE MOEDAS -->
+    <a href="/conversor-moedas.html" class="tool-card" data-cat="financas" data-name="conversor moedas dolar euro libra real cotacao cambio tempo real">
+      <div class="tool-card-top">
+        <div class="tool-icon" style="background:#f0f9ff;">💱</div>
+        <span class="tool-badge badge-novo">🆕 Novo</span>
+      </div>
+      <div>
+        <div class="tool-name">Conversor de Moedas</div>
+        <div class="tool-desc">Compare Real, Dólar, Euro, Libra e mais de 30 moedas em tempo real. Adicione várias moedas para comparar ao mesmo tempo.</div>
+      </div>
+      <div class="tool-footer">
+        <div class="tool-tags">
+          <span class="tool-tag">💰 Finanças</span>
+          <span class="tool-tag">Câmbio</span>
+          <span class="tool-tag">Tempo real</span>
+        </div>
+        <span class="tool-cta">Converter →</span>
+      </div>
+    </a>
+
     <!-- FINANCIAMENTO -->
     <a href="/simulador-financiamento.html" class="tool-card" data-cat="financas" data-name="financiamento imóvel carro simulador parcela juros price sac tabela">
       <div class="tool-card-top">
@@ -544,7 +564,7 @@ function renderizar(){
     card.style.display = mostrar ? '' : 'none';
     if(mostrar && !card.classList.contains('coming')) visiveis++;
   });
-  const total = catAtiva==='todas' && busca==='' ? 6 : visiveis;
+  const total = catAtiva==='todas' && busca==='' ? 7 : visiveis;
   document.getElementById('countLabel').textContent = total + ' ferramenta' + (total!==1?'s':'');
 }
 </script>
