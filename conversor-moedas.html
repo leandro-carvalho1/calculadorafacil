@@ -4,108 +4,73 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Conversor de Moedas 2026 — Converta Real, Dólar, Euro, Libra e mais</title>
-<meta name="description" content="Conversor de moedas online grátis com cotações em tempo real. Converta Real, Dólar, Euro, Libra, Iene e mais de 30 moedas. Atualizado automaticamente.">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Conversor de Moedas em Tempo Real",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
-}
-</script>
+<meta name="description" content="Conversor de moedas online grátis com cotações atualizadas. Converta Real, Dólar, Euro, Libra e mais de 30 moedas. Gratuito e sem cadastro.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
-
 :root{
-  --bg:#f1f5f9;
-  --surface:#fff;
-  --border:#e2e8f0;
-  --text:#0f172a;
-  --muted:#64748b;
-  --accent:#0ea5e9;
-  --accent-dark:#0284c7;
-  --accent-light:#f0f9ff;
-  --green:#10b981;
-  --green-bg:#ecfdf5;
+  --bg:#f1f5f9; --surface:#fff; --border:#e2e8f0;
+  --text:#0f172a; --muted:#64748b;
+  --accent:#0ea5e9; --accent-dark:#0284c7; --accent-light:#f0f9ff;
+  --green:#10b981; --green-bg:#ecfdf5;
+  --red:#dc2626; --red-bg:#fef2f2;
   --shadow:0 1px 3px rgba(0,0,0,.07),0 8px 24px rgba(14,165,233,.07);
 }
-
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-
 .site-nav{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;position:sticky;top:0;z-index:200;}
 .site-nav-inner{max-width:860px;margin:0 auto;height:50px;display:flex;align-items:center;justify-content:space-between;}
 .nav-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;}
-.nav-back:hover{opacity:.75;}
 .nav-logo{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;}
 .nav-logo span{color:var(--accent);}
-
 .hero{background:linear-gradient(135deg,#0c4a6e 0%,#0ea5e9 100%);padding:48px 20px 80px;text-align:center;color:#fff;}
 .hero-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px;}
 .hero h1{font-size:clamp(26px,5vw,42px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px;line-height:1.1;}
 .hero-sub{font-size:15px;opacity:.8;max-width:420px;margin:0 auto;}
-.atualizado{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);border-radius:20px;padding:4px 12px;font-size:12px;margin-top:14px;color:#6ee7b7;}
-
+.atualizado{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 14px;font-size:12px;margin-top:14px;color:#fff;}
 .main-wrap{max-width:860px;margin:-40px auto 0;padding:0 20px 80px;position:relative;z-index:1;}
-
-/* CARD PRINCIPAL */
 .converter-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;}
-
-/* ORIGEM */
 .origem-section{padding:28px 28px 20px;}
 .origem-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;}
 .origem-row{display:flex;gap:12px;align-items:stretch;}
-.valor-wrap{flex:1;position:relative;}
-.valor-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:16px 16px 16px 20px;font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text);background:#fff;outline:none;transition:border-color .15s;}
+.valor-input{flex:1;border:2px solid var(--border);border-radius:12px;padding:16px 20px;font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text);background:#fff;outline:none;transition:border-color .15s;min-width:0;}
 .valor-input:focus{border-color:var(--accent);}
-.valor-prefix{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:28px;font-weight:700;color:var(--muted);pointer-events:none;display:none;}
-.moeda-origem{min-width:160px;border:2px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:border-color .15s;background:#fff;position:relative;}
+.moeda-origem-wrap{position:relative;min-width:160px;}
+.moeda-origem{width:100%;height:100%;border:2px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:border-color .15s;background:#fff;min-height:80px;justify-content:center;}
 .moeda-origem:hover{border-color:var(--accent);}
-.moeda-origem-flag{font-size:24px;line-height:1;}
-.moeda-origem-code{font-size:16px;font-weight:700;color:var(--text);}
-.moeda-origem-name{font-size:11px;color:var(--muted);}
-.moeda-origem select{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-
+.moeda-flag-img{width:28px;height:20px;border-radius:3px;object-fit:cover;border:1px solid rgba(0,0,0,.1);}
+.moeda-code{font-size:16px;font-weight:700;color:var(--text);margin-top:4px;}
+.moeda-name{font-size:11px;color:var(--muted);}
+.moeda-origem-wrap select{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;font-size:16px;}
 .divider{height:1px;background:var(--border);margin:0 28px;}
-
-/* DESTINOS */
 .destinos-section{padding:20px 28px 28px;}
 .destinos-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
-.add-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-light);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;transition:all .15s;}
+.add-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-light);border:none;border-radius:6px;padding:6px 12px;cursor:pointer;transition:all .15s;}
 .add-btn:hover{background:#e0f2fe;}
-
 .destino-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);}
 .destino-row:last-child{border-bottom:none;}
-.destino-flag{font-size:22px;flex-shrink:0;}
+.dest-flag-img{width:28px;height:20px;border-radius:3px;object-fit:cover;border:1px solid rgba(0,0,0,.1);flex-shrink:0;}
 .destino-info{flex:1;min-width:0;}
-.destino-valor{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text);letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.destino-valor{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text);letter-spacing:-.02em;}
 .destino-meta{font-size:12px;color:var(--muted);margin-top:2px;}
-.destino-taxa{font-size:12px;color:var(--accent);background:var(--accent-light);padding:3px 8px;border-radius:5px;font-weight:600;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
-.destino-select{border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;color:var(--text);background:#fff;outline:none;cursor:pointer;min-width:110px;transition:border-color .15s;}
+.destino-taxa{font-size:12px;color:var(--accent);background:var(--accent-light);padding:3px 8px;border-radius:5px;font-weight:600;font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0;}
+.destino-select{border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;color:var(--text);background:#fff;outline:none;cursor:pointer;flex-shrink:0;transition:border-color .15s;}
 .destino-select:focus{border-color:var(--accent);}
-.remove-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);flex-shrink:0;transition:all .15s;}
+.remove-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);flex-shrink:0;transition:all .15s;line-height:1;}
 .remove-btn:hover{border-color:#ef4444;color:#ef4444;background:#fef2f2;}
-
-/* LOADING / ERRO */
 .status-bar{padding:10px 28px;background:var(--accent-light);border-top:1px solid var(--border);font-size:12px;color:var(--accent);display:flex;align-items:center;gap:8px;}
-.status-bar.erro{background:#fef2f2;color:#dc2626;border-color:#fecaca;}
+.status-bar.erro{background:var(--red-bg);color:var(--red);border-color:#fecaca;}
+.status-bar.ok{background:var(--green-bg);color:#065f46;border-color:#bbf7d0;}
 .spinner{width:14px;height:14px;border:2px solid var(--accent);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* MINI PAINEL DE MOEDAS POPULARES */
 .populares-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-top:16px;padding:20px 24px;box-shadow:var(--shadow);}
-.populares-titulo{font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
-.populares-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
-.popular-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .15s;}
+.populares-titulo{font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;}
+.populares-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+.popular-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;gap:3px;}
 .popular-item:hover{border-color:var(--accent);background:var(--accent-light);}
-.popular-flag{font-size:16px;margin-bottom:3px;}
-.popular-code{font-size:13px;font-weight:700;color:var(--text);}
-.popular-valor{font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;margin-top:2px;}
-.popular-nome{font-size:11px;color:var(--muted);}
-
-/* FAQ */
+.pop-flag{width:24px;height:17px;border-radius:2px;object-fit:cover;border:1px solid rgba(0,0,0,.1);}
+.pop-code{font-size:13px;font-weight:700;color:var(--text);}
+.pop-valor{font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;}
+.pop-nome{font-size:10px;color:var(--muted);}
 .faq-section{background:#fff;border-top:1px solid var(--border);padding:52px 20px 72px;margin-top:40px;}
 .faq-wrap{max-width:760px;margin:0 auto;}
 .faq-title{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:24px;}
@@ -113,14 +78,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .faq-item:last-child{border-bottom:none;}
 .faq-item h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px;}
 .faq-item p{font-size:14px;color:var(--muted);line-height:1.7;}
-
 footer{background:#0f172a;color:rgba(255,255,255,.5);text-align:center;padding:24px;font-size:13px;line-height:1.7;}
 footer strong{color:#fff;}
 footer a{color:rgba(255,255,255,.6);text-decoration:none;}
-
 @media(max-width:560px){
   .origem-row{flex-direction:column;}
-  .moeda-origem{flex-direction:row;align-items:center;gap:10px;min-width:unset;}
+  .moeda-origem-wrap{min-width:unset;}
+  .moeda-origem{flex-direction:row;align-items:center;gap:10px;min-height:unset;padding:10px 12px;}
   .populares-grid{grid-template-columns:repeat(2,1fr);}
   .destino-valor{font-size:18px;}
   .valor-input{font-size:22px;padding:14px;}
@@ -128,43 +92,35 @@ footer a{color:rgba(255,255,255,.6);text-decoration:none;}
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="site-nav-inner">
     <a href="/" class="nav-back">← Todas as ferramentas</a>
     <a href="/" class="nav-logo">MeuCalculo<span>Certo</span></a>
   </div>
 </nav>
-
 <div class="hero">
-  <div class="hero-chip">💱 Cotações em tempo real</div>
+  <div class="hero-chip">💱 Cotações atualizadas</div>
   <h1>Conversor de Moedas</h1>
   <p class="hero-sub">Compare várias moedas ao mesmo tempo com cotações atualizadas automaticamente.</p>
-  <div class="atualizado" id="atualizadoChip">Carregando cotações...</div>
+  <div class="atualizado" id="atualizadoChip">⏳ Carregando cotações...</div>
 </div>
-
 <div class="main-wrap">
   <div class="converter-card">
-
-    <!-- ORIGEM -->
     <div class="origem-section">
       <div class="origem-label">Valor a converter</div>
       <div class="origem-row">
-        <div class="valor-wrap">
-          <input type="number" class="valor-input" id="valorOrigem" value="1000" min="0" step="any" oninput="converter()">
-        </div>
-        <div class="moeda-origem" id="origemCard">
-          <span class="moeda-origem-flag" id="origemFlag">🇧🇷</span>
-          <span class="moeda-origem-code" id="origemCode">BRL</span>
-          <span class="moeda-origem-name" id="origemName">Real Brasileiro</span>
+        <input type="number" class="valor-input" id="valorOrigem" value="1000" min="0" step="any" oninput="converter()">
+        <div class="moeda-origem-wrap">
+          <div class="moeda-origem" id="origemCard">
+            <img class="moeda-flag-img" id="origemFlagImg" src="" alt="">
+            <div class="moeda-code" id="origemCode">BRL</div>
+            <div class="moeda-name" id="origemName">Real Brasileiro</div>
+          </div>
           <select id="origemSelect" onchange="mudarOrigem()"></select>
         </div>
       </div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- DESTINOS -->
     <div class="destinos-section">
       <div class="destinos-label">
         <span>Converter para</span>
@@ -172,234 +128,203 @@ footer a{color:rgba(255,255,255,.6);text-decoration:none;}
       </div>
       <div id="destinosWrap"></div>
     </div>
-
     <div class="status-bar" id="statusBar">
       <div class="spinner"></div>
-      <span id="statusMsg">Buscando cotações...</span>
+      <span>Buscando cotações...</span>
     </div>
   </div>
-
-  <!-- PAINEL DE POPULARES -->
   <div class="populares-card" id="popularesCard" style="display:none;">
-    <div class="populares-titulo">📊 1 BRL equivale a</div>
+    <div class="populares-titulo" id="popularesTitle">Cotações rápidas</div>
     <div class="populares-grid" id="popularesGrid"></div>
   </div>
 </div>
-
 <section class="faq-section">
   <div class="faq-wrap">
     <div class="faq-title">Perguntas frequentes</div>
     <div class="faq-item">
       <h3>As cotações são em tempo real?</h3>
-      <p>As taxas são atualizadas automaticamente a cada acesso, com dados fornecidos pela API Frankfurter (Banco Central Europeu). As cotações são do mercado interbancário e podem diferir levemente das praticadas pelos bancos no câmbio para o consumidor final, que geralmente incluem spread e IOF.</p>
+      <p>As taxas são atualizadas automaticamente a cada acesso com dados do mercado interbancário. As cotações podem diferir levemente das praticadas pelos bancos, que geralmente incluem spread e IOF.</p>
     </div>
     <div class="faq-item">
       <h3>Qual a diferença entre câmbio comercial e turismo?</h3>
-      <p>O câmbio comercial (mostrado aqui) é a taxa base entre bancos. O câmbio turismo, usado em cartões e casas de câmbio, é sempre mais alto pois inclui o spread bancário e o IOF de 4,38% para compras internacionais. Para cartão de crédito, some aproximadamente 6 a 8% sobre a cotação comercial.</p>
+      <p>O câmbio comercial (mostrado aqui) é a taxa base entre bancos. O câmbio turismo, usado em cartões e casas de câmbio, é sempre mais alto pois inclui o spread bancário e o IOF de 4,38% para compras internacionais.</p>
     </div>
     <div class="faq-item">
       <h3>Posso comparar mais de duas moedas ao mesmo tempo?</h3>
-      <p>Sim. Clique em "Adicionar moeda" para incluir quantas moedas quiser na comparação. Isso é útil para quem quer ver, por exemplo, quanto R$ 1.000 vale em dólar, euro e libra simultaneamente.</p>
+      <p>Sim. Clique em "Adicionar moeda" para incluir quantas moedas quiser na comparação — útil para ver quanto R$ 1.000 vale em dólar, euro e libra simultaneamente.</p>
     </div>
     <div class="faq-item">
-      <h3>O IOF incide em todas as compras internacionais?</h3>
-      <p>Sim. Compras com cartão de crédito internacional têm IOF de 4,38%. Transferências internacionais (remessas) têm IOF de 0,38%. O IOF não aparece nesta calculadora pois é aplicado pelo banco — some manualmente ao valor final se quiser estimar o custo real.</p>
+      <h3>O IOF incide em compras internacionais?</h3>
+      <p>Sim. Compras com cartão de crédito internacional têm IOF de 4,38%. Transferências internacionais têm IOF de 0,38%. Some manualmente ao valor final para estimar o custo real.</p>
     </div>
   </div>
 </section>
-
 <footer>
   <strong>MeuCalculoCerto.com.br</strong><br>
-  Cotações fornecidas pela <a href="https://www.frankfurter.app" target="_blank">Frankfurter API</a> (Banco Central Europeu). Valores para referência — consulte seu banco para taxas oficiais.<br>
+  Cotações do mercado interbancário para fins de referência. Consulte seu banco para taxas oficiais.<br>
   <a href="/politica-de-privacidade.html">Política de Privacidade</a> · <span style="font-size:12px;opacity:.6;">© 2026 MeuCalculoCerto</span>
 </footer>
-
 <script>
 const MOEDAS = {
-  BRL:{nome:'Real Brasileiro',flag:'🇧🇷'},
-  USD:{nome:'Dólar Americano',flag:'🇺🇸'},
-  EUR:{nome:'Euro',flag:'🇪🇺'},
-  GBP:{nome:'Libra Esterlina',flag:'🇬🇧'},
-  ARS:{nome:'Peso Argentino',flag:'🇦🇷'},
-  JPY:{nome:'Iene Japonês',flag:'🇯🇵'},
-  CAD:{nome:'Dólar Canadense',flag:'🇨🇦'},
-  AUD:{nome:'Dólar Australiano',flag:'🇦🇺'},
-  CHF:{nome:'Franco Suíço',flag:'🇨🇭'},
-  CNY:{nome:'Yuan Chinês',flag:'🇨🇳'},
-  MXN:{nome:'Peso Mexicano',flag:'🇲🇽'},
-  CLP:{nome:'Peso Chileno',flag:'🇨🇱'},
-  COP:{nome:'Peso Colombiano',flag:'🇨🇴'},
-  PYG:{nome:'Guarani Paraguaio',flag:'🇵🇾'},
-  UYU:{nome:'Peso Uruguaio',flag:'🇺🇾'},
-  PEN:{nome:'Sol Peruano',flag:'🇵🇪'},
-  BOB:{nome:'Boliviano',flag:'🇧🇴'},
-  NOK:{nome:'Coroa Norueguesa',flag:'🇳🇴'},
-  SEK:{nome:'Coroa Sueca',flag:'🇸🇪'},
-  DKK:{nome:'Coroa Dinamarquesa',flag:'🇩🇰'},
-  NZD:{nome:'Dólar Neozelandês',flag:'🇳🇿'},
-  SGD:{nome:'Dólar de Singapura',flag:'🇸🇬'},
-  HKD:{nome:'Dólar de Hong Kong',flag:'🇭🇰'},
-  KRW:{nome:'Won Sul-Coreano',flag:'🇰🇷'},
-  INR:{nome:'Rúpia Indiana',flag:'🇮🇳'},
-  ZAR:{nome:'Rand Sul-Africano',flag:'🇿🇦'},
-  TRY:{nome:'Lira Turca',flag:'🇹🇷'},
-  RUB:{nome:'Rublo Russo',flag:'🇷🇺'},
-  SAR:{nome:'Riyal Saudita',flag:'🇸🇦'},
-  AED:{nome:'Dirham dos EAU',flag:'🇦🇪'},
-  ILS:{nome:'Shekel Israelense',flag:'🇮🇱'},
-  PLN:{nome:'Zloty Polonês',flag:'🇵🇱'},
+  BRL:{nome:'Real Brasileiro',pais:'br'},
+  USD:{nome:'Dólar Americano',pais:'us'},
+  EUR:{nome:'Euro',pais:'eu'},
+  GBP:{nome:'Libra Esterlina',pais:'gb'},
+  ARS:{nome:'Peso Argentino',pais:'ar'},
+  JPY:{nome:'Iene Japonês',pais:'jp'},
+  CAD:{nome:'Dólar Canadense',pais:'ca'},
+  AUD:{nome:'Dólar Australiano',pais:'au'},
+  CHF:{nome:'Franco Suíço',pais:'ch'},
+  CNY:{nome:'Yuan Chinês',pais:'cn'},
+  MXN:{nome:'Peso Mexicano',pais:'mx'},
+  CLP:{nome:'Peso Chileno',pais:'cl'},
+  COP:{nome:'Peso Colombiano',pais:'co'},
+  PYG:{nome:'Guarani Paraguaio',pais:'py'},
+  UYU:{nome:'Peso Uruguaio',pais:'uy'},
+  PEN:{nome:'Sol Peruano',pais:'pe'},
+  BOB:{nome:'Boliviano',pais:'bo'},
+  NOK:{nome:'Coroa Norueguesa',pais:'no'},
+  SEK:{nome:'Coroa Sueca',pais:'se'},
+  DKK:{nome:'Coroa Dinamarquesa',pais:'dk'},
+  NZD:{nome:'Dólar Neozelandês',pais:'nz'},
+  SGD:{nome:'Dólar de Singapura',pais:'sg'},
+  HKD:{nome:'Dólar de Hong Kong',pais:'hk'},
+  KRW:{nome:'Won Sul-Coreano',pais:'kr'},
+  INR:{nome:'Rúpia Indiana',pais:'in'},
+  ZAR:{nome:'Rand Sul-Africano',pais:'za'},
+  TRY:{nome:'Lira Turca',pais:'tr'},
+  SAR:{nome:'Riyal Saudita',pais:'sa'},
+  AED:{nome:'Dirham dos EAU',pais:'ae'},
+  ILS:{nome:'Shekel Israelense',pais:'il'},
+  PLN:{nome:'Zloty Polonês',pais:'pl'},
+  NOK:{nome:'Coroa Norueguesa',pais:'no'},
 };
 
-const POPULARES_DISPLAY = ['USD','EUR','GBP','ARS','JPY','CAD','AUD','CHF'];
+const POPULARES = ['USD','EUR','GBP','ARS','JPY','CAD','AUD','CHF'];
 
 let taxas = {};
 let moedaOrigem = 'BRL';
 let destinos = ['USD','EUR','GBP'];
-let carregando = false;
 
-function fmt(val, moeda){
-  if(val === null || isNaN(val)) return '—';
-  const casas = ['JPY','KRW','CLP','COP','PYG'].includes(moeda) ? 0 : 2;
+function flagUrl(pais){ return `https://flagcdn.com/28x21/${pais}.png`; }
+
+function fmt(val, cod){
+  if(val===null||isNaN(val)) return '—';
+  const casas = ['JPY','KRW','CLP','COP','PYG'].includes(cod)?0:2;
   return val.toLocaleString('pt-BR',{minimumFractionDigits:casas,maximumFractionDigits:casas});
 }
 
-function buildSelect(excluir=[]){
-  return Object.entries(MOEDAS).map(([code,m])=>
-    `<option value="${code}" ${excluir.includes(code)?'disabled':''} ${code===moedaOrigem&&excluir.length===0?'selected':''}>${m.flag} ${code} — ${m.nome}</option>`
+function buildOptions(selecionado){
+  return Object.entries(MOEDAS).map(([cod,m])=>
+    `<option value="${cod}" ${cod===selecionado?'selected':''}>${cod} — ${m.nome}</option>`
   ).join('');
 }
 
+function calcTaxa(de, para){
+  if(de===para) return 1;
+  const rEUR_de  = taxas[de]  || (de==='EUR'?1:null);
+  const rEUR_para= taxas[para]|| (para==='EUR'?1:null);
+  if(!rEUR_de||!rEUR_para) return null;
+  return rEUR_para / rEUR_de;
+}
+
 function renderOrigem(){
-  const m = MOEDAS[moedaOrigem];
-  document.getElementById('origemFlag').textContent = m.flag;
+  const m = MOEDAS[moedaOrigem]||{nome:moedaOrigem,pais:'un'};
+  document.getElementById('origemFlagImg').src = flagUrl(m.pais);
+  document.getElementById('origemFlagImg').alt = moedaOrigem;
   document.getElementById('origemCode').textContent = moedaOrigem;
   document.getElementById('origemName').textContent = m.nome;
-  document.getElementById('origemSelect').innerHTML = buildSelect();
-  document.getElementById('origemSelect').value = moedaOrigem;
+  document.getElementById('origemSelect').innerHTML = buildOptions(moedaOrigem);
 }
 
 function renderDestinos(){
+  const valor = parseFloat(document.getElementById('valorOrigem').value)||0;
   const wrap = document.getElementById('destinosWrap');
   wrap.innerHTML = destinos.map((cod,i)=>{
-    const m = MOEDAS[cod]||{nome:cod,flag:'🏳️'};
-    return `
-    <div class="destino-row" id="dest-${i}">
-      <span class="destino-flag">${m.flag}</span>
+    const m = MOEDAS[cod]||{nome:cod,pais:'un'};
+    const taxa = calcTaxa(moedaOrigem, cod);
+    const resultado = taxa!==null ? fmt(valor*taxa, cod)+' '+cod : '—';
+    const taxaStr = taxa!==null ? `1 ${moedaOrigem} = ${fmt(taxa,cod)} ${cod}` : '—';
+    return `<div class="destino-row">
+      <img class="dest-flag-img" src="${flagUrl(m.pais)}" alt="${cod}">
       <div class="destino-info">
-        <div class="destino-valor" id="dval-${i}">—</div>
-        <div class="destino-meta" id="dmeta-${i}">${m.nome}</div>
+        <div class="destino-valor">${resultado}</div>
+        <div class="destino-meta">${m.nome}</div>
       </div>
-      <span class="destino-taxa" id="dtaxa-${i}">1 ${moedaOrigem} = —</span>
-      <select class="destino-select" onchange="mudarDestino(${i},this.value)">${buildSelect()}</select>
-      ${destinos.length>1?`<button class="remove-btn" onclick="removerDestino(${i})" title="Remover">×</button>`:''}
+      <span class="destino-taxa">${taxaStr}</span>
+      <select class="destino-select" onchange="mudarDestino(${i},this.value)">${buildOptions(cod)}</select>
+      ${destinos.length>1?`<button class="remove-btn" onclick="removerDestino(${i})">×</button>`:''}
     </div>`;
   }).join('');
-  destinos.forEach((cod,i)=>{
-    const sel = document.querySelector(`#dest-${i} .destino-select`);
-    if(sel) sel.value = cod;
-  });
-  converter();
+  renderPopulares();
 }
 
-function converter(){
-  if(!Object.keys(taxas).length) return;
+function renderPopulares(){
   const valor = parseFloat(document.getElementById('valorOrigem').value)||0;
-  destinos.forEach((cod,i)=>{
-    let resultado = null;
-    let taxa = null;
-    if(moedaOrigem === cod){ resultado = valor; taxa = 1; }
-    else if(moedaOrigem === 'EUR'){ taxa = taxas[cod]; resultado = taxa ? valor * taxa : null; }
-    else if(cod === 'EUR'){ taxa = taxas[moedaOrigem] ? 1/taxas[moedaOrigem] : null; resultado = taxa ? valor * taxa : null; }
-    else if(taxas[moedaOrigem] && taxas[cod]){ taxa = taxas[cod]/taxas[moedaOrigem]; resultado = valor * taxa; }
-
-    const dval = document.getElementById(`dval-${i}`);
-    const dtaxa = document.getElementById(`dtaxa-${i}`);
-    if(dval) dval.textContent = resultado !== null ? fmt(resultado, cod) + ' ' + cod : '—';
-    if(dtaxa && taxa !== null) dtaxa.textContent = `1 ${moedaOrigem} = ${fmt(taxa, cod)} ${cod}`;
-  });
-
-  // Painel populares
-  const popGrid = document.getElementById('popularesGrid');
-  const popCard = document.getElementById('popularesCard');
-  if(popGrid && Object.keys(taxas).length){
-    const base = moedaOrigem;
-    const linhas = POPULARES_DISPLAY.filter(c=>c!==base).slice(0,8).map(cod=>{
-      let taxa = null;
-      if(base==='EUR') taxa = taxas[cod];
-      else if(cod==='EUR') taxa = taxas[base]?1/taxas[base]:null;
-      else if(taxas[base]&&taxas[cod]) taxa = taxas[cod]/taxas[base];
-      const m = MOEDAS[cod];
-      return `<div class="popular-item" onclick="adicionarDestinoEspecifico('${cod}')">
-        <div class="popular-flag">${m.flag}</div>
-        <div class="popular-code">${cod}</div>
-        <div class="popular-valor">${taxa?fmt(taxa,cod):'—'}</div>
-        <div class="popular-nome">${m.nome}</div>
-      </div>`;
-    }).join('');
-    popGrid.innerHTML = linhas;
-    document.querySelector('.populares-titulo').textContent = `📊 1 ${base} equivale a`;
-    popCard.style.display = 'block';
-  }
+  if(!Object.keys(taxas).length) return;
+  const card = document.getElementById('popularesCard');
+  const grid = document.getElementById('popularesGrid');
+  const itens = POPULARES.filter(c=>c!==moedaOrigem).slice(0,8).map(cod=>{
+    const m = MOEDAS[cod]||{nome:cod,pais:'un'};
+    const taxa = calcTaxa(moedaOrigem,cod);
+    return `<div class="popular-item" onclick="adicionarEspecifico('${cod}')">
+      <img class="pop-flag" src="${flagUrl(m.pais)}" alt="${cod}">
+      <div class="pop-code">${cod}</div>
+      <div class="pop-valor">${taxa!==null?fmt(taxa,cod):'—'}</div>
+      <div class="pop-nome">${m.nome}</div>
+    </div>`;
+  }).join('');
+  grid.innerHTML = itens;
+  document.getElementById('popularesTitle').textContent = `Quanto vale 1 ${moedaOrigem}`;
+  card.style.display = 'block';
 }
 
-function mudarOrigem(){
-  moedaOrigem = document.getElementById('origemSelect').value;
-  renderOrigem();
-  converter();
-}
-
-function mudarDestino(i, val){
-  destinos[i] = val;
-  renderDestinos();
-}
-
+function converter(){ if(Object.keys(taxas).length) renderDestinos(); }
+function mudarOrigem(){ moedaOrigem=document.getElementById('origemSelect').value; renderOrigem(); renderDestinos(); }
+function mudarDestino(i,val){ destinos[i]=val; renderDestinos(); }
 function adicionarDestino(){
-  const usadas = [moedaOrigem,...destinos];
-  const proxima = Object.keys(MOEDAS).find(c=>!usadas.includes(c));
-  if(proxima) destinos.push(proxima);
-  renderDestinos();
+  const usadas=[moedaOrigem,...destinos];
+  const prox=Object.keys(MOEDAS).find(c=>!usadas.includes(c));
+  if(prox){ destinos.push(prox); renderDestinos(); }
 }
-
-function adicionarDestinoEspecifico(cod){
-  if(!destinos.includes(cod)){ destinos.push(cod); renderDestinos(); }
-}
-
-function removerDestino(i){
-  if(destinos.length <= 1) return;
-  destinos.splice(i,1);
-  renderDestinos();
-}
+function adicionarEspecifico(cod){ if(!destinos.includes(cod)){destinos.push(cod);renderDestinos();} }
+function removerDestino(i){ if(destinos.length>1){destinos.splice(i,1);renderDestinos();} }
 
 async function buscarTaxas(){
-  carregando = true;
   const sb = document.getElementById('statusBar');
-  const sm = document.getElementById('statusMsg');
-  sb.className = 'status-bar';
-  sb.innerHTML = '<div class="spinner"></div><span id="statusMsg">Buscando cotações...</span>';
+  sb.className='status-bar';
+  sb.innerHTML='<div class="spinner"></div><span>Buscando cotações...</span>';
 
-  try{
-    const r = await fetch('https://api.frankfurter.app/latest?from=EUR');
-    if(!r.ok) throw new Error('Falha na API');
-    const d = await r.json();
-    taxas = d.rates;
-    taxas['EUR'] = 1;
+  const tentativas = [
+    ()=>fetch('https://api.frankfurter.app/latest?from=EUR').then(r=>{if(!r.ok)throw 0;return r.json();}),
+    ()=>fetch('https://open.er-api.com/v6/latest/EUR').then(r=>{if(!r.ok)throw 0;return r.json().then(d=>({rates:d.rates,date:d.time_last_update_utc?.slice(0,10)||''}));}),
+    ()=>fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json').then(r=>{if(!r.ok)throw 0;return r.json().then(d=>({rates:Object.fromEntries(Object.entries(d.eur).map(([k,v])=>[k.toUpperCase(),v])),date:d.date||''}));})
+  ];
 
-    const agora = new Date();
-    const hora = agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    document.getElementById('atualizadoChip').textContent = `✓ Cotações atualizadas às ${hora}`;
-    sb.innerHTML = `<span style="color:var(--green);">✓</span> <span style="color:var(--muted);">Cotações atualizadas em ${d.date} · Fonte: Banco Central Europeu</span>`;
+  for(const fn of tentativas){
+    try{
+      const d = await fn();
+      taxas = {...(d.rates||{})};
+      taxas['EUR'] = taxas['EUR']||1;
+      // Normaliza chaves para maiúsculas
+      const novo={};
+      Object.entries(taxas).forEach(([k,v])=>novo[k.toUpperCase()]=v);
+      taxas=novo; taxas['EUR']=1;
 
-    renderOrigem();
-    renderDestinos();
-  } catch(e){
-    sb.className = 'status-bar erro';
-    sb.innerHTML = '⚠ Não foi possível buscar cotações em tempo real. Tente recarregar a página.';
-    document.getElementById('atualizadoChip').textContent = '⚠ Erro ao carregar cotações';
+      const hora=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('atualizadoChip').textContent=`✓ Cotações atualizadas às ${hora}`;
+      sb.className='status-bar ok';
+      sb.innerHTML=`<span>✓</span> <span>Cotações atualizadas · Mercado interbancário · ${d.date||''}</span>`;
+      renderOrigem(); renderDestinos();
+      return;
+    }catch(e){continue;}
   }
-  carregando = false;
+
+  sb.className='status-bar erro';
+  sb.innerHTML='⚠ Não foi possível buscar cotações. Verifique sua conexão e recarregue.';
+  document.getElementById('atualizadoChip').textContent='⚠ Erro ao carregar cotações';
 }
 
-// INIT
 renderOrigem();
 renderDestinos();
 buscarTaxas();
