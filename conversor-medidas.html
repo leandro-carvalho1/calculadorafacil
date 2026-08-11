@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversor de Medidas 2026 — Comprimento, Peso, Temperatura, Volume e mais</title>
+<meta name="description" content="Conversor de medidas gratuito: comprimento, peso, temperatura, volume, área e velocidade. Converta km, milhas, kg, libras, °C, °F e muito mais.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Conversor de Medidas",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{
+  --bg:#f8fafc; --surface:#fff; --border:#e2e8f0;
+  --text:#0f172a; --muted:#64748b;
+  --accent:#6366f1; --accent-dark:#4f46e5; --accent-light:#eef2ff;
+  --green:#059669; --green-bg:#ecfdf5;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 8px 24px rgba(99,102,241,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+.site-nav{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;position:sticky;top:0;z-index:200;}
+.site-nav-inner{max-width:900px;margin:0 auto;height:50px;display:flex;align-items:center;justify-content:space-between;}
+.nav-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;}
+.nav-logo{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+
+.hero{background:linear-gradient(135deg,#312e81 0%,#6366f1 100%);padding:48px 20px 72px;text-align:center;color:#fff;}
+.hero-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px;}
+.hero h1{font-size:clamp(26px,5vw,42px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px;}
+.hero-sub{font-size:15px;opacity:.8;max-width:420px;margin:0 auto;}
+
+.main-wrap{max-width:900px;margin:-32px auto 0;padding:0 20px 80px;position:relative;z-index:1;}
+
+/* CATEGORIA TABS */
+.cat-scroll{overflow-x:auto;padding-bottom:4px;margin-bottom:20px;}
+.cat-tabs{display:flex;gap:8px;width:max-content;}
+.cat-tab{display:flex;flex-direction:column;align-items:center;gap:4px;border:1.5px solid var(--border);border-radius:12px;padding:10px 16px;cursor:pointer;transition:all .15s;background:var(--surface);min-width:80px;font-family:'Inter',sans-serif;}
+.cat-tab:hover{border-color:var(--accent);}
+.cat-tab.active{border-color:var(--accent);background:var(--accent-light);}
+.cat-tab .cat-icon{font-size:22px;}
+.cat-tab .cat-nome{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.cat-tab.active .cat-nome{color:var(--accent);}
+
+/* CONVERSOR CARD */
+.conv-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:28px;}
+
+/* INPUTS */
+.conv-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:20px;}
+@media(max-width:560px){.conv-row{grid-template-columns:1fr;}}
+.conv-side{display:flex;flex-direction:column;gap:8px;}
+.conv-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.conv-input-wrap{position:relative;}
+.conv-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:16px 16px;font-size:26px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text);background:#fff;outline:none;transition:border-color .15s;}
+.conv-input:focus{border-color:var(--accent);}
+.conv-input.resultado{background:var(--accent-light);border-color:var(--accent);color:var(--accent-dark);}
+.conv-select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;color:var(--text);background:#fff;outline:none;cursor:pointer;transition:border-color .15s;}
+.conv-select:focus{border-color:var(--accent);}
+
+.swap-btn{width:44px;height:44px;border:1.5px solid var(--border);border-radius:50%;background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted);transition:all .15s;flex-shrink:0;align-self:center;margin-top:20px;}
+.swap-btn:hover{border-color:var(--accent);color:var(--accent);transform:rotate(180deg);}
+@media(max-width:560px){.swap-btn{margin:0 auto;transform:rotate(90deg);}
+.swap-btn:hover{transform:rotate(270deg);}}
+
+/* REFERÊNCIAS RÁPIDAS */
+.refs-title{font-size:13px;font-weight:700;color:var(--text);margin:20px 0 12px;display:flex;align-items:center;gap:6px;}
+.refs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
+.ref-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;transition:all .15s;}
+.ref-item:hover{border-color:var(--accent);background:var(--accent-light);}
+.ref-de{font-size:13px;font-weight:700;color:var(--text);font-family:'JetBrains Mono',monospace;}
+.ref-seta{font-size:11px;color:var(--muted);margin:2px 0;}
+.ref-para{font-size:13px;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace;}
+
+/* TABELA COMPLETA */
+.tabela-toggle{width:100%;background:transparent;border:1.5px solid var(--border);border-radius:10px;padding:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;margin-top:16px;transition:all .15s;font-family:'Inter',sans-serif;}
+.tabela-toggle:hover{border-color:var(--accent);color:var(--accent);}
+.tabela-wrap{display:none;margin-top:12px;overflow-x:auto;}
+.tabela-wrap.aberta{display:block;}
+.tabela{width:100%;border-collapse:collapse;font-size:13px;}
+.tabela th{text-align:left;padding:8px 10px;background:var(--accent-light);color:var(--accent);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #c7d2fe;}
+.tabela td{padding:9px 10px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);}
+.tabela tr:hover td{background:var(--bg);}
+
+/* FAQ */
+.faq-section{background:#fff;border-top:1px solid var(--border);padding:48px 20px 72px;margin-top:40px;}
+.faq-wrap{max-width:760px;margin:0 auto;}
+.faq-title{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:22px;}
+.faq-item{margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:16px;}
+.faq-item:last-child{border-bottom:none;}
+.faq-item h3{font-size:14px;font-weight:600;margin-bottom:5px;}
+.faq-item p{font-size:14px;color:var(--muted);line-height:1.7;}
+
+footer{background:#0f172a;color:rgba(255,255,255,.5);text-align:center;padding:24px;font-size:13px;line-height:1.7;}
+footer strong{color:#fff;}
+footer a{color:rgba(255,255,255,.6);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="nav-back">← Todas as ferramentas</a>
+    <a href="/" class="nav-logo">MeuCalculo<span>Certo</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-chip">📐 Conversão instantânea</div>
+  <h1>Conversor de Medidas</h1>
+  <p class="hero-sub">Converta comprimento, peso, temperatura, volume, área e velocidade em segundos.</p>
+</div>
+
+<div class="main-wrap">
+
+  <!-- CATEGORIAS -->
+  <div class="cat-scroll">
+    <div class="cat-tabs" id="catTabs"></div>
+  </div>
+
+  <!-- CARD PRINCIPAL -->
+  <div class="conv-card">
+    <div class="conv-row">
+      <div class="conv-side">
+        <div class="conv-label">De</div>
+        <input type="number" class="conv-input" id="inputDe" value="1" oninput="calcular('de')">
+        <select class="conv-select" id="selectDe" onchange="trocarUnidade()"></select>
+      </div>
+
+      <button class="swap-btn" onclick="swap()" title="Inverter">⇄</button>
+
+      <div class="conv-side">
+        <div class="conv-label">Para</div>
+        <input type="number" class="conv-input resultado" id="inputPara" readonly>
+        <select class="conv-select" id="selectPara" onchange="trocarUnidade()"></select>
+      </div>
+    </div>
+
+    <!-- REFERÊNCIAS RÁPIDAS -->
+    <div class="refs-title">⚡ Conversões rápidas</div>
+    <div class="refs-grid" id="refsGrid"></div>
+
+    <!-- TABELA COMPLETA -->
+    <button class="tabela-toggle" id="tabelaBtn" onclick="toggleTabela()">Ver tabela completa ▾</button>
+    <div class="tabela-wrap" id="tabelaWrap">
+      <table class="tabela">
+        <thead><tr><th>Unidade</th><th>Símbolo</th><th id="thConv">Equivale a 1 unidade base</th></tr></thead>
+        <tbody id="tabelaBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-wrap">
+    <div class="faq-title">Conversões mais buscadas</div>
+    <div class="faq-item">
+      <h3>Quantos km equivalem a 1 milha?</h3>
+      <p>1 milha (mile) equivale a 1,60934 quilômetros. Inversamente, 1 km equivale a aproximadamente 0,6214 milhas. Essa conversão é muito usada para entender velocidades em filmes e jogos americanos, e para percursos em países que usam o sistema imperial.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Como converter Fahrenheit para Celsius?</h3>
+      <p>A fórmula é: °C = (°F − 32) × 5/9. Por exemplo, 98,6°F (temperatura corporal normal nos EUA) equivale a 37°C. Para converter de Celsius para Fahrenheit: °F = (°C × 9/5) + 32.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Quantas libras tem 1 kg?</h3>
+      <p>1 quilograma equivale a 2,20462 libras (pounds). 1 libra equivale a 0,453592 kg. A libra é usada em países como EUA e Reino Unido para medir peso corporal e alimentos.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Quanto é 1 polegada em centímetros?</h3>
+      <p>1 polegada (inch) equivale a 2,54 centímetros exatos. Isso é importante para dimensionar telas de TV, monitores, smartphones e pneus. Um monitor de 27 polegadas tem a diagonal da tela de 68,58 cm.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Qual a diferença entre litro e galão?</h3>
+      <p>1 galão americano (US gallon) equivale a 3,785 litros. O galão britânico (imperial gallon) é um pouco maior: 4,546 litros. O galão é usado para medir combustível nos EUA — por isso os preços de gasolina americana parecem mais baratos (são por galão, não por litro).</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>MeuCalculoCerto.com.br</strong> · Conversor de Medidas gratuito<br>
+  <a href="/politica-de-privacidade.html">Política de Privacidade</a> · <span style="font-size:12px;opacity:.6;">© 2026 MeuCalculoCerto</span>
+</footer>
+
+<script>
+const CATEGORIAS = [
+  {
+    id:'comprimento', nome:'Comprimento', icone:'📏',
+    base:'m',
+    unidades:[
+      {cod:'km',    nome:'Quilômetro',   simb:'km',     fator:1000},
+      {cod:'m',     nome:'Metro',        simb:'m',      fator:1},
+      {cod:'cm',    nome:'Centímetro',   simb:'cm',     fator:0.01},
+      {cod:'mm',    nome:'Milímetro',    simb:'mm',     fator:0.001},
+      {cod:'mi',    nome:'Milha',        simb:'mi',     fator:1609.344},
+      {cod:'yd',    nome:'Jarda',        simb:'yd',     fator:0.9144},
+      {cod:'ft',    nome:'Pé (foot)',    simb:'ft',     fator:0.3048},
+      {cod:'in',    nome:'Polegada',     simb:'in',     fator:0.0254},
+      {cod:'nm',    nome:'Milha náutica',simb:'nmi',    fator:1852},
+      {cod:'ly',    nome:'Ano-luz',      simb:'ly',     fator:9.461e15},
+    ],
+    refs:[
+      {v:1,de:'mi',para:'km',label:'1 milha'},
+      {v:1,de:'in',para:'cm',label:'1 polegada'},
+      {v:100,de:'m',para:'ft',label:'100 metros'},
+      {v:1,de:'km',para:'mi',label:'1 km'},
+      {v:1,de:'ft',para:'cm',label:'1 pé'},
+      {v:1,de:'yd',para:'m',label:'1 jarda'},
+    ]
+  },
+  {
+    id:'peso', nome:'Peso', icone:'⚖️',
+    base:'kg',
+    unidades:[
+      {cod:'t',     nome:'Tonelada',     simb:'t',      fator:1000},
+      {cod:'kg',    nome:'Quilograma',   simb:'kg',     fator:1},
+      {cod:'g',     nome:'Grama',        simb:'g',      fator:0.001},
+      {cod:'mg',    nome:'Miligrama',    simb:'mg',     fator:1e-6},
+      {cod:'lb',    nome:'Libra',        simb:'lb',     fator:0.453592},
+      {cod:'oz',    nome:'Onça',         simb:'oz',     fator:0.0283495},
+      {cod:'st',    nome:'Stone',        simb:'st',     fator:6.35029},
+      {cod:'arr',   nome:'Arroba',       simb:'@',      fator:15},
+    ],
+    refs:[
+      {v:1,de:'lb',para:'kg',label:'1 libra'},
+      {v:1,de:'kg',para:'lb',label:'1 kg'},
+      {v:1,de:'oz',para:'g',label:'1 onça'},
+      {v:1,de:'arr',para:'kg',label:'1 arroba'},
+      {v:70,de:'kg',para:'lb',label:'70 kg'},
+      {v:1,de:'st',para:'kg',label:'1 stone'},
+    ]
+  },
+  {
+    id:'temperatura', nome:'Temperatura', icone:'🌡️',
+    base:'C',
+    unidades:[
+      {cod:'C', nome:'Celsius',    simb:'°C'},
+      {cod:'F', nome:'Fahrenheit', simb:'°F'},
+      {cod:'K', nome:'Kelvin',     simb:'K'},
+    ],
+    refs:[
+      {v:0,de:'C',para:'F',label:'0°C (gelo)'},
+      {v:100,de:'C',para:'F',label:'100°C (fervura)'},
+      {v:37,de:'C',para:'F',label:'37°C (corpo)'},
+      {v:32,de:'F',para:'C',label:'32°F'},
+      {v:212,de:'F',para:'C',label:'212°F'},
+      {v:0,de:'K',para:'C',label:'0 K (abs zero)'},
+    ]
+  },
+  {
+    id:'volume', nome:'Volume', icone:'🧪',
+    base:'l',
+    unidades:[
+      {cod:'m3',    nome:'Metro cúbico',    simb:'m³',     fator:1000},
+      {cod:'l',     nome:'Litro',           simb:'L',      fator:1},
+      {cod:'ml',    nome:'Mililitro',       simb:'mL',     fator:0.001},
+      {cod:'gal',   nome:'Galão (US)',      simb:'gal',    fator:3.78541},
+      {cod:'gali',  nome:'Galão (UK)',      simb:'gal UK', fator:4.54609},
+      {cod:'qt',    nome:'Quarto (US)',     simb:'qt',     fator:0.946353},
+      {cod:'pt',    nome:'Pinta (US)',      simb:'pt',     fator:0.473176},
+      {cod:'floz',  nome:'Fl. onça (US)',   simb:'fl oz',  fator:0.0295735},
+      {cod:'tbsp',  nome:'Colher de sopa',  simb:'tbsp',   fator:0.0147868},
+      {cod:'tsp',   nome:'Colher de chá',   simb:'tsp',    fator:0.00492892},
+      {cod:'cm3',   nome:'Centímetro cúb.', simb:'cm³',    fator:0.001},
+    ],
+    refs:[
+      {v:1,de:'gal',para:'l',label:'1 galão US'},
+      {v:1,de:'l',para:'gal',label:'1 litro'},
+      {v:355,de:'ml',para:'floz',label:'355ml (lata)'},
+      {v:1,de:'qt',para:'l',label:'1 quarto'},
+      {v:1,de:'tbsp',para:'ml',label:'1 colher sopa'},
+      {v:1,de:'tsp',para:'ml',label:'1 colher chá'},
+    ]
+  },
+  {
+    id:'area', nome:'Área', icone:'📐',
+    base:'m2',
+    unidades:[
+      {cod:'km2',   nome:'Km quadrado',     simb:'km²',    fator:1e6},
+      {cod:'ha',    nome:'Hectare',         simb:'ha',     fator:10000},
+      {cod:'m2',    nome:'Metro quadrado',  simb:'m²',     fator:1},
+      {cod:'cm2',   nome:'Cm quadrado',     simb:'cm²',    fator:0.0001},
+      {cod:'mm2',   nome:'Mm quadrado',     simb:'mm²',    fator:1e-6},
+      {cod:'mi2',   nome:'Milha quadrada',  simb:'mi²',    fator:2589988.1},
+      {cod:'ac',    nome:'Acre',            simb:'ac',     fator:4046.856},
+      {cod:'ft2',   nome:'Pé quadrado',     simb:'ft²',    fator:0.092903},
+      {cod:'in2',   nome:'Polegada quad.',  simb:'in²',    fator:0.00064516},
+      {cod:'alq',   nome:'Alqueire (SP)',   simb:'alq',    fator:24200},
+    ],
+    refs:[
+      {v:1,de:'ha',para:'m2',label:'1 hectare'},
+      {v:1,de:'ac',para:'m2',label:'1 acre'},
+      {v:1,de:'mi2',para:'km2',label:'1 mi²'},
+      {v:1,de:'ft2',para:'m2',label:'1 pé²'},
+      {v:1,de:'alq',para:'ha',label:'1 alqueire SP'},
+      {v:100,de:'m2',para:'ft2',label:'100 m²'},
+    ]
+  },
+  {
+    id:'velocidade', nome:'Velocidade', icone:'🚀',
+    base:'ms',
+    unidades:[
+      {cod:'ms',    nome:'Metro/segundo',   simb:'m/s',    fator:1},
+      {cod:'kmh',   nome:'Km/hora',         simb:'km/h',   fator:0.277778},
+      {cod:'mph',   nome:'Milha/hora',      simb:'mph',    fator:0.44704},
+      {cod:'kn',    nome:'Nó (knot)',       simb:'kn',     fator:0.514444},
+      {cod:'fts',   nome:'Pé/segundo',      simb:'ft/s',   fator:0.3048},
+      {cod:'mach',  nome:'Mach (aprox.)',   simb:'M',      fator:343},
+    ],
+    refs:[
+      {v:100,de:'kmh',para:'mph',label:'100 km/h'},
+      {v:60,de:'mph',para:'kmh',label:'60 mph'},
+      {v:1,de:'mach',para:'kmh',label:'1 Mach'},
+      {v:1,de:'kn',para:'kmh',label:'1 nó'},
+      {v:30,de:'ms',para:'kmh',label:'30 m/s'},
+      {v:299792,de:'ms',para:'mach',label:'Luz (aprox)'},
+    ]
+  },
+  {
+    id:'dados', nome:'Dados', icone:'💾',
+    base:'byte',
+    unidades:[
+      {cod:'bit',   nome:'Bit',             simb:'bit',    fator:0.125},
+      {cod:'byte',  nome:'Byte',            simb:'B',      fator:1},
+      {cod:'kb',    nome:'Kilobyte',        simb:'KB',     fator:1024},
+      {cod:'mb',    nome:'Megabyte',        simb:'MB',     fator:1048576},
+      {cod:'gb',    nome:'Gigabyte',        simb:'GB',     fator:1073741824},
+      {cod:'tb',    nome:'Terabyte',        simb:'TB',     fator:1.099511628e12},
+      {cod:'pb',    nome:'Petabyte',        simb:'PB',     fator:1.125899907e15},
+    ],
+    refs:[
+      {v:1,de:'gb',para:'mb',label:'1 GB'},
+      {v:1,de:'tb',para:'gb',label:'1 TB'},
+      {v:1,de:'mb',para:'kb',label:'1 MB'},
+      {v:4.7,de:'gb',para:'mb',label:'DVD (4.7 GB)'},
+      {v:1,de:'kb',para:'byte',label:'1 KB'},
+      {v:25,de:'gb',para:'mb',label:'Blu-ray (25 GB)'},
+    ]
+  },
+];
+
+let catAtual = CATEGORIAS[0];
+
+// Temperatura: conversão especial
+function convTemp(val, de, para){
+  let emC;
+  if(de==='C') emC=val;
+  else if(de==='F') emC=(val-32)*5/9;
+  else emC=val-273.15;
+
+  if(para==='C') return emC;
+  if(para==='F') return emC*9/5+32;
+  return emC+273.15;
+}
+
+function converter(val, de, para, cat){
+  if(cat.id==='temperatura') return convTemp(val,de,para);
+  const uDe  = cat.unidades.find(u=>u.cod===de);
+  const uPara= cat.unidades.find(u=>u.cod===para);
+  if(!uDe||!uPara) return null;
+  return (val * uDe.fator) / uPara.fator;
+}
+
+function fmt(v){
+  if(v===null||isNaN(v)) return '—';
+  const abs=Math.abs(v);
+  if(abs===0) return '0';
+  if(abs>=0.001&&abs<1e9) return parseFloat(v.toPrecision(7)).toLocaleString('pt-BR',{maximumFractionDigits:6});
+  return v.toExponential(4);
+}
+
+function renderCats(){
+  const wrap=document.getElementById('catTabs');
+  wrap.innerHTML=CATEGORIAS.map(c=>`
+    <button class="cat-tab${c.id===catAtual.id?' active':''}" onclick="mudarCat('${c.id}')">
+      <span class="cat-icon">${c.icone}</span>
+      <span class="cat-nome">${c.nome}</span>
+    </button>`).join('');
+}
+
+function renderSelects(){
+  const ops = catAtual.unidades.map(u=>`<option value="${u.cod}">${u.simb} — ${u.nome}</option>`).join('');
+  document.getElementById('selectDe').innerHTML=ops;
+  document.getElementById('selectPara').innerHTML=ops;
+  // padrão inteligente por categoria
+  const defaults={
+    comprimento:['m','km'], peso:['kg','lb'],
+    temperatura:['C','F'], volume:['l','gal'],
+    area:['m2','ft2'], velocidade:['kmh','mph'],
+    dados:['gb','mb']
+  };
+  const [d,p]=defaults[catAtual.id]||[catAtual.unidades[0].cod,catAtual.unidades[1].cod];
+  document.getElementById('selectDe').value=d;
+  document.getElementById('selectPara').value=p;
+}
+
+function renderRefs(){
+  const grid=document.getElementById('refsGrid');
+  grid.innerHTML=catAtual.refs.map(r=>{
+    const res=converter(r.v,r.de,r.para,catAtual);
+    const uDe=catAtual.unidades.find(u=>u.cod===r.de);
+    const uPara=catAtual.unidades.find(u=>u.cod===r.para);
+    return `<div class="ref-item" onclick="aplicarRef(${r.v},'${r.de}','${r.para}')">
+      <div class="ref-de">${r.v} ${uDe?.simb||r.de}</div>
+      <div class="ref-seta">↓</div>
+      <div class="ref-para">${fmt(res)} ${uPara?.simb||r.para}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTabela(){
+  const selDe=document.getElementById('selectDe').value;
+  const uBase=catAtual.unidades.find(u=>u.cod===selDe);
+  document.getElementById('thConv').textContent=`Equivale a 1 ${uBase?.simb||selDe}`;
+  const tbody=document.getElementById('tabelaBody');
+  tbody.innerHTML=catAtual.unidades.map(u=>{
+    const res=converter(1,selDe,u.cod,catAtual);
+    return `<tr><td>${u.nome}</td><td>${u.simb}</td><td>${fmt(res)}</td></tr>`;
+  }).join('');
+}
+
+function calcular(lado){
+  if(lado==='de'){
+    const val=parseFloat(document.getElementById('inputDe').value)||0;
+    const de=document.getElementById('selectDe').value;
+    const para=document.getElementById('selectPara').value;
+    const res=converter(val,de,para,catAtual);
+    document.getElementById('inputPara').value=res!==null?fmt(res):'—';
+  }
+  renderTabela();
+}
+
+function trocarUnidade(){
+  calcular('de');
+  renderRefs();
+  renderTabela();
+}
+
+function swap(){
+  const de=document.getElementById('selectDe').value;
+  const para=document.getElementById('selectPara').value;
+  const valPara=document.getElementById('inputPara').value;
+  document.getElementById('selectDe').value=para;
+  document.getElementById('selectPara').value=de;
+  document.getElementById('inputDe').value=valPara!=='—'?valPara:1;
+  calcular('de');
+  renderRefs();
+}
+
+function aplicarRef(val,de,para){
+  document.getElementById('selectDe').value=de;
+  document.getElementById('selectPara').value=para;
+  document.getElementById('inputDe').value=val;
+  calcular('de');
+}
+
+function mudarCat(id){
+  catAtual=CATEGORIAS.find(c=>c.id===id);
+  document.getElementById('inputDe').value=1;
+  document.getElementById('tabelaWrap').classList.remove('aberta');
+  document.getElementById('tabelaBtn').textContent='Ver tabela completa ▾';
+  renderCats();
+  renderSelects();
+  calcular('de');
+  renderRefs();
+}
+
+function toggleTabela(){
+  const w=document.getElementById('tabelaWrap');
+  const b=document.getElementById('tabelaBtn');
+  w.classList.toggle('aberta');
+  b.textContent=w.classList.contains('aberta')?'Fechar tabela ▴':'Ver tabela completa ▾';
+  if(w.classList.contains('aberta')) renderTabela();
+}
+
+// INIT
+renderCats();
+renderSelects();
+calcular('de');
+renderRefs();
+</script>
+</body>
+</html>
