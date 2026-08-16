@@ -82,6 +82,14 @@ header{
   color:var(--text);
   text-decoration:none;
   letter-spacing:-.02em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.logo-mascote{
+  height:34px;
+  width:auto;
+  display:block;
 }
 .logo span{color:var(--accent);}
 .header-tag{
@@ -360,7 +368,7 @@ footer strong{color:#fff;}
 
 <header>
   <div class="header-inner">
-    <a href="/" class="logo">MeuCalculo<span>Certo</span></a>
+    <a href="/" class="logo"><img src="mascote.png" alt="Mascote MeuCalculoCerto" class="logo-mascote">MeuCalculo<span>Certo</span></a>
     <span class="header-tag">✓ Gratuito e sem cadastro</span>
   </div>
 </header>
