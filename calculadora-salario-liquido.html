@@ -19,8 +19,8 @@ src="https://www.facebook.com/tr?id=1088135110208454&ev=PageView&noscript=1"/></
 <!-- End Meta Pixel Code -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Salário Líquido 2026 — Desconto INSS e IRRF</title>
-<meta name="description" content="Calcule seu salário líquido 2026 com descontos de INSS e IRRF atualizados. Simule também salário família, vale transporte e plano de saúde.">
+<title>Calculadora de Salário Líquido 2026 — Nova Isenção do IR até R$5.000</title>
+<meta name="description" content="Calcule seu salário líquido 2026 já com a nova isenção do Imposto de Renda (Lei 15.270/2025) para quem ganha até R$5.000. Descontos de INSS e IRRF atualizados.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,12 +39,17 @@ src="https://www.facebook.com/tr?id=1088135110208454&ev=PageView&noscript=1"/></
     {
       "@type": "Question",
       "name": "Como é calculado o INSS em 2026?",
-      "acceptedAnswer": { "@type": "Answer", "text": "O INSS em 2026 é calculado de forma progressiva por faixas: 7,5% até R$ 1.518,00; 9% de R$ 1.518,01 a R$ 2.793,88; 12% de R$ 2.793,89 a R$ 4.190,83; e 14% de R$ 4.190,84 a R$ 8.157,41." }
+      "acceptedAnswer": { "@type": "Answer", "text": "O INSS em 2026 é calculado de forma progressiva por faixas: 7,5% até R$ 1.621,00; 9% de R$ 1.621,01 a R$ 2.902,84; 12% de R$ 2.902,85 a R$ 4.354,27; e 14% de R$ 4.354,28 a R$ 8.475,55, conforme a Portaria Interministerial MPS/MF nº 13/2026." }
     },
     {
       "@type": "Question",
       "name": "Qual o limite de isenção do IRRF em 2026?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Em 2026, são isentos de IRRF salários até R$ 2.824,00 após as deduções permitidas." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Pela tabela tradicional, são isentos de IRRF salários com base de cálculo até R$ 2.824,00. Mas desde janeiro de 2026, a Lei 15.270/2025 criou um redutor adicional que isenta na prática quem tem base de cálculo até R$ 5.000,00, com redução parcial e decrescente entre R$ 5.000,01 e R$ 7.350,00." }
+    },
+    {
+      "@type": "Question",
+      "name": "O que muda com a nova Lei 15.270/2025 do Imposto de Renda?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A partir de janeiro de 2026, além da tabela tradicional do IRRF, passou a existir um redutor: quem tem base de cálculo mensal até R$ 5.000 fica isento de IR, e entre R$ 5.000,01 e R$ 7.350,00 há uma redução decrescente do imposto apurado. Acima de R$ 7.350,00, aplica-se normalmente a tabela tradicional, sem redução." }
     }
   ]
 }
@@ -342,6 +347,20 @@ body{
 .legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
 
+/* BANNER NOVA LEI IR */
+.lei-banner{
+  display:none;
+  background:linear-gradient(135deg,#fff7ed,#ffedd5);
+  border:1.5px solid #fdba74;
+  border-radius:12px;
+  padding:14px 16px;
+  margin-bottom:20px;
+  font-size:13px;
+  color:#9a3412;
+  line-height:1.6;
+}
+.lei-banner strong{color:#7c2d12;}
+
 /* ALIQUOTA CARD */
 .aliquota-card{
   background:var(--yellow-bg);
@@ -404,9 +423,9 @@ footer strong{color:#fff;}
 </nav>
 
 <div class="hero">
-  <div class="hero-chip">💵 Tabelas atualizadas 2026</div>
+  <div class="hero-chip">💵 Já com a nova isenção do IR 2026</div>
   <h1>Calculadora de Salário Líquido</h1>
-  <p class="hero-sub">Descubra quanto você recebe no bolso após descontos de INSS e IRRF — com as tabelas oficiais 2026.</p>
+  <p class="hero-sub">Descubra quanto você recebe no bolso após descontos de INSS e IRRF — com as tabelas oficiais 2026 e a nova isenção da Lei 15.270/2025.</p>
 </div>
 
 <div class="main-wrap">
@@ -491,6 +510,7 @@ footer strong{color:#fff;}
 
     <!-- RESULTADO -->
     <div id="resultado" style="margin-top:28px;">
+      <div class="lei-banner" id="leiBanner"></div>
       <div class="salario-destaque">
         <div class="salario-label">💰 Seu salário líquido</div>
         <div class="salario-valor" id="valorLiquido">R$ 0,00</div>
@@ -533,24 +553,27 @@ footer strong{color:#fff;}
     <div class="card">
       <div class="card-title"><span>📋</span> Tabela INSS 2026</div>
       <div class="tabela-row" id="inss1">
-        <span class="tabela-faixa">Até R$ 1.518,00</span>
+        <span class="tabela-faixa">Até R$ 1.621,00</span>
         <span class="tabela-aliq">7,5%</span>
       </div>
       <div class="tabela-row" id="inss2">
-        <span class="tabela-faixa">R$ 1.518,01 – R$ 2.793,88</span>
+        <span class="tabela-faixa">R$ 1.621,01 – R$ 2.902,84</span>
         <span class="tabela-aliq">9%</span>
       </div>
       <div class="tabela-row" id="inss3">
-        <span class="tabela-faixa">R$ 2.793,89 – R$ 4.190,83</span>
+        <span class="tabela-faixa">R$ 2.902,85 – R$ 4.354,27</span>
         <span class="tabela-aliq">12%</span>
       </div>
       <div class="tabela-row" id="inss4">
-        <span class="tabela-faixa">R$ 4.190,84 – R$ 8.157,41</span>
+        <span class="tabela-faixa">R$ 4.354,28 – R$ 8.475,55</span>
         <span class="tabela-aliq">14%</span>
       </div>
       <div class="tabela-row" style="padding-top:12px;">
         <span class="tabela-faixa" style="color:var(--red);font-size:12px;">Teto INSS</span>
-        <span class="tabela-aliq" style="color:var(--red);">R$ 951,62</span>
+        <span class="tabela-aliq" style="color:var(--red);">R$ 988,09</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+        Portaria Interministerial MPS/MF nº 13/2026
       </div>
     </div>
 
@@ -580,6 +603,25 @@ footer strong{color:#fff;}
         Dedução por dependente: <strong>R$ 189,59/mês</strong>
       </div>
     </div>
+
+    <div class="card tabela-card" style="border-color:#fdba74;background:#fffaf5;">
+      <div class="card-title"><span>🆕</span> Redução do IR — Lei 15.270/2025</div>
+      <div class="tabela-row">
+        <span class="tabela-faixa">Base até R$ 5.000,00</span>
+        <span class="tabela-aliq" style="color:var(--green);">Isento</span>
+      </div>
+      <div class="tabela-row">
+        <span class="tabela-faixa">R$ 5.000,01 – R$ 7.350,00</span>
+        <span class="tabela-aliq" style="color:var(--yellow);">Redução parcial</span>
+      </div>
+      <div class="tabela-row">
+        <span class="tabela-faixa">Acima de R$ 7.350,00</span>
+        <span class="tabela-aliq" style="color:var(--muted);">Sem redução</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+        Redutor aplicado sobre o imposto já calculado pela tabela tradicional. Vigente desde jan/2026.
+      </div>
+    </div>
   </div>
 
 </div>
@@ -590,12 +632,16 @@ footer strong{color:#fff;}
     <div class="faq-title">Perguntas frequentes</div>
 
     <div class="faq-item">
+      <h3>O que muda com a nova Lei 15.270/2025 do Imposto de Renda?</h3>
+      <p>Desde janeiro de 2026, além da tabela tradicional do IRRF, passou a existir um redutor adicional: quem tem base de cálculo mensal até R$ 5.000 fica isento de IR, e entre R$ 5.000,01 e R$ 7.350,00 há uma redução decrescente sobre o imposto apurado pela tabela tradicional. Acima de R$ 7.350,00, não há redução — vale a tabela tradicional normalmente.</p>
+    </div>
+    <div class="faq-item">
       <h3>Como é calculado o INSS em 2026?</h3>
-      <p>O INSS é calculado de forma progressiva por faixas — igual ao Imposto de Renda. Cada faixa tem sua alíquota aplicada apenas sobre o valor que se enquadra nela, não sobre o salário inteiro. O desconto máximo (teto) é de R$ 951,62 para salários acima de R$ 8.157,41.</p>
+      <p>O INSS é calculado de forma progressiva por faixas — igual ao Imposto de Renda. Cada faixa tem sua alíquota aplicada apenas sobre o valor que se enquadra nela, não sobre o salário inteiro. Pela Portaria Interministerial MPS/MF nº 13/2026, o desconto máximo (teto) é de R$ 988,09 para salários acima de R$ 8.475,55.</p>
     </div>
     <div class="faq-item">
       <h3>O que é a base de cálculo do IRRF?</h3>
-      <p>A base do IRRF é o salário bruto menos o INSS, menos as deduções por dependentes (R$ 189,59 cada) e pensão alimentícia judicial. Sobre essa base são aplicadas as alíquotas progressivas do Imposto de Renda.</p>
+      <p>A base do IRRF é o salário bruto menos o INSS, menos as deduções por dependentes (R$ 189,59 cada) e pensão alimentícia judicial. Sobre essa base são aplicadas as alíquotas progressivas do Imposto de Renda, e depois, se aplicável, o redutor da Lei 15.270/2025.</p>
     </div>
     <div class="faq-item">
       <h3>Vale transporte desconta quanto?</h3>
@@ -603,7 +649,7 @@ footer strong{color:#fff;}
     </div>
     <div class="faq-item">
       <h3>Quem tem direito à isenção de IRRF?</h3>
-      <p>Trabalhadores com base de cálculo (após INSS e deduções) até R$ 2.824,00 são isentos de IRRF. Além disso, portadores de doenças graves listadas na legislação têm isenção independente do salário.</p>
+      <p>Pela tabela tradicional, trabalhadores com base de cálculo até R$ 2.824,00 já são isentos. Com a Lei 15.270/2025, essa isenção efetiva se estende até R$ 5.000,00 de base de cálculo, com redução parcial até R$ 7.350,00. Portadores de doenças graves listadas na legislação também têm isenção independente do salário.</p>
     </div>
     <div class="faq-item">
       <h3>Esse cálculo vale para autônomos e MEI?</h3>
@@ -614,22 +660,23 @@ footer strong{color:#fff;}
 
 <footer>
   <strong>MeuCalculoCerto.com.br</strong><br>
-  Calculadora de Salário Líquido 2026 — tabelas INSS e IRRF atualizadas.<br>
+  Calculadora de Salário Líquido 2026 — tabelas INSS e IRRF atualizadas, já com a redução do IR da Lei 15.270/2025.<br>
   Valores estimados para fins educativos. Para cálculo oficial consulte seu departamento pessoal.<br>
   <span style="font-size:12px;opacity:.6;">© 2026 MeuCalculoCerto</span>
 </footer>
 
 <script>
-// TABELAS 2026
+// TABELAS 2026 — Portaria Interministerial MPS/MF nº 13/2026
 const INSS_FAIXAS = [
-  { limite: 1518.00,   aliq: 0.075 },
-  { limite: 2793.88,   aliq: 0.09  },
-  { limite: 4190.83,   aliq: 0.12  },
-  { limite: 8157.41,   aliq: 0.14  },
+  { limite: 1621.00,   aliq: 0.075 },
+  { limite: 2902.84,   aliq: 0.09  },
+  { limite: 4354.27,   aliq: 0.12  },
+  { limite: 8475.55,   aliq: 0.14  },
 ];
-const INSS_TETO = 951.62;
+const INSS_TETO = 988.09;
 const DEDUCAO_DEPENDENTE = 189.59;
 
+// Tabela tradicional do IRRF (inalterada pela Lei 15.270/2025)
 const IRRF_FAIXAS = [
   { limite: 2824.00,  aliq: 0,     deducao: 0      },
   { limite: 3751.05,  aliq: 0.075, deducao: 169.44 },
@@ -637,6 +684,13 @@ const IRRF_FAIXAS = [
   { limite: 6101.06,  aliq: 0.225, deducao: 800.40 },
   { limite: Infinity, aliq: 0.275, deducao: 1105.26},
 ];
+
+// Redutor adicional criado pela Lei nº 15.270/2025, vigente desde jan/2026
+// Isenção total até R$5.000; redução decrescente entre R$5.000,01 e R$7.350,00
+const LIMITE_ISENCAO_2026 = 5000.00;
+const LIMITE_REDUCAO_2026 = 7350.00;
+const REDUTOR_CONST_A = 978.62;
+const REDUTOR_CONST_B = 0.133145;
 
 function calcularINSS(bruto){
   let inss = 0;
@@ -652,15 +706,34 @@ function calcularINSS(bruto){
   return Math.min(inss, INSS_TETO);
 }
 
-function calcularIRRF(bruto, inss, dependentes, pensao){
-  const baseCalculo = bruto - inss - (dependentes * DEDUCAO_DEPENDENTE) - pensao;
-  if(baseCalculo <= 0) return 0;
+// Calcula o imposto pela tabela tradicional, o redutor da Lei 15.270/2025
+// e o valor final de IRRF a pagar, com base na base de cálculo mensal.
+function calcularIRRFDetalhado(baseCalculo){
+  if(baseCalculo <= 0) return { tradicional: 0, redutor: 0, final: 0 };
+
+  let tradicional = 0;
   for(const f of IRRF_FAIXAS){
     if(baseCalculo <= f.limite){
-      return Math.max(0, baseCalculo * f.aliq - f.deducao);
+      tradicional = Math.max(0, baseCalculo * f.aliq - f.deducao);
+      break;
     }
   }
-  return 0;
+
+  let redutor = 0;
+  if(baseCalculo <= LIMITE_ISENCAO_2026){
+    redutor = tradicional; // isenção total pela nova lei
+  } else if(baseCalculo <= LIMITE_REDUCAO_2026){
+    redutor = Math.max(0, REDUTOR_CONST_A - (REDUTOR_CONST_B * baseCalculo));
+    redutor = Math.min(redutor, tradicional);
+  }
+
+  const final = Math.max(0, tradicional - redutor);
+  return { tradicional, redutor, final };
+}
+
+function calcularIRRF(bruto, inss, dependentes, pensao){
+  const baseCalculo = bruto - inss - (dependentes * DEDUCAO_DEPENDENTE) - pensao;
+  return calcularIRRFDetalhado(baseCalculo).final;
 }
 
 function fmt(v){
@@ -702,7 +775,9 @@ function calcular(){
   const outros = temOutros ? (parseFloat(document.getElementById('valorOutros').value)||0) : 0;
 
   const inss = calcularINSS(bruto);
-  const irrf = calcularIRRF(bruto, inss, dependentes, pensao);
+  const baseIRRF = bruto - inss - (dependentes*DEDUCAO_DEPENDENTE) - pensao;
+  const irrfDetalhe = calcularIRRFDetalhado(baseIRRF);
+  const irrf = irrfDetalhe.final;
   const outrosTotal = vt + saude + dental + outros;
   const totalDesc = inss + irrf + outrosTotal;
   const liquido = bruto - totalDesc;
@@ -722,7 +797,10 @@ function calcular(){
   let html = '';
   html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#16a34a;"></span>Salário bruto</span><span class="breakdown-val val-green">${fmt(bruto)}</span></div>`;
   html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#2563eb;"></span>INSS (${pct(inss,bruto)})</span><span class="breakdown-val val-red">− ${fmt(inss)}</span></div>`;
-  html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#dc2626;"></span>IRRF${irrf===0?' (isento)':' ('+pct(irrf,bruto)+')'}</span><span class="breakdown-val ${irrf===0?'val-neutral':'val-red'}">${irrf===0?'Isento':'− '+fmt(irrf)}</span></div>`;
+  const irrfLabel = irrf===0
+    ? (irrfDetalhe.redutor>0 ? ' (isento — Lei 15.270/2025)' : ' (isento)')
+    : (irrfDetalhe.redutor>0 ? ' ('+pct(irrf,bruto)+', com redução da Lei 15.270/2025)' : ' ('+pct(irrf,bruto)+')');
+  html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#dc2626;"></span>IRRF${irrfLabel}</span><span class="breakdown-val ${irrf===0?'val-neutral':'val-red'}">${irrf===0?'Isento':'− '+fmt(irrf)}</span></div>`;
   if(vt>0) html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#d97706;"></span>Vale transporte (6%)</span><span class="breakdown-val val-red">− ${fmt(vt)}</span></div>`;
   if(saude>0) html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#d97706;"></span>Plano de saúde</span><span class="breakdown-val val-red">− ${fmt(saude)}</span></div>`;
   if(dental>0) html += `<div class="breakdown-item"><span class="breakdown-name"><span class="breakdown-dot" style="background:#d97706;"></span>Plano odontológico</span><span class="breakdown-val val-red">− ${fmt(dental)}</span></div>`;
@@ -738,19 +816,31 @@ function calcular(){
 
   // Highlight faixas INSS
   const faixasInss = ['inss1','inss2','inss3','inss4'];
-  if(bruto <= 1518) highlightFaixa('inss1', faixasInss);
-  else if(bruto <= 2793.88) highlightFaixa('inss2', faixasInss);
-  else if(bruto <= 4190.83) highlightFaixa('inss3', faixasInss);
+  if(bruto <= 1621) highlightFaixa('inss1', faixasInss);
+  else if(bruto <= 2902.84) highlightFaixa('inss2', faixasInss);
+  else if(bruto <= 4354.27) highlightFaixa('inss3', faixasInss);
   else highlightFaixa('inss4', faixasInss);
 
-  // Highlight faixas IRRF
-  const baseIRRF = bruto - inss - (dependentes*DEDUCAO_DEPENDENTE) - pensao;
+  // Highlight faixas IRRF (tabela tradicional)
   const faixasIrrf = ['irrf1','irrf2','irrf3','irrf4','irrf5'];
   if(baseIRRF <= 2824) highlightFaixa('irrf1', faixasIrrf);
   else if(baseIRRF <= 3751.05) highlightFaixa('irrf2', faixasIrrf);
   else if(baseIRRF <= 4664.68) highlightFaixa('irrf3', faixasIrrf);
   else if(baseIRRF <= 6101.06) highlightFaixa('irrf4', faixasIrrf);
   else highlightFaixa('irrf5', faixasIrrf);
+
+  // Banner da nova Lei 15.270/2025
+  const leiBanner = document.getElementById('leiBanner');
+  if(irrfDetalhe.redutor > 0 && irrfDetalhe.tradicional > 0){
+    if(irrf === 0){
+      leiBanner.innerHTML = `🎉 <strong>Você está isento de IR pela nova Lei 15.270/2025!</strong> Sem essa regra, o desconto seria de ${fmt(irrfDetalhe.tradicional)}.`;
+    } else {
+      leiBanner.innerHTML = `🎉 <strong>Você está pagando menos IR graças à Lei 15.270/2025:</strong> economia de ${fmt(irrfDetalhe.redutor)} sobre o valor da tabela tradicional.`;
+    }
+    leiBanner.style.display = 'block';
+  } else {
+    leiBanner.style.display = 'none';
+  }
 
   document.getElementById('resultado').style.display = 'block';
   document.getElementById('resultado').scrollIntoView({behavior:'smooth', block:'start'});
