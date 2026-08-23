@@ -178,7 +178,7 @@ footer strong{ color:#fff; }
       <div class="field-hint">Se o contrato ou índice não especificar, 252 dias úteis é a convenção mais comum no mercado financeiro brasileiro.</div>
     </div>
 
-    <button class="calc-btn secundario" id="usarSelicBtn" onclick="usarSelicMeta()">📊 Usar Selic Meta atual</button>
+    <button class="calc-btn secundario" id="usarSelicBtn" onclick="usarSelicOver()">📊 Usar Selic Over atual</button>
   </div>
 
   <div class="card">
@@ -229,7 +229,7 @@ const BCB_CACHE_KEY = 'mcc_indicadores_bcb';
 const BCB_CACHE_MS = 6 * 60 * 60 * 1000; // 6 horas
 
 async function fetchSerieBCB(codigo){
-  const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.${codigo}/ultimos/1?formato=json`;
+  const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.${codigo}/dados/ultimos/1?formato=json`;
   const res = await fetch(url);
   if(!res.ok) throw new Error('Falha ao consultar BCB: ' + codigo);
   const dados = await res.json();
@@ -237,15 +237,24 @@ async function fetchSerieBCB(codigo){
   return dados[0]; // { data: 'dd/mm/yyyy', valor: 'xx,xx' }
 }
 
+const BCB_SPREAD_OVER = 0.10; // p.p. — Selic Over = Selic Meta − 0,10 p.p. (spread histórico comum)
+
 function renderIndicadores({ meta, ipca }){
   window.__mccSelicMeta = parseFloat(String(meta.valor).replace(',', '.'));
+  window.__mccSelicOver = window.__mccSelicMeta - BCB_SPREAD_OVER;
+
   const inner = document.getElementById('indicadoresInnerBCB');
   if(!inner) return;
   inner.innerHTML = `
     <span class="indicador-item"><span class="indicador-label">Selic Meta</span> <span class="indicador-valor">${meta.valor}% a.a.</span></span>
     <span class="indicador-sep">•</span>
+    <span class="indicador-item"><span class="indicador-label">Selic Over</span> <span class="indicador-valor">${fmtPct(window.__mccSelicOver)}% a.a.</span></span>
+    <span class="indicador-sep">•</span>
     <span class="indicador-item"><span class="indicador-label">IPCA 12 meses</span> <span class="indicador-valor">${ipca.valor}%</span></span>
   `;
+
+  // pré-preenche o campo Taxa com a Selic Over assim que os indicadores carregarem
+  usarSelicOver();
 }
 
 function renderErroIndicadores(){
@@ -291,9 +300,9 @@ function fmtPct(v){
   return v.toFixed(casas).replace('.', ',');
 }
 
-function usarSelicMeta(){
-  if(typeof window.__mccSelicMeta === 'number' && !isNaN(window.__mccSelicMeta)){
-    document.getElementById('taxaInput').value = window.__mccSelicMeta;
+function usarSelicOver(){
+  if(typeof window.__mccSelicOver === 'number' && !isNaN(window.__mccSelicOver)){
+    document.getElementById('taxaInput').value = window.__mccSelicOver.toFixed(4);
     document.getElementById('periodoInput').value = 'ano';
     calcular();
   } else {
