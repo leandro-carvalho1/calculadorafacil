@@ -70,15 +70,15 @@ body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); m
 .nav-logo{ font-size:14px; font-weight:700; color:var(--text); text-decoration:none; }
 .nav-logo span{ color:var(--accent); }
 
-/* QUADRO DE INDICADORES (auto-injetado por indicadores-bcb.js, estilos aqui redundam por segurança) */
-.indicadores-bar{ background:var(--accent-light); border-bottom:1px solid #bae6fd; padding:10px 20px; }
-.indicadores-inner{ max-width:1000px; margin:0 auto; display:flex; justify-content:center; gap:32px; flex-wrap:wrap; }
-.indicador-item{ display:flex; flex-direction:column; align-items:center; text-align:center; min-width:100px; }
-.indicador-label{ font-size:11px; font-weight:600; color:var(--accent-dark); text-transform:uppercase; letter-spacing:.05em; }
-.indicador-valor{ font-size:16px; font-weight:800; color:var(--accent); font-family:'JetBrains Mono',monospace; letter-spacing:-.01em; }
-.indicador-data{ font-size:10px; color:var(--muted); }
-.indicador-erro{ text-align:center; font-size:12px; color:var(--muted); padding:4px; width:100%; }
-@media(max-width:480px){ .indicadores-inner{ gap:18px; } }
+/* QUADRO DE INDICADORES — discreto, mesmo local (logo abaixo do hero) */
+.indicadores-bar{ background:var(--accent-light); border-bottom:1px solid #e2e8f0; padding:7px 20px; }
+.indicadores-inner{ max-width:1000px; margin:0 auto; display:flex; justify-content:center; align-items:baseline; gap:10px; flex-wrap:wrap; font-size:12px; }
+.indicador-item{ display:inline-flex; align-items:baseline; gap:5px; color:var(--muted); }
+.indicador-label{ font-weight:600; color:var(--muted); }
+.indicador-valor{ font-weight:700; color:var(--accent-dark); font-family:'JetBrains Mono',monospace; letter-spacing:-.01em; }
+.indicador-sep{ color:var(--border); }
+.indicador-erro{ text-align:center; font-size:11px; color:var(--muted); padding:1px; width:100%; }
+@media(max-width:480px){ .indicadores-inner{ gap:8px; font-size:11px; } }
 
 .hero{ background:linear-gradient(135deg,#0c4a6e 0%,#0369a1 100%); padding:52px 20px 48px; text-align:center; color:#fff; }
 .hero-chip{ display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2); border-radius:20px; padding:5px 14px; font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; margin-bottom:18px; }
@@ -222,40 +222,29 @@ footer strong{ color:#fff; }
 </footer>
 
 <script>
-/* Quadro de indicadores (Selic Meta, Selic Over, IPCA 12m) — exclusivo desta página.
-   Busca via /api/indicadores (Cloudflare Pages Function própria do site), que faz
-   a consulta ao Banco Central no servidor — evita bloqueio de CORS no navegador. */
+/* Quadro de indicadores (Selic Meta, IPCA 12m) — exclusivo desta página.
+   Busca direto na API pública do Banco Central (SGS), tudo neste mesmo arquivo. */
+const BCB_SERIES = { meta: 432, ipca: 13522 };
 const BCB_CACHE_KEY = 'mcc_indicadores_bcb';
 const BCB_CACHE_MS = 6 * 60 * 60 * 1000; // 6 horas
 
-async function fetchIndicadores(){
-  const res = await fetch('/api/indicadores');
-  if(!res.ok) throw new Error('Falha ao consultar /api/indicadores');
+async function fetchSerieBCB(codigo){
+  const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.${codigo}/ultimos/1?formato=json`;
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('Falha ao consultar BCB: ' + codigo);
   const dados = await res.json();
-  if(dados.erro) throw new Error(dados.mensagem || 'Erro desconhecido');
-  return dados; // { meta: {data,valor}, over: {data,valor}, ipca: {data,valor} }
+  if(!dados || !dados[0]) throw new Error('Sem dados para série ' + codigo);
+  return dados[0]; // { data: 'dd/mm/yyyy', valor: 'xx,xx' }
 }
 
-function renderIndicadores({ meta, over, ipca }){
+function renderIndicadores({ meta, ipca }){
   window.__mccSelicMeta = parseFloat(String(meta.valor).replace(',', '.'));
   const inner = document.getElementById('indicadoresInnerBCB');
   if(!inner) return;
   inner.innerHTML = `
-    <div class="indicador-item">
-      <span class="indicador-label">Selic Meta</span>
-      <span class="indicador-valor">${meta.valor}% a.a.</span>
-      <span class="indicador-data">${meta.data}</span>
-    </div>
-    <div class="indicador-item">
-      <span class="indicador-label">Selic Over</span>
-      <span class="indicador-valor">${over.valor}% a.a.</span>
-      <span class="indicador-data">${over.data}</span>
-    </div>
-    <div class="indicador-item">
-      <span class="indicador-label">IPCA (12 meses)</span>
-      <span class="indicador-valor">${ipca.valor}%</span>
-      <span class="indicador-data">${ipca.data}</span>
-    </div>
+    <span class="indicador-item"><span class="indicador-label">Selic Meta</span> <span class="indicador-valor">${meta.valor}% a.a.</span></span>
+    <span class="indicador-sep">•</span>
+    <span class="indicador-item"><span class="indicador-label">IPCA 12 meses</span> <span class="indicador-valor">${ipca.valor}%</span></span>
   `;
 }
 
@@ -275,7 +264,11 @@ async function carregarIndicadores(){
   }
 
   try{
-    const dados = await fetchIndicadores();
+    const [meta, ipca] = await Promise.all([
+      fetchSerieBCB(BCB_SERIES.meta),
+      fetchSerieBCB(BCB_SERIES.ipca)
+    ]);
+    const dados = { meta, ipca };
     try{ localStorage.setItem(BCB_CACHE_KEY, JSON.stringify({ timestamp: agora, dados })); }catch(e){}
     renderIndicadores(dados);
   }catch(e){
