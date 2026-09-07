@@ -46,6 +46,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://meucalculocerto.com.br/conversor-taxas-juros</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://meucalculocerto.com.br/politica-de-privacidade</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
