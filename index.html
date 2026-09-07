@@ -21,6 +21,19 @@ src="https://www.facebook.com/tr?id=1088135110208454&ev=PageView&noscript=1"/></
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MeuCalculoCerto — Calculadoras e Simuladores Gratuitos</title>
 <meta name="description" content="Calculadoras gratuitas e atualizadas: rescisão CLT, churrasco, salário líquido e muito mais. Simples, rápido e sem cadastro.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://meucalculocerto.com.br/">
+<meta property="og:title" content="MeuCalculoCerto — Calculadoras e Simuladores Gratuitos">
+<meta property="og:description" content="Calculadoras gratuitas e atualizadas: rescisão CLT, churrasco, salário líquido e muito mais. Simples, rápido e sem cadastro.">
+<meta property="og:image" content="https://meucalculocerto.com.br/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="MeuCalculoCerto">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MeuCalculoCerto — Calculadoras e Simuladores Gratuitos">
+<meta name="twitter:description" content="Calculadoras gratuitas e atualizadas: rescisão CLT, churrasco, salário líquido e muito mais. Simples, rápido e sem cadastro.">
+<meta name="twitter:image" content="https://meucalculocerto.com.br/og-image.png">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -381,7 +394,7 @@ footer strong{color:#fff;}
 
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Ferramentas disponíveis</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Ferramentas disponíveis</div></div>
     <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Gratuito</div></div>
     <div class="stat"><div class="stat-num">2026</div><div class="stat-label">Tabelas atualizadas</div></div>
     <div class="stat"><div class="stat-num">0</div><div class="stat-label">Cadastros necessários</div></div>
@@ -404,7 +417,7 @@ footer strong{color:#fff;}
 
   <div class="section-header">
     <span class="section-title">Ferramentas disponíveis</span>
-    <span class="section-count" id="countLabel">9 ferramentas</span>
+    <span class="section-count" id="countLabel">8 ferramentas</span>
   </div>
 
   <div class="tools-grid" id="toolsGrid">
@@ -569,26 +582,6 @@ footer strong{color:#fff;}
       </div>
     </a>
 
-    <!-- CONVERSOR DE TAXAS EQUIVALENTES -->
-    <a href="/conversor-taxas-juros" class="tool-card" data-cat="financas" data-name="conversor taxa juros equivalente proporcional anual mensal diária trimestral semestral selic cdi">
-      <div class="tool-card-top">
-        <div class="tool-icon" style="background:#f0f9ff;">📈</div>
-        <span class="tool-badge badge-novo">🆕 Novo</span>
-      </div>
-      <div>
-        <div class="tool-name">Conversor de Taxas Equivalentes</div>
-        <div class="tool-desc">Converta uma taxa de juros compostos entre diária, mensal, trimestral, semestral e anual — nos dois sentidos, com Selic e IPCA atualizados.</div>
-      </div>
-      <div class="tool-footer">
-        <div class="tool-tags">
-          <span class="tool-tag">💰 Finanças</span>
-          <span class="tool-tag">Juros compostos</span>
-          <span class="tool-tag">Selic</span>
-        </div>
-        <span class="tool-cta">Converter →</span>
-      </div>
-    </a>
-
   </div>
 </section>
 
@@ -629,7 +622,7 @@ function renderizar(){
     card.style.display = mostrar ? '' : 'none';
     if(mostrar && !card.classList.contains('coming')) visiveis++;
   });
-  const total = catAtiva==='todas' && busca==='' ? 9 : visiveis;
+  const total = catAtiva==='todas' && busca==='' ? 7 : visiveis;
   document.getElementById('countLabel').textContent = total + ' ferramenta' + (total!==1?'s':'');
 }
 </script>
